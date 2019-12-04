@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>作者页</title>
+    <div th:replace="~{common/baseimport :: baseimport}"></div>
+</head>
+<script type="application/javascript">
+
+</script>
+
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<main role="main" class="flex-shrink-0">
+    <div class="container" style="margin-top: 10px">
+        <div class="row bg-info " style="padding: 0px;margin: 0 0 10px;border-radius: 10.5px;" >
+            <div class="col-sm-6 col-md-9">
+                <h5 style="line-height: 45px;vertical-align: middle;padding: 0;margin: 0;font-size: 10px;">作者列表</h5>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="input-group" style="margin: 5px 0;">
+                    <input type="text" class="form-control" placeholder="Search for author">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">搜索</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <a href="http://www.baidu.com" class="thumbnail">
+                    <img src="http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg" alt="..." class="img-circle">
+                    <div class="caption">
+                        <h4 style="margin-bottom: 10px;text-align: center">名称</h4>
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;12553</div>
+                            <div class="col-sm-4 col-md-4"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;5646</div>
+                            <div class="col-sm-4 col-md-4"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;987</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

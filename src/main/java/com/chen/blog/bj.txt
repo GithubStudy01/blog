@@ -1,0 +1,7 @@
+1.前后端分离和懒加载是矛盾的，因为前后端分离返回页面时会序列化为json格式，这个时候懒加载字段都被序列化到了，所以会发送sql语句查询，懒加载的效果就没了。
+解决办法：使用@JsonView自定义返回的字段，被包含到的字段返回时序列化发送sql，没被包含到的不返回，也就不用序列化，不用发送sql语句。
+
+
+2.使用spring data jpa可能会返回page，我们无法直接在page上定义@JsonView，这将导致返回结果为空对象
+解决方法：1.编写JsonSerializer<Page>的子类，自定义规则
+2.注入Jackson2ObjectMapperBuilder自定义规则
