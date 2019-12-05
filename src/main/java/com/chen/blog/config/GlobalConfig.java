@@ -16,5 +16,6 @@ public class GlobalConfig implements WebMvcConfigurer {
         registry.addViewController("/edit").setViewName("security/edit");
         registry.addViewController("/manage").setViewName("security/manage");
         registry.addViewController("/author").setViewName("direct/author");
+        registry.addViewController("/article").setViewName("direct/article");
     }
 }
