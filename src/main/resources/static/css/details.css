@@ -1,0 +1,23 @@
+/*日期时间*/
+.page-header span:first-child{
+    color:#858585;
+}
+/*浏览量*/
+.page-header span:last-child{
+    color:#858585;
+    margin-left: 35px;
+}
+/*收藏*/
+.page-header a{
+    text-decoration:none;
+}
+.page-header a span{
+    margin-left: 35px;
+}
+/*分类*/
+.page-header div{
+    margin-top: 10px;
+}
+.page-header div a{
+    margin-left: 10px;
+}
