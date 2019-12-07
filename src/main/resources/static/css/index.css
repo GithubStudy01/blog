@@ -24,7 +24,7 @@
     height:45px;
 }
 /*姓名*/
-#article-attribute div:first-child span:first-child{
+#article-attribute div:first-child span:nth-child(2){
     display: inline-block;
     margin-left: 4px;
     width:130px;

@@ -1,24 +1,24 @@
 /*查询结果筛选栏*/
-#article-search .row:first-child{
+#search-header{
     margin-bottom: 10px;
 }
 /*查询结果数量*/
-#article-search .row:first-child div:last-child{
+#search-header div:last-child{
     text-align: center;
     line-height: 40px;
 }
-#article-search .row:first-child div:last-child span{
+#search-header div:last-child span{
     float: right;
 }
-#article-search .row:nth-child(2) .list-group-item{
+#search-middle .list-group-item{
     margin-bottom: 2px;
 }
 /*标题*/
-#article-search .row:nth-child(2) .list-group-item .list-group-item-heading a{
+#search-middle .list-group-item .list-group-item-heading a{
     text-decoration:none;
 }
 /*文本*/
-#article-search .row:nth-child(2) .list-group-item .list-group-item-text{
+#search-middle .list-group-item .list-group-item-text{
     height: 90px;
     margin-bottom: 10px;
     display: -webkit-box;
@@ -27,12 +27,12 @@
     overflow: hidden;
 }
 /*头像*/
-#article-search .row:nth-child(2) .list-group-item .row div:first-child img{
+#search-middle .list-group-item .row div:first-child a img{
     width:45px;
     height:45px
 }
 /*名称*/
-#article-search .row:nth-child(2) .list-group-item .row div:first-child span:first-child{
+#search-middle .list-group-item .row div:first-child span:first-child{
     display: inline-block;
     margin-left: 4px;
     width:130px;
@@ -42,23 +42,23 @@
     vertical-align: middle;
 }
 /*日期时间*/
-#article-search .row:nth-child(2) .list-group-item .row div:first-child span:last-child{
+#search-middle .list-group-item .row div:first-child span:last-child{
     display: inline-block;
     height:45px;
     line-height: 45px;
     margin-left: 35px;
 }
 /*点赞、查看、评论*/
-#article-search .row:nth-child(2) .list-group-item .row div:last-child div{
+#search-middle .list-group-item .row div:last-child div{
     float: right;
 }
-#article-search .row:nth-child(2) .list-group-item .row div:last-child span{
+#search-middle .list-group-item .row div:last-child span{
     height: 45px;
     line-height: 45px;
     margin-right: 4px;
     margin-left: 4px;
 }
 /*分页*/
-#article-search .row:last-child{
+#search-footer{
     text-align: center;
 }

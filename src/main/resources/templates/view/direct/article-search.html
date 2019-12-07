@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>作者页</title>
     <div th:replace="~{common/baseimport :: baseimport}"></div>
+    <link rel="stylesheet" href="css/article-search.css">
 </head>
 <script type="application/javascript">
 
@@ -13,7 +14,7 @@
 <div th:replace="~{common/header :: header}"></div>
 <main role="main" class="flex-shrink-0">
     <div class="container" style="margin-top: 10px;" id="article-search">
-        <div class="row">
+        <div class="row" id="search-header">
             <div class="col-sm-8 col-md-8">
                 <ul class="nav nav-pills">
                     <li role="presentation" class="">
@@ -47,7 +48,7 @@
                 <span>2个结果</span>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="search-middle">
             <div class="list-group">
                 <div class="list-group-item">
                     <h3 class="list-group-item-heading"><a>List group item heading</a></h3>
@@ -89,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="search-footer">
             <nav aria-label="...">
                 <ul class="pagination">
                     <li class="disabled">

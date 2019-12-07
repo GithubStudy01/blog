@@ -5,7 +5,6 @@
 #article-list .overhead{
     position: relative;
     overflow: hidden;
-    /*background-color: rgb(126, 211, 33);*/
 }
 #article-list .overhead:before{
     display: block;
@@ -21,6 +20,7 @@
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     -o-transform: rotate(45deg);
+    /*background-color: rgb(126, 211, 33);*/
 }
 
 #article-list .list-group-item{
