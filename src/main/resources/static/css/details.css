@@ -1,9 +1,16 @@
+.list-group-item:hover{
+    background-color: aliceblue;
+    cursor:pointer;
+}
+.list-group-item a{
+    text-decoration: none;
+}
 /*日期时间*/
-.page-header span:first-child{
+.page-header>span:nth-child(2){
     color:#858585;
 }
 /*浏览量*/
-.page-header span:last-child{
+.page-header>span:nth-child(3){
     color:#858585;
     margin-left: 35px;
 }

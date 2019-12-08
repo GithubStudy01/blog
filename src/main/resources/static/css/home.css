@@ -2,6 +2,9 @@
     background-color: aliceblue;
     cursor:pointer;
 }
+.list-group-item a{
+    text-decoration: none;
+}
 #article-list .overhead{
     position: relative;
     overflow: hidden;

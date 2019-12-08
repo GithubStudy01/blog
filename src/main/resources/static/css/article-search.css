@@ -32,7 +32,7 @@
     height:45px
 }
 /*名称*/
-#search-middle .list-group .list-group-item .row div:first-child span:nth-child(2){
+#search-middle .list-group .list-group-item .row>div:first-child span:nth-child(2){
     display: inline-block;
     margin-left: 4px;
     width:130px;
@@ -42,7 +42,7 @@
     vertical-align: middle;
 }
 /*日期时间*/
-#search-middle .list-group .list-group-item .row div:first-child span:last-child{
+#search-middle .list-group .list-group-item .row>div:first-child span:last-child{
     display: inline-block;
     height:45px;
     line-height: 45px;
@@ -50,13 +50,17 @@
 }
 /*点赞、查看、评论*/
 #search-middle .list-group .list-group-item .row div:last-child div{
-    float: right;
+    text-align: center;
 }
 #search-middle .list-group .list-group-item .row div:last-child span{
     height: 45px;
     line-height: 45px;
     margin-right: 4px;
     margin-left: 4px;
+}
+/*文章列表*/
+#search-middle .list-group .list-group-item:hover{
+    background-color: aliceblue;
 }
 /*分页*/
 #search-footer{

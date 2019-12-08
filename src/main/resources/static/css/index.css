@@ -52,8 +52,14 @@
     color: darkred;
 }
 /*更多符号*/
-#index-right .panel-heading span:last-child{
+#index-right .panel-heading a{
     float: right;
     font-size: 20px;
-    line-height: 18px;
+    line-height: 16px;
+    text-decoration: none;
+}
+
+/*右边列表*/
+#index-right .list-group-item a{
+    text-decoration: none;
 }

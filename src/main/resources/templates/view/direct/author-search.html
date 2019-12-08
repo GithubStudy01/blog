@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>作者页</title>
     <div th:replace="~{common/baseimport :: baseimport}"></div>
-    <link rel="stylesheet" href="css/author-search.css">
+    <link rel="stylesheet" th:href="@{/css/author-search.css}">
 </head>
 <script type="application/javascript">
 
@@ -19,7 +19,7 @@
                 <h5>作者列表</h5>
             </div>
             <div class="col-sm-6 col-md-3">
-                <div class="input-group" style="margin: 5px 0;">
+                <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search for author">
                     <span class="input-group-btn">
                     <button class="btn btn-default" type="button">搜索</button>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="author-search">
             <div class="col-sm-6 col-md-3">
                 <a href="http://www.baidu.com" class="thumbnail">
                     <img src="http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg" alt="..." class="img-circle">
