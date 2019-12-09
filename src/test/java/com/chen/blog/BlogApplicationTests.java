@@ -55,8 +55,8 @@ public class BlogApplicationTests {
         final User user = userRepository.findById(1L).get();
 
         String password = user.getPassword();
-        String username = user.getUsername();
-        System.out.println(username);
+//        String username = user.getUsername();
+//        System.out.println(username);
         System.out.println(password);
 
         System.out.println(user);

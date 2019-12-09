@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 
 @Controller
@@ -32,9 +33,19 @@ public class UserController {
         return RespVo.success();
     }
 
+    @RequestMapping("/sendCode")
+    @ResponseBody
+    public RespVo sendCode(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone){
+        userService.sendCode(phone);
+//        userService.register(user);
+        return RespVo.success();
+    }
+
+
     @RequestMapping("/checkCode")
     @ResponseBody
-    public RespVo checkCode(@NotBlank String code){
+    public RespVo checkCode(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone,@NotBlank String code){
+        userService.checkCode(phone,code);
 //        userService.register(user);
         return RespVo.success();
     }
