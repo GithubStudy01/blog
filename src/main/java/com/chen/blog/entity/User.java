@@ -25,26 +25,28 @@ public class User {
 
     public interface OnlyUserInfo{}
 
+    public interface registerUserView{}
+
 
     @JsonView(OnlyUserInfo.class)
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-    @JsonView(OnlyUserInfo.class)
-    @NotBlank(message = "用户名不能为空")
-    @Size(min = 6,max = 10)
-    @Column(nullable = false,unique = true,length = 10)
-    private String username;
+//    @JsonView(OnlyUserInfo.class)
+//    @NotBlank(message = "用户名不能为空")
+//    @Size(min = 6,max = 10)
+//    @Column(nullable = false,unique = true,length = 10)
+//    private String username;
 
     @JsonView(OnlyUserInfo.class)
-    @NotBlank(message = "密码不能为空")
+    @NotBlank(message = "密码不能为空",groups = {registerUserView.class})
     @Size(min = 12,max = 15)
     @Column(nullable = false,length = 15)
     private String password;
 
     @JsonView(OnlyUserInfo.class)
-    @NotBlank(message = "电话号码不能为空")
+    @NotBlank(message = "电话号码不能为空",groups = {registerUserView.class})
     @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对")
     @Column(nullable = false,unique = true,length = 11)
     private String phone;
@@ -72,7 +74,7 @@ public class User {
     private String briefIntr;
 
     @JsonView(OnlyUserInfo.class)
-    @NotBlank(message = "昵称不能为空")
+    @NotBlank(message = "昵称不能为空",groups = {registerUserView.class})
     @Column(nullable = false)
     private String nickname;
 
