@@ -19,7 +19,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonView({Blog.OnlyBlogInfo.class, User.OnlyUserInfo.class})//这里的接口要是方法上接口的父类或相同
+@JsonView({Blog.OnlyBlogInfo.class, User.OnlyUserInfo.class ,Vo.BaseUserAndArticle.class})//这里的接口要是方法上接口的父类或相同
 public class RespVo<T> {
 
     /**

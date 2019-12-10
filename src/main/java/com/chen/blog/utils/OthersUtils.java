@@ -1,16 +1,21 @@
 package com.chen.blog.utils;
 
-import com.alibaba.druid.sql.visitor.functions.Hex;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.UUID;
 
 public class OthersUtils {
+
+
+    private static String DATE_PATTERN = "yyyy-MM-dd";
+
+    private static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 
     /**
@@ -64,6 +69,51 @@ public class OthersUtils {
         LocalDateTime tomorrow = LocalDate.now().plusDays(1).atStartOfDay();
         return ChronoUnit.SECONDS.between(now, tomorrow);
     }
+
+
+    /**
+     * 得到创建时间
+     * @return
+     */
+    public static LocalDateTime getCreateTime(){
+        return LocalDateTime.now();
+    }
+
+    /**
+     * 得到日期
+     * @return
+     */
+    public static LocalDate getBirthday(){
+        return LocalDate.now();
+    }
+
+
+
+
+
+    public static LocalDateTime dateToLocalDateTime(Date date) {
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    }
+
+    public static Date localDateTimeToDate(LocalDateTime dateTime) {
+        return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static String formatDateTime(LocalDateTime dateTime) {
+        return formatDateTime(dateTime, DATE_TIME_PATTERN);
+    }
+
+    public static String formatDateTime(LocalDateTime dateTime, String pattern) {
+        if (dateTime == null) {
+            return null;
+        }
+        if (pattern == null || pattern.isEmpty()) {
+            pattern = DATE_TIME_PATTERN;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return dateTime.format(formatter);
+    }
+
 
 
 }

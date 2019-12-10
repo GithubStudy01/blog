@@ -1,11 +1,3 @@
-/**  
-* @Title: DemoUserDateilService.java
-* @Package com.oauth.demo.security
-* @Description: 
-* @author shadow
-* @date 2019年3月19日 上午10:28:05
-* @version V1.0  
-*/
 package com.chen.blog.security;
 
 import com.chen.blog.repository.UserRepository;
@@ -27,8 +19,9 @@ public class UserDetailService implements UserDetailsService {
 	UserRepository userRepository;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.chen.blog.entity.User user = userRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String loginNums) throws UsernameNotFoundException {
+		com.chen.blog.entity.User user = userRepository.findByUsername(loginNums);
+		userRepository.findUserByPhoneOrUserName()
 		boolean accountNonLocked=true;
 		boolean enabled=true;
 		if(1==user.getLockSign()){

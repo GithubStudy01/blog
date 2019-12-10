@@ -1,11 +1,3 @@
-/**
- * @Title: SecurityConfig.java
- * @Package com.oauth.demo.security
- * @Description:
- * @author shadow
- * @date 2019年3月14日 下午5:44:07
- * @version V1.0
- */
 package com.chen.blog.security;
 
 import org.springframework.beans.factory.annotation.Autowired;

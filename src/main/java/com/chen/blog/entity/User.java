@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,21 +25,23 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//解决转换异常
 public class User {
 
+    public interface BaseUserInfo{}
+
     public interface OnlyUserInfo{}
 
     public interface registerUserView{}
 
 
-    @JsonView(OnlyUserInfo.class)
+    @JsonView({OnlyUserInfo.class,BaseUserInfo.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-//    @JsonView(OnlyUserInfo.class)
-//    @NotBlank(message = "用户名不能为空")
-//    @Size(min = 6,max = 10)
-//    @Column(nullable = false,unique = true,length = 10)
-//    private String username;
+    @JsonView({OnlyUserInfo.class})
+    @NotBlank(message = "用户名不能为空")
+    @Size(min = 6,max = 10)
+    @Column(nullable = false,unique = true,length = 10)
+    private String username;
 
     @JsonView(OnlyUserInfo.class)
     @NotBlank(message = "密码不能为空",groups = {registerUserView.class})
@@ -53,49 +57,49 @@ public class User {
 
     @JsonView(OnlyUserInfo.class)
     //0 私密 1男 2女
-    @NotNull(message = "性别不能为空")
+//    @NotNull(message = "性别不能为空")
     @Column(columnDefinition = "int(1) default 0")
     private Integer sex;
 
     @JsonView(OnlyUserInfo.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "出生日期不能为空")
-    @Temporal(TemporalType.DATE)
+//    @NotNull(message = "出生日期不能为空")
+//    @Temporal(TemporalType.DATE)
     @Column
-    private Date birthday;
+    private LocalDate birthday;
 
     @JsonView(OnlyUserInfo.class)
     @Email(message = "邮箱格式不正确")
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     private String email;
 
     @JsonView(OnlyUserInfo.class)
     @Column
     private String briefIntr;
 
-    @JsonView(OnlyUserInfo.class)
+    @JsonView({OnlyUserInfo.class,BaseUserInfo.class})
     @NotBlank(message = "昵称不能为空",groups = {registerUserView.class})
     @Column(nullable = false)
     private String nickname;
 
 
-    @JsonView(OnlyUserInfo.class)
+    @JsonView({OnlyUserInfo.class,BaseUserInfo.class})
     @NotBlank(message = "头像不能为空")
     @Column(nullable = false)
     private String headurl;
 
     @JsonView(OnlyUserInfo.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
-    private Date createtime;
+    private LocalDateTime createtime;
 
     @JsonView(OnlyUserInfo.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column
-    private Date updatetime;
+    private LocalDateTime updatetime;
 
     @JsonView(OnlyUserInfo.class)
     //0 未删除  1删除:逻辑删除

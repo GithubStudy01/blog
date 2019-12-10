@@ -1,6 +1,5 @@
 package com.chen.blog.controller;
 
-import com.chen.blog.entity.TestUser;
 import com.chen.blog.entity.User;
 import com.chen.blog.service.UserService;
 import com.chen.blog.vo.RespVo;
@@ -15,6 +14,7 @@ import javax.validation.constraints.Pattern;
 
 
 @Controller
+@RequestMapping("/user")
 @Validated
 public class UserController {
 
@@ -24,9 +24,9 @@ public class UserController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public RespVo register(@Validated(value = {User.registerUserView.class}) User user){
+    public RespVo register(@Validated(value = {User.registerUserView.class}) User user,@NotBlank String token){
         try{
-            userService.register(user);
+            userService.register(user,token);
         }catch (Exception e){
             return RespVo.fail(e.getMessage(),null);
         }
@@ -51,5 +51,11 @@ public class UserController {
     }
 
 
+    @RequestMapping("/checkPhoneUnique")
+    @ResponseBody
+    public RespVo checkPhoneUnique(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone){
+        boolean unique = userService.checkPhoneUnique(phone);
+        return RespVo.success(unique,null);
+    }
 
 }

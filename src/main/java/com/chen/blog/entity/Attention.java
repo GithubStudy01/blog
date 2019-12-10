@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 @Table(name="attention",uniqueConstraints = {
         @UniqueConstraint(name ="unique_join_user_id", columnNames = {"user_id","attention_user_id"})
@@ -33,10 +34,10 @@ public class Attention {
     private User attentionUser;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
-    private Date createtime;
+    private LocalDateTime createtime;
 
 
 }

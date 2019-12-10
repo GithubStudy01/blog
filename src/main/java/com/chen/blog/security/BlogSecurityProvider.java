@@ -1,11 +1,3 @@
-/**  
-* @Title: DemoSecurityProvider.java
-* @Package com.oauth.demo.security
-* @Description: 
-* @author shadow
-* @date 2019年3月19日 下午2:51:16
-* @version V1.0  
-*/
 package com.chen.blog.security;
 
 import com.chen.blog.common.WordDefined;

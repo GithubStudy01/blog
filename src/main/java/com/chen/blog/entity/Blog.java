@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -43,16 +44,16 @@ public class Blog {
 
     @JsonView(Blog.OnlyBlogInfo.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
-    private Date createtime;
+    private LocalDateTime createtime;
 
     @JsonView(Blog.OnlyBlogInfo.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @Column
-    private Date updatetime;
+    private LocalDateTime updatetime;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY,targetEntity = Article.class,mappedBy = "blog")
     private List<Article> articleList;

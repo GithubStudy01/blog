@@ -12,8 +12,15 @@ public class WordDefined {
 
     public static final String PHONE_NOT_UNIQUE = "手机号码已经被使用！";
 
+    //默认头像
+    public static final String DEFAULT_HEAD_URL = "http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg";
+
 
     public static final String PHONE_SEND_CODE_PASS_MAX_COUNT = "该手机号码一天发送验证码次数超过5次！";
+
+    public static final String ERROR_CODE = "验证码错误！";
+
+    public static final String ERROR_TOKEN = "token错误！";
 
 
 
@@ -30,6 +37,8 @@ public class WordDefined {
 
     //手机验证码过期时间
     public static final Integer PHONE_CODE_TIME_OUT = 60 * 2;
+    //token过期时间
+    public static final Integer PHONE_TOKEN_TIME_OUT = 60 * 5;
 
     public static final Integer MAX_PHONE_SEND_COUNT = 5;
 
