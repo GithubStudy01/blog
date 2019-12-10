@@ -36,6 +36,7 @@ public class Article {
     @JsonView({BaseArticleInfo.class})
     @NotBlank(message = "内容不能为空")
     @Column(nullable = false)
+    @Lob//text
     private String content;
 
     //0公开 1私有
@@ -79,6 +80,11 @@ public class Article {
     @ManyToOne(targetEntity = Blog.class,fetch = FetchType.LAZY)
     @JoinColumn(name="blog_id")
     private Blog blog;
+
+    @JsonView({User.BaseUserInfo.class})
+    @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @ManyToOne(targetEntity = Sort.class,fetch = FetchType.LAZY)
     @JoinColumn(name="sort_id")

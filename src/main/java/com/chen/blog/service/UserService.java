@@ -9,7 +9,12 @@ import com.chen.blog.redis.RedisUtils;
 import com.chen.blog.repository.UserRepository;
 import com.chen.blog.utils.OthersUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.connection.SortParameters;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -35,6 +40,11 @@ public class UserService {
     }
 
 
+    public List<User> getTopList(){
+        Sort sort = Sort.by("goodSum desc", "viewSum", "commentSum");
+//        userRepository.findTop10(sort);
+        return null;
+    }
 
 
 

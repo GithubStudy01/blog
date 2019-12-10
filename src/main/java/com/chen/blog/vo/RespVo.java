@@ -1,6 +1,7 @@
 package com.chen.blog.vo;
 
 import com.chen.blog.common.CodeEnum;
+import com.chen.blog.entity.Article;
 import com.chen.blog.entity.Blog;
 import com.chen.blog.entity.TestUser;
 import com.chen.blog.entity.User;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonView({Blog.OnlyBlogInfo.class, User.OnlyUserInfo.class ,Vo.BaseUserAndArticle.class})//这里的接口要是方法上接口的父类或相同
+@JsonView({Blog.OnlyBlogInfo.class, User.OnlyUserInfo.class ,User.BaseUserInfo.class, Article.BaseArticleInfo.class})//这里的接口要是方法上接口的父类或相同
 public class RespVo<T> {
 
     /**

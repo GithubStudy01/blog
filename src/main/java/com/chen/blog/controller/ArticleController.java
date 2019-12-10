@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
+
 @Controller
 @RequestMapping("/article")
 @Validated
@@ -27,10 +31,17 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    /**
+     *  page=0&size=4&sort=createtime,desc
+     *  sort=firstname&sort=lastname,desc
+     * createtime
+     * @param pageable
+     * @return
+     */
     @GetMapping("/articles")
     @ResponseBody
     @JsonView({Vo.BaseUserAndArticle.class})
-    public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 1, size = 15) Pageable pageable){
+    public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable){
         Page<Article> page = articleService.getList(pageable);
         return RespVo.success(page,null);
     }

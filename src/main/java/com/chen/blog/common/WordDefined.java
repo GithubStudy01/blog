@@ -22,6 +22,11 @@ public class WordDefined {
 
     public static final String ERROR_TOKEN = "token错误！";
 
+    //文章公开
+    public static final Integer ARTICLE_OPEN = 0;
+
+    //私有
+    public static final Integer ARTICLE_CLOSE = 1;
 
 
     //手机验证码位数

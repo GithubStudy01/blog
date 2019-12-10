@@ -31,13 +31,15 @@ public class User {
 
     public interface registerUserView{}
 
+    public interface TopUserView{}
 
-    @JsonView({OnlyUserInfo.class,BaseUserInfo.class})
+
+    @JsonView({OnlyUserInfo.class,BaseUserInfo.class,TopUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-    @JsonView({OnlyUserInfo.class})
+    @JsonView({OnlyUserInfo.class,TopUserView.class})
     @NotBlank(message = "用户名不能为空")
     @Size(min = 6,max = 10)
     @Column(nullable = false,unique = true,length = 10)
