@@ -1,5 +1,6 @@
 package com.chen.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
@@ -21,19 +22,21 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//解决转换异常
 public class Article {
 
-    public interface BaseArticleInfo{}
+    public interface BaseArticleInfo{}//文章列表视图
 
-    @JsonView({BaseArticleInfo.class})
+    public interface DetailsArticleView{}
+
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-    @JsonView({BaseArticleInfo.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
     @NotBlank(message = "标题不能为空")
     @Column(nullable = false)
     private String title;
 
-    @JsonView({BaseArticleInfo.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
     @NotBlank(message = "内容不能为空")
     @Column(nullable = false)
     @Lob//text
@@ -44,6 +47,8 @@ public class Article {
     @Column(columnDefinition = "int(1) default 0")
     private Integer type;
 
+    @JsonView({DetailsArticleView.class})
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
@@ -51,19 +56,20 @@ public class Article {
     private LocalDateTime createtime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
 //    @Temporal(TemporalType.TIMESTAMP)
     @Column
     private LocalDateTime updatetime;
 
-    @JsonView({BaseArticleInfo.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
     @Column(name = "view_times",columnDefinition = "int default 0")
     private Integer viewTimes;
 
-    @JsonView({BaseArticleInfo.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
     @Column(name = "good_times",columnDefinition = "int default 0")
     private Integer goodTimes;
 
-    @JsonView({BaseArticleInfo.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
     @Column(name = "comment_times",columnDefinition = "int default 0")
     private Integer commentTimes;
 
@@ -86,14 +92,18 @@ public class Article {
     @JoinColumn(name="user_id")
     private User user;
 
+    @JsonView({Sort.ArticleSortView.class})
     @ManyToOne(targetEntity = Sort.class,fetch = FetchType.LAZY)
     @JoinColumn(name="sort_id")
     private Sort sort;
 
 
-    @OneToMany(targetEntity = Comment.class,fetch = FetchType.LAZY,mappedBy = "article")
-    private List<Comment> commentList;
-
+    @JsonView({Tag.ArticleTagView.class})
     @ManyToMany(mappedBy = "articleList")
     private List<Tag> tagList;
+
+    @JsonView({Comment.ArticleCommentView.class})
+    @OneToMany(targetEntity = Comment.class,fetch = FetchType.LAZY,mappedBy = "article")
+//    @Transient//不关联
+    private List<Comment> commentList;
 }

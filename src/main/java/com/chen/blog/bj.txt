@@ -5,3 +5,7 @@
 2.使用spring data jpa可能会返回page，我们无法直接在page上定义@JsonView，这将导致返回结果为空对象
 解决方法：1.编写JsonSerializer<Page>的子类，自定义规则
 2.注入Jackson2ObjectMapperBuilder自定义规则
+
+3.实体类属性使用 LocalDateTime 或者 LocalDate ，当转化为json时，会变成数组形式，可以使用
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+转化为字符串形式

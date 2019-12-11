@@ -22,7 +22,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -132,7 +135,7 @@ public class TestController {
 
     @RequestMapping("/findById")
     @ResponseBody
-    @JsonView({Vo.UserAndBlog.class})
+
     public RespVo<User> getUser(){
         final User user = userRepository.findById(1L).get();
         System.out.println(user.getNickname());
@@ -149,7 +152,7 @@ public class TestController {
 
     @RequestMapping("/userpage")
     @ResponseBody
-    @JsonView({User.OnlyUserInfo.class})
+//    @JsonView({User.OnlyUserInfo.class})
     public RespVo getUserPage(){
         int pageNo = 0;
         int pageSize = 3;//每页条数
@@ -161,6 +164,15 @@ public class TestController {
     }
 
 
+
+    @RequestMapping("/test001")
+    @ResponseBody
+    public RespVo getTest(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate now1 = LocalDate.now();
+
+        return RespVo.success(Arrays.asList(now,now1),null);
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.chen.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,14 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//解决转换异常
 public class Sort {
 
+    public interface ArticleSortView{}
+
+    @JsonView({ArticleSortView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Integer id;
 
+    @JsonView({ArticleSortView.class})
     @NotBlank(message = "分类名不能为空")
     @Column(name = "sort_name")
     private String sortName;

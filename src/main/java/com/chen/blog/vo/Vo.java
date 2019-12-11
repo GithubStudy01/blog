@@ -1,13 +1,10 @@
 package com.chen.blog.vo;
 
-import com.chen.blog.entity.Article;
-import com.chen.blog.entity.Blog;
-import com.chen.blog.entity.User;
+import com.chen.blog.entity.*;
 
 public class Vo {
 
-    public interface UserAndBlog extends User.OnlyUserInfo , Blog.OnlyBlogInfo {}
+    public interface BaseUserAndArticle extends User.BaseUserInfo , Article.BaseArticleInfo{}//文章列表视图
 
-    public interface BaseUserAndArticle extends User.BaseUserInfo , Article.BaseArticleInfo{}
-
+    public interface ArticleDetailsView extends Article.DetailsArticleView, Sort.ArticleSortView, Tag.ArticleTagView,Comment.ArticleCommentView,User.BaseUserInfo{}
 }

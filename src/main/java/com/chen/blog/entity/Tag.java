@@ -1,6 +1,7 @@
 package com.chen.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,14 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//解决转换异常
 public class Tag {
 
+    public interface ArticleTagView{}
+
+    @JsonView({ArticleTagView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Integer id;
 
+    @JsonView({ArticleTagView.class})
     @NotBlank(message = "标签名不能为空")
     @Column(name = "tag_name")
     private String tagName;

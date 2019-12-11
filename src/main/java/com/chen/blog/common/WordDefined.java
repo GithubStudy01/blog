@@ -22,6 +22,11 @@ public class WordDefined {
 
     public static final String ERROR_TOKEN = "token错误！";
 
+
+    public static final String USER_NOT_FOUNT = "不存在该用户！";
+
+    public static final String ARTICLE_NOT_FOUNT = "不存在该文章！";
+
     //文章公开
     public static final Integer ARTICLE_OPEN = 0;
 

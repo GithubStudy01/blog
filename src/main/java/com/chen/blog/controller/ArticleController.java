@@ -16,12 +16,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Controller
 @RequestMapping("/article")
@@ -45,6 +44,16 @@ public class ArticleController {
         Page<Article> page = articleService.getList(pageable);
         return RespVo.success(page,null);
     }
+
+
+    @GetMapping("/articles/{id}")
+    @ResponseBody
+    @JsonView({Vo.ArticleDetailsView.class})
+    public RespVo getById(@PathVariable("id") @NotNull Long id){
+        Article article = articleService.getById(id);
+        return RespVo.success(article,null);
+    }
+
 
 
 }

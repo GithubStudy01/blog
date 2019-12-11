@@ -8,15 +8,20 @@ import com.chen.blog.exception.BlogException;
 import com.chen.blog.redis.RedisUtils;
 import com.chen.blog.repository.UserRepository;
 import com.chen.blog.utils.OthersUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.redis.connection.SortParameters;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-
+@Slf4j
 @Service
 public class UserService {
 
@@ -31,9 +36,11 @@ public class UserService {
         if (!checkToken(user.getPhone(), token)) {
             throw new BlogException(WordDefined.ERROR_TOKEN);
         }
-        user.setCreatetime(OthersUtils.getCreateTime());
+        LocalDateTime createTime = OthersUtils.getCreateTime();
+        user.setCreatetime(createTime);
         Blog blog = new Blog();
         blog.setBlogName(user.getNickname());
+        blog.setCreatetime(createTime);
         user.setBlog(blog);
         user.setHeadurl(WordDefined.DEFAULT_HEAD_URL);
         userRepository.save(user);
@@ -41,8 +48,9 @@ public class UserService {
 
 
     public List<User> getTopList(){
-        Sort sort = Sort.by("goodSum desc", "viewSum", "commentSum");
-//        userRepository.findTop10(sort);
+        Sort sort = Sort.by("goodSum", "viewSum", "commentSum");
+//        Sort.by()
+
         return null;
     }
 
@@ -149,4 +157,15 @@ public class UserService {
     }
 
 
+    public Page<User> getList(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    public User getById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        }
+        throw new BlogException(WordDefined.USER_NOT_FOUNT);
+    }
 }

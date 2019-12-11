@@ -5,15 +5,16 @@ import com.chen.blog.service.UserService;
 import com.chen.blog.vo.RespVo;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping("/register")
+    @PostMapping("/register")
     @ResponseBody
     public RespVo register(@Validated(value = {User.registerUserView.class}) User user,@NotBlank String token){
         try{
@@ -42,7 +43,6 @@ public class UserController {
     @ResponseBody
     public RespVo sendCode(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone){
         userService.sendCode(phone);
-//        userService.register(user);
         return RespVo.success();
     }
 
@@ -51,7 +51,6 @@ public class UserController {
     @ResponseBody
     public RespVo checkCode(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone,@NotBlank String code){
         userService.checkCode(phone,code);
-//        userService.register(user);
         return RespVo.success();
     }
 
@@ -63,17 +62,30 @@ public class UserController {
         return RespVo.success(unique,null);
     }
 
-    /**
-     * 首页10条热门作者
-     *
-     * @return
-     */
+
     @JsonView(User.TopUserView.class)
-    @RequestMapping("/getTopList")
+    @GetMapping("/getList")
     @ResponseBody
-    public RespVo getTopList(){
-        List<User> userList = userService.getTopList();
+    public RespVo getNameAndIdList(@PageableDefault(sort = {"goodSum","viewSum","commentSum"}, direction = Sort.Direction.DESC, page = 0, size = 10)Pageable pageable){
+        Page<User> userList = userService.getList(pageable);
         return RespVo.success(userList,null);
     }
+
+    @JsonView(User.SearchUserView.class)
+    @GetMapping("/users")
+    @ResponseBody
+    public RespVo getList(@PageableDefault(sort = {"goodSum","viewSum","commentSum"}, direction = Sort.Direction.DESC, page = 0, size = 10)Pageable pageable){
+        Page<User> userList = userService.getList(pageable);
+        return RespVo.success(userList,null);
+    }
+
+    @JsonView(User.HomeUserView.class)
+    @GetMapping("/users/{id}")
+    @ResponseBody
+    public RespVo getById(@PathVariable(value = "id")@NotNull Long id){
+        User user = userService.getById(id);
+        return RespVo.success(user,null);
+    }
+
 
 }
