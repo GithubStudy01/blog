@@ -3,6 +3,9 @@ package com.chen.blog.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +15,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +38,7 @@ public class User {
 
     public interface HomeUserView{}//主页个人信息视图
 
+    @NotNull(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
     @JsonView({BaseUserInfo.class,TopUserView.class,SearchUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
@@ -64,7 +67,7 @@ public class User {
     @Column(columnDefinition = "int(1) default 0")
     private Integer sex;
 
-
+    @JsonSerialize(using = LocalDateSerializer.class)//解决page里的LocalDateTime序列化不成功问题
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
 //    @NotNull(message = "出生日期不能为空")
@@ -92,15 +95,15 @@ public class User {
     @Column(nullable = false)
     private String headurl;
 
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
 //    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
+//    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
     private LocalDateTime createtime;
 
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
 //    @Temporal(TemporalType.TIMESTAMP)

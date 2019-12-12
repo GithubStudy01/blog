@@ -17,6 +17,10 @@ public class OthersUtils {
 
     private static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
+    public static DateTimeFormatter formatterWithTime = DateTimeFormatter.ofPattern(DATE_TIME_PATTERN);
+
+    public static DateTimeFormatter formatterNoTime = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
 
     /**
      * 创建手机验证码

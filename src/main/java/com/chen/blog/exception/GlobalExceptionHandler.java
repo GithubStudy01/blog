@@ -1,5 +1,6 @@
 package com.chen.blog.exception;
 
+import com.chen.blog.common.CodeEnum;
 import com.chen.blog.vo.RespVo;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -21,6 +22,20 @@ import java.util.*;
 @ResponseBody
 public class GlobalExceptionHandler {
 
+
+    /**
+     * 处理系统异常
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(Exception.class)
+    public RespVo handleException(Exception e) {
+        return RespVo.general(CodeEnum.ABNORMAL, e.getMessage(), null);
+    }
+
+
+
     /**
      * BindException(实体类参数绑定异常)
      */
@@ -33,7 +48,7 @@ public class GlobalExceptionHandler {
                 fieldErrorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
         }
-        return RespVo.general("0004", "参数错误", fieldErrorMap, null);
+        return RespVo.general(CodeEnum.PARAMETER_ERROR, fieldErrorMap, null);
     }
 
 
@@ -45,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public RespVo handleConstraintViolationException(ConstraintViolationException e) {
         Map<String, String> fieldError = parseConstraint(e.getConstraintViolations());
-        return RespVo.general("0004", "参数错误", fieldError, null);
+        return RespVo.general(CodeEnum.PARAMETER_ERROR, fieldError, null);
     }
 
     private Map<String, String> parseConstraint(Set<ConstraintViolation<?>> constraintViolationSet) {

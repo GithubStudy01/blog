@@ -2,6 +2,8 @@ package com.chen.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,11 +36,12 @@ public class Attention {
     @JoinColumn(name="attention_user_id")
     private User attentionUser;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
 //    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
+//    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
     private LocalDateTime createtime;
 
 

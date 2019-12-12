@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum CodeEnum {
 
-    FAIL("0000","请求失败"),SUCCESS("0001","请求成功");
+    FAIL("0000","请求失败"),SUCCESS("0001","请求成功"),
+    ABNORMAL("0003","请求异常"),PARAMETER_ERROR("0004","参数错误");
 
 
     /**

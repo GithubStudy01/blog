@@ -5,8 +5,9 @@ spring:
     suffix: .html
   datasource:
     username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
+    password: 123456
+#    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC//mysql使用UTC将导致比LocalDateTime慢8个小时
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=Hongkong
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置
@@ -36,9 +37,9 @@ spring:
         #enable_lazy_load_no_trans: true #非web解决懒加载异常
 
   redis:
-    host: 192.168.184.120
+    host: 192.168.1.191
     port: 6379
-    password: zcw123456
+    password: 123456
     ssl: false
     timeout: 1000s
     jedis:
@@ -49,7 +50,7 @@ spring:
         max-active: 1000
 
 logging:
-  file: blog.log
+#  file: blog.log
   pattern:
     console: '%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n'
     file: '%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n'

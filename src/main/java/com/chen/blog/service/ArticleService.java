@@ -35,18 +35,7 @@ public class ArticleService {
     public Article getById(Long id) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
         if (optionalArticle.isPresent()) {
-            Article article = optionalArticle.get();
-            List<Comment> comments = commentRepository.findByArticleIs(article);
-            comments = comments.parallelStream()
-                    .sorted((c1, c2) -> {
-                        int i = c1.getCId().compareTo(c2.getCId());
-                        if (i == 0) {
-                            return c1.getCreatetime().compareTo(c2.getCreatetime());
-                        }
-                        return i;
-                    }).collect(Collectors.toList());
-            article.setCommentList(comments);
-            return article;
+            return optionalArticle.get();
         }
         throw new BlogException(WordDefined.ARTICLE_NOT_FOUNT);
     }

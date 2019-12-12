@@ -27,6 +27,12 @@ public class WordDefined {
 
     public static final String ARTICLE_NOT_FOUNT = "不存在该文章！";
 
+
+    public static final String ARTICLE_NOT_UNIQUE = "文章不唯一！";
+
+
+    public static final String NO_ACCESS = "无访问权限！";
+
     //文章公开
     public static final Integer ARTICLE_OPEN = 0;
 

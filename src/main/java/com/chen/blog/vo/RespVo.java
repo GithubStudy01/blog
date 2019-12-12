@@ -1,16 +1,15 @@
 package com.chen.blog.vo;
 
 import com.chen.blog.common.CodeEnum;
-import com.chen.blog.entity.Article;
-import com.chen.blog.entity.Blog;
-import com.chen.blog.entity.TestUser;
-import com.chen.blog.entity.User;
+import com.chen.blog.entity.*;
+import com.chen.blog.utils.OthersUtils;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -21,7 +20,8 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonView({User.BaseUserInfo.class, Article.BaseArticleInfo.class,
-        User.TopUserView.class,User.SearchUserView.class,User.HomeUserView.class,Vo.ArticleDetailsView.class})//这里的接口要是方法上接口的父类或相同
+        User.TopUserView.class,User.SearchUserView.class,User.HomeUserView.class,
+        Vo.ArticleDetailsNoCommentView.class, Comment.ArticleCommentView.class})//这里的接口要是方法上接口的父类或相同
 public class RespVo<T> {
 
     /**
@@ -47,7 +47,7 @@ public class RespVo<T> {
     /**
      * 时间
      */
-    private String respTime;
+    private String respTime = LocalDateTime.now().format(OthersUtils.formatterWithTime);
 
     public RespVo(String code, String msg) {
         this.code = code;

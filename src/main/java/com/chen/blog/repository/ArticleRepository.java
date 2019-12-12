@@ -12,5 +12,6 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 
     Page<Article> findAllByType(Integer type, Pageable pageable);
 
+    int countById(Long articleId);
 
 }

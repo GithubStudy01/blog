@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/article")
@@ -48,7 +50,7 @@ public class ArticleController {
 
     @GetMapping("/articles/{id}")
     @ResponseBody
-    @JsonView({Vo.ArticleDetailsView.class})
+    @JsonView({Vo.ArticleDetailsNoCommentView.class})
     public RespVo getById(@PathVariable("id") @NotNull Long id){
         Article article = articleService.getById(id);
         return RespVo.success(article,null);
