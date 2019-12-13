@@ -28,12 +28,12 @@ public class Attention {
 
 //    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private User user;
 
 //    @Id
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="attention_user_id")
+    @JoinColumn(name="attention_user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private User attentionUser;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题

@@ -12,6 +12,10 @@ public class WordDefined {
 
     public static final String PHONE_NOT_UNIQUE = "手机号码已经被使用！";
 
+    public static final Integer DELETE = 1;
+
+    public static final Integer NOT_DELETE = 0;
+
     //默认头像
     public static final String DEFAULT_HEAD_URL = "http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg";
 
@@ -33,11 +37,26 @@ public class WordDefined {
 
     public static final String NO_ACCESS = "无访问权限！";
 
+    public static final String BLOG_NOT_FOUNT = "博客不存在！";
+
+    public static final String BLOG_ALREADY_DELETE = "博客已删除！";
+
+    public static final String USER_ALREADY_DELETE = "用户已经被注销！";
+
+    public static final String SORT_NOT_FOUNT = "分类不存在！";
+
+
     //文章公开
     public static final Integer ARTICLE_OPEN = 0;
 
     //私有
     public static final Integer ARTICLE_CLOSE = 1;
+
+    //不顶置
+    public static final Integer OVERHEAD_CLOSE = 0;
+
+    //顶置
+    public static final Integer OVERHEAD_OPEN = 1;
 
 
     //手机验证码位数

@@ -36,8 +36,8 @@ public class Tag {
 
     @ManyToMany(targetEntity = Article.class,fetch = FetchType.LAZY)
     @JoinTable(name = "join_tag_article",
-            joinColumns = {@JoinColumn(name = "tag_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "article_id",referencedColumnName = "id")},
+            joinColumns = {@JoinColumn(name = "tag_id",referencedColumnName = "id", foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))},
+            inverseJoinColumns = {@JoinColumn(name = "article_id",referencedColumnName = "id" , foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))},
             uniqueConstraints = {@UniqueConstraint(name ="unique_join_tag_article", columnNames = {"tag_id","article_id"})
     })
     List<Article> articleList;

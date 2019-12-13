@@ -34,12 +34,12 @@ public class Comment {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="article_id")
+    @JoinColumn(name="article_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private Article article;
 
     @JsonView({ArticleCommentView.class,ReplyCommentView.class})
     @ManyToOne  //(fetch = FetchType.LAZY)每次取评论的时候肯定有评论的人的信息，不用懒加载
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private User user;
 
     @NotBlank(groups = {AddCommentView.class},message = "文章内容不能为空！")

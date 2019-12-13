@@ -20,18 +20,20 @@ public class Sort {
 
     public interface ArticleSortView{}
 
-    @JsonView({ArticleSortView.class})
+    public interface SortInfoView{}
+
+    @JsonView({ArticleSortView.class,SortInfoView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Integer id;
 
-    @JsonView({ArticleSortView.class})
+    @JsonView({ArticleSortView.class,SortInfoView.class})
     @NotBlank(message = "分类名不能为空")
     @Column(name = "sort_name")
     private String sortName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="blog_id")
+    @JoinColumn(name="blog_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private Blog blog;
 
     @OneToMany(targetEntity = Article.class,mappedBy = "sort")

@@ -28,7 +28,7 @@ public class SessionUtils {
             log.error("类型转换错误");
         }
         return null;*/
-        return new User();
+        return null;
     }
 
 

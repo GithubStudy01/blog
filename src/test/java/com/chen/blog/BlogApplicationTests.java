@@ -61,8 +61,8 @@ public class BlogApplicationTests {
 
         System.out.println(user);
 
-        Blog blog = user.getBlog();
-        System.out.println(blog.getBlogName());
+//        Blog blog = user.getBlog();
+//        System.out.println(blog.getBlogName());
 
 //        final Optional<User> optionalUser = userRepository.findById(2L);
 //        System.out.println(optionalUser.isPresent());

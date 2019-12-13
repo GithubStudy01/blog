@@ -57,4 +57,8 @@ public class Blog {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY,targetEntity = Article.class,mappedBy = "blog")
     private List<Article> articleList;
 
+    @OneToOne(targetEntity = User.class,cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
+    private User user;
+
 }

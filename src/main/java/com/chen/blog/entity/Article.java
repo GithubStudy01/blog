@@ -28,13 +28,17 @@ public class Article {
 
     public interface DetailsArticleView{}
 
+    public interface RecentUpdatesView{}
+
+    public interface OverheadView{}
+
     @NotNull(groups = {Comment.AddCommentView.class},message = "文章id不能为空")
-    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-    @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class})
     @NotBlank(message = "标题不能为空")
     @Column(nullable = false)
     private String title;
@@ -51,7 +55,7 @@ public class Article {
     private Integer type;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题
-    @JsonView({DetailsArticleView.class,BaseArticleInfo.class})
+    @JsonView({DetailsArticleView.class,BaseArticleInfo.class,RecentUpdatesView.class})
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")//如果不加，转换为json后变为数组形式
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Temporal(TemporalType.TIMESTAMP)
@@ -78,6 +82,7 @@ public class Article {
     @Column(name = "comment_times",columnDefinition = "int default 0")
     private Integer commentTimes;
 
+    @JsonView({OverheadView.class})
     //0未顶置 1顶置
     @Column(columnDefinition = "int default 0")
     private Integer overhead;
@@ -89,17 +94,17 @@ public class Article {
 
 
     @ManyToOne(targetEntity = Blog.class,fetch = FetchType.LAZY)
-    @JoinColumn(name="blog_id")
+    @JoinColumn(name="blog_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private Blog blog;
 
     @JsonView({User.BaseUserInfo.class})
     @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private User user;
 
     @JsonView({Sort.ArticleSortView.class})
     @ManyToOne(targetEntity = Sort.class,fetch = FetchType.LAZY)
-    @JoinColumn(name="sort_id")
+    @JoinColumn(name="sort_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private Sort sort;
 
 

@@ -39,7 +39,7 @@ public class User {
     public interface HomeUserView{}//主页个人信息视图
 
     @NotNull(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
-    @JsonView({BaseUserInfo.class,TopUserView.class,SearchUserView.class})
+    @JsonView({BaseUserInfo.class,TopUserView.class,SearchUserView.class,HomeUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
@@ -73,7 +73,7 @@ public class User {
 //    @NotNull(message = "出生日期不能为空")
 //    @Temporal(TemporalType.DATE)
     @Column
-    private LocalDate birthday;
+    private LocalDate birthday;//创建的时候还是使用LocalDateTime
 
 
     @Email(message = "邮箱格式不正确")
@@ -121,9 +121,9 @@ public class User {
     private Integer lockSign;
 
 
-    @OneToOne(targetEntity = Blog.class,cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JoinColumn(name="blog_id")
-    private Blog blog;
+//    @OneToOne(targetEntity = Blog.class,cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+//    @JoinColumn(name="blog_id")
+//    private Blog blog;
 
     @JsonView({SearchUserView.class,HomeUserView.class})
     @Column(name = "view_times",columnDefinition = "int default 0")

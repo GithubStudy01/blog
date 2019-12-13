@@ -21,3 +21,44 @@
 url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
 改为
 url: jdbc:mysql://localhost:3306/blog?serverTimezone=Hongkong
+
+
+7.spring data jpa 实体类没办法使用 LocalDateTime 和 LocalDate
+解决办法：
+方法一：使用转化器
+
+//@Converter(autoApply = true)
+//public class LocalDateAttributeConverter implements AttributeConverter<LocalDate, Date>
+//@Converter(autoApply = true)
+//public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp>
+出现问题：逆向生成数据库时，LocalDate 还是生成 datetime 类型
+
+
+方法二：添加依赖
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.0.12.Final</version>
+        </dependency>
+
+8.逆向生成数据库时，默认使用的是 MyISAM 引擎。
+转换为 innodb 配置为：
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+注意：由于默认使用的是 MyISAM 是不支持事务的
+
+
+
+
+
+
+
+
+TODO
+1.使用@JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))
+还是生成了外键，问题至今没有解决。。。
+
+
+

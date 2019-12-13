@@ -41,7 +41,7 @@ public class UserService {
         Blog blog = new Blog();
         blog.setBlogName(user.getNickname());
         blog.setCreatetime(createTime);
-        user.setBlog(blog);
+//        user.setBlog(blog);
         user.setHeadurl(WordDefined.DEFAULT_HEAD_URL);
         userRepository.save(user);
     }
@@ -164,7 +164,11 @@ public class UserService {
     public User getById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            return userOptional.get();
+            User user = userOptional.get();
+            if (user.getDeleteSign() == WordDefined.DELETE) {
+                throw new BlogException(WordDefined.USER_ALREADY_DELETE);
+            }
+            return user;
         }
         throw new BlogException(WordDefined.USER_NOT_FOUNT);
     }
