@@ -19,4 +19,6 @@ public interface CommentRepository extends JpaRepository<Comment,Integer> {
 
     List<Comment> findByArticleIsAndTid(Article article, Integer tid, Sort sort);
 
+    void deleteByArticle(Article article);
+
 }

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.List;
 
 
 @Controller
@@ -30,32 +29,28 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public RespVo register(@Validated(value = {User.registerUserView.class}) User user,@NotBlank String token){
-        try{
-            userService.register(user,token);
-        }catch (Exception e){
-            return RespVo.fail(e.getMessage(),null);
-        }
+    public RespVo register(@Validated(value = {User.registerUserView.class}) User user,@NotBlank(message = "token不能为空！") String token){
+        userService.register(user,token);
         return RespVo.success();
     }
 
-    @RequestMapping("/sendCode")
+    @GetMapping("/sendCode")
     @ResponseBody
     public RespVo sendCode(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone){
-        userService.sendCode(phone);
-        return RespVo.success();
+        Integer expire = userService.sendCode(phone);
+        return RespVo.success(expire,null);
     }
 
 
-    @RequestMapping("/checkCode")
+    @PostMapping("/checkCode")
     @ResponseBody
     public RespVo checkCode(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone,@NotBlank String code){
-        userService.checkCode(phone,code);
-        return RespVo.success();
+        String token = userService.checkCode(phone, code);
+        return RespVo.success(token,null);
     }
 
 
-    @RequestMapping("/checkPhoneUnique")
+    @GetMapping("/checkPhoneUnique")
     @ResponseBody
     public RespVo checkPhoneUnique(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone){
         boolean unique = userService.checkPhoneUnique(phone);

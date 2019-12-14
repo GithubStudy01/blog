@@ -20,8 +20,10 @@ public class UserDetailService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String loginNums) throws UsernameNotFoundException {
-		com.chen.blog.entity.User user = userRepository.findByUsername(loginNums);
-		userRepository.findUserByPhoneOrUserName()
+		com.chen.blog.entity.User user = userRepository.findUserByPhoneOrAccount(loginNum,loginNum);
+		if(user==null) {
+			throw new UsernameNotFoundException("账号不存在");
+		}
 		boolean accountNonLocked=true;
 		boolean enabled=true;
 		if(1==user.getLockSign()){
@@ -31,7 +33,7 @@ public class UserDetailService implements UserDetailsService {
 			enabled=false;//删除
 		}
 
-		return new User(username, user.getPassword(),enabled, true, true, accountNonLocked,null);//在上面的代码中可以查询该用户是否为锁定、删除信息，并注入到User中
+		return new User(loginNums, user.getPassword(),enabled, true, true, accountNonLocked,null);//在上面的代码中可以查询该用户是否为锁定、删除信息，并注入到User中
 	}
 
 }

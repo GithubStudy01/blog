@@ -29,17 +29,18 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     open-in-view: true #解决懒加载异常
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect #spring data jpa默认建立的是 MyISAM
         #enable_lazy_load_no_trans: true #非web解决懒加载异常
 
   redis:
     host: 192.168.1.191
     port: 6379
-    password: 123456
+    password: root
     ssl: false
     timeout: 1000s
     jedis:

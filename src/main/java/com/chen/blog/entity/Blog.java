@@ -14,6 +14,10 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 博客名称可以重复
+ *
+ */
 @Table(name="blog")
 @Entity
 @Data

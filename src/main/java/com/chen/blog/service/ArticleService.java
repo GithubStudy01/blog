@@ -129,11 +129,11 @@ public class ArticleService {
     public void delete(Long articleId) {
         Article article = getArticle(articleId);
         Long userId = SessionUtils.getUserId();
-//        if (article.getUser().getId().equals(userId)) {
+        if (article.getUser().getId().equals(userId)) {
+            //删除评论
+            commentRepository.deleteByArticle(article);
             //获取文章引用的标签
             List<Tag> tagList = article.getTagList();
-            //删除文章
-            articleRepository.deleteById(articleId);
             if (tagList != null && tagList.size() > 0) {
                 //删除中间表的标签
                 articleRepository.deleteArticleTag(articleId);
@@ -143,7 +143,9 @@ public class ArticleService {
                 //引用标签统计 -1
                 tagRepository.updateTagCountDownOne(tagIdList);
             }
-//        }
-//        throw new BlogException(WordDefined.NO_ACCESS);
+            //删除文章
+            articleRepository.deleteById(articleId);
+        }
+        throw new BlogException(WordDefined.NO_ACCESS);
     }
 }

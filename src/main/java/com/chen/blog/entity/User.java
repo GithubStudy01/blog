@@ -19,6 +19,9 @@ import java.util.List;
 
 /**
  * 用户实体
+ *
+ * 昵称可以重复
+ *
  */
 @Table(name="user")
 @Entity
@@ -45,10 +48,10 @@ public class User {
     private Long id;
 
     @JsonView({TopUserView.class})
-    @NotBlank(message = "用户名不能为空")
-    @Size(min = 6,max = 10)
-    @Column(nullable = false,unique = true,length = 10)
-    private String username;
+    @NotBlank(message = "登录账号")
+    @Size(min = 8,max = 12)
+    @Column(nullable = false,unique = true,length = 12)
+    private Long account;
 
 
     @NotBlank(message = "密码不能为空",groups = {registerUserView.class})

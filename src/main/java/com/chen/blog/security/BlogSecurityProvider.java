@@ -29,12 +29,8 @@ public class BlogSecurityProvider implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-		String username = token.getName();
-		User user = userRepository.findByUsername(username);
-		if(user==null) {
-			throw new UsernameNotFoundException("用户名不存在");
-		}
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		String loginNum = token.getName();
+		UserDetails userDetails = userDetailsService.loadUserByUsername(loginNum);
 		if (!userDetails.isEnabled()) {
 			throw new DisabledException("账号已被删除");
 		}else if (!userDetails.isAccountNonLocked()) {
