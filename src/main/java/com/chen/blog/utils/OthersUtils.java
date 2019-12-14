@@ -1,6 +1,12 @@
 package com.chen.blog.utils;
 
 
+
+import com.alibaba.druid.sql.visitor.functions.Hex;
+import org.springframework.util.DigestUtils;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -40,17 +46,9 @@ public class OthersUtils {
      * @param str
      * @return
      */
-//    public static String MD5(String str) {
-//        try {
-//            byte[] bytes = str.getBytes();
-//            MessageDigest digest = MessageDigest.getInstance("MD5");
-//            str = Hex.encodeHexString(digest.digest(bytes));
-//        } catch (NoSuchAlgorithmException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        return str;
-//    }
+    public static String MD5(String str) {
+       return DigestUtils.md5DigestAsHex(str.getBytes());
+    }
 
     /**
      * 生成taken

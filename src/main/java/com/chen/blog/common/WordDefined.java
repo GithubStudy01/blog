@@ -11,10 +11,10 @@ public class WordDefined {
     public static final String PSWD_SALT = "cycblog";
 
     /**
-     * username(登录账号）
+     * ACCOUNT(登录账号）
      * 只用来分配唯一账号
      */
-    public static String USERNAME="USERNAME";
+    public static String ACCOUNT="ACCOUNT";
 
     public static final String PHONE_NOT_UNIQUE = "手机号码已经被使用！";
 
@@ -31,6 +31,8 @@ public class WordDefined {
     public static final String ERROR_CODE = "错误验证码！";
 
     public static final String ERROR_TOKEN = "token错误！";
+
+    public static final String EXPIRE_TOKEN = "token过期！";
 
 
     public static final String USER_NOT_FOUNT = "不存在该用户！";

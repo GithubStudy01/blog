@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,16 +46,19 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user,String token) {
-        if (!checkToken(user.getPhone(), token)) {
-            throw new BlogException(WordDefined.ERROR_TOKEN);
-        }
+        //校验token
+        checkToken(user.getPhone(),token);
+
         LocalDateTime createTime = OthersUtils.getCreateTime();
         user.setCreatetime(createTime);
         //分配唯一账号
-        Long account = dbIdGenerate.doGetDBId(WordDefined.USERNAME, dbIdConfig.getAccount());
-        user.setAccount(account);
+        Long account = dbIdGenerate.doGetDBId(WordDefined.ACCOUNT, dbIdConfig.getAccount());
+        user.setAccount(String.valueOf(account));
         //设置默认头像（可修改）
         user.setHeadurl(WordDefined.DEFAULT_HEAD_URL);
+        //MD5 盐值加密
+        String password = OthersUtils.MD5(Constant.connectPassword(user.getPassword()));
+        user.setPassword(password);
         User saveUser = userRepository.save(user);
 
         Blog blog = new Blog();
@@ -157,14 +161,18 @@ public class UserService {
      * @param token
      * @return
      */
-    public boolean checkToken(String phone,String token){
+    public void checkToken(String phone,String token){
         String value = redisUtils.getValue(Constant.connectBlogTokenCode(phone));
         if (token.equals(value)) {
             //移除token
             redisUtils.delKey(Constant.connectBlogTokenCode(phone));
-            return true;
+            return;
         }
-        return false;
+        Long expire = redisUtils.getExpire(Constant.connectBlogTokenCode(phone));
+        if (expire != null && expire <= 0) {
+            throw new BlogException(WordDefined.EXPIRE_TOKEN);
+        }
+        throw new BlogException(WordDefined.ERROR_TOKEN);
     }
 
 

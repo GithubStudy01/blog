@@ -14,4 +14,7 @@ public class Constant {
         return WordDefined.BLOG_TOKEN_CODE + phone;
     }
 
+    public static String connectPassword(String password){
+        return WordDefined.PSWD_SALT + password;
+    }
 }
