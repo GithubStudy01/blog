@@ -45,7 +45,7 @@ public class BlogSecurityProvider implements AuthenticationProvider {
 			throw new BadCredentialsException("用户名或密码错误");
 		}
 		// 授权
-		return new UsernamePasswordAuthenticationToken(user, password, userDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 	}
 
 

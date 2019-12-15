@@ -20,7 +20,7 @@ public class UserDetailService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String loginNums) throws UsernameNotFoundException {
-		com.chen.blog.entity.User user = userRepository.findUserByPhoneOrAccount(loginNum,loginNum);
+		com.chen.blog.entity.User user = userRepository.findUserByPhoneOrAccount(loginNums,loginNums);
 		if(user==null) {
 			throw new UsernameNotFoundException("账号不存在");
 		}

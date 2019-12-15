@@ -25,15 +25,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/","/css/**","/user/checkPhoneUnique","/user/checkPhoneUnique","/user/checkPhoneUnique","/js/**","/images/**","/iconfont/**","/index","/search/**","/home","/details")//允许所有用户访问  /main 多个路径用 , 隔开,如："/test1","/test2","/test3"
+//                .permitAll()
+//                .anyRequest().authenticated();
         http.authorizeRequests()
-                .antMatchers("/", "/static/**")//允许所有用户访问  /main 多个路径用 , 隔开,如："/test1","/test2","/test3"
-                .permitAll()
-                .anyRequest().authenticated();
-        http.authorizeRequests()
-                .anyRequest().authenticated()//任何经过身份验证的用户才能访问
+                .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit","/manage").authenticated()//任何经过身份验证的用户才能访问
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login")//退出成功跳转的地址
+                .logoutSuccessUrl("/logoreg")//退出成功跳转的地址
                 .deleteCookies()
                 .invalidateHttpSession(true)
                 .and()
@@ -42,9 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .and()
                 .formLogin()
-                .loginPage("/login")    //跳转登录页面的控制器，该地址要保证和表单提交的地址一致！
-                .defaultSuccessUrl("/index", true)//登录成功默认跳转的页面 true表示登录成功后始终从定向到 "/main"
-                .failureUrl("/login?error=true") //发生错误跳转的地址
+                .loginPage("/logoreg")    //跳转登录页面的控制器，该地址要保证和表单提交的地址一致！
+                .defaultSuccessUrl("/index", true)//登录成功默认跳转的页面 true表示登录成功后始终从定向到 "/index"
+                .failureUrl("/logoreg?error=true") //发生错误跳转的地址
                 .permitAll()
                 .and()
                 .headers().frameOptions().disable()//关闭 防止网页被其他框架使用

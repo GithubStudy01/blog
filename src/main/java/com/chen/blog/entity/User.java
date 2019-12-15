@@ -49,7 +49,7 @@ public class User {
 
     @JsonView({TopUserView.class})
     @NotBlank(message = "登录账号")
-    @Size(min = 8,max = 12)
+    @Size(min = 8,max = 12,message = "账号长度应在{min}-{max}")
     @Column(nullable = false,unique = true,length = 12)
     private String account;
 
@@ -58,6 +58,7 @@ public class User {
      * MD5 盐值加密
      */
     @NotBlank(message = "密码不能为空",groups = {registerUserView.class})
+    @Size(min = 8,max = 12,message = "密码长度应在{min}-{max}")
     @Column(nullable = false)
     private String password;
 

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" th:href="@{/iconfont/iconfont.css}">
+  <div th:replace="~{common/baseimport :: baseimport}"></div>
+  <title>Document</title>
+  <style>
+    .cotain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      -webkit-display: flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+    }
+
+    .login {
+      width: 400px;
+      padding: 0 50px;
+      height: auto;
+      box-shadow: 0 0 5px #888888;
+      ;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    .title {
+      width: auto;
+      margin: 40px auto 0;
+      text-align: center;
+    }
+
+    .title .lOr {
+      display: inline-block;
+      line-height: 50px;
+      padding: 0 10px;
+      /* margin-right: 20px; */
+      margin: 0 5px;
+      font-size: 22px;
+      border-bottom: none;
+      color: gray;
+      cursor: pointer;
+    }
+
+    .title .active {
+      border-bottom: 2px solid #ea6f5a;
+      color: #ea6f5a;
+    }
+
+    .title>span:nth-child(2) {
+      width: 4px;
+      height: 4px;
+      border-radius: 2px;
+      background: gray;
+      display: inline-block;
+      margin: 6px auto;
+    }
+
+    .title .lOr:last-child {
+      margin-right: 0;
+    }
+
+    .rember {
+      -webkit-display: flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+      line-height: 40px;
+    }
+
+    .rember a {
+      text-decoration: none;
+      color: rgb(153, 153, 153);
+    }
+
+    .rember a:hover {
+      color: rgb(128, 128, 128);
+    }
+
+    .btn {
+      width: 100%;
+      height: 40px;
+      color: #fff;
+      font-size: 20px;
+      border-radius: 20px;
+      background: #3194d0;
+      margin: auto;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      width: 100%;
+      height: 40px;
+      color: #fff;
+      font-size: 20px;
+      border-radius: 20px;
+      background: #2a88c2;
+      margin: auto;
+    }
+
+    #registbtn {
+      background: #42c02e;
+      cursor: pointer;
+    }
+
+    #registbtn:hover {
+      background: #3db922;
+    }
+
+    .rember>input {
+      margin-right: 10px;
+      line-height: 20px;
+    }
+
+    .username,
+    .password {
+      -webkit-display: flex;
+      display: flex;
+      -webkit-justify-content: flex-start;
+      justify-content: flex-start;
+      line-height: 50px;
+    }
+
+    .username {
+      border-bottom: 1px solid rgb(189, 189, 189);
+    }
+
+    .username>span,
+    .password>span {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .content {
+      margin: 40px 0;
+    }
+
+    .content>form input {
+      border: 0;
+      outline: none;
+      background-color: rgba(0, 0, 0, 0);
+      height: 50px;
+      line-height: 50px;
+      flex: 1;
+    }
+
+    #loginForm,
+    #registForm {
+      border: 1px solid rgb(189, 189, 189);
+      border-radius: 4px;
+      background: rgb(245, 245, 245);
+    }
+
+    #loginForm .iconfont,
+    #registForm .iconfont {
+      font-size: 24px;
+      color: gray;
+    }
+
+    #registContent {
+      display: none;
+    }
+
+    #registbtn {
+      margin-top: 30px;
+    }
+
+    .yazhenma {
+      -webkit-display: flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+
+    #registContent .yazhenma input {
+      width: 145px;
+    }
+
+    #yanzhengmaBtn {
+      cursor: pointer;
+      padding: 0 20px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      background: #42c02e;
+      width: 200px;
+      border-radius: 15px;
+      color: white;
+      font-size: 12px;
+      border: 0;
+      outline: none;
+    }
+
+    .attention {
+      height: 40px;
+      line-height: 40px;
+      font-size: 14px;
+      color: red;
+    }
+    .yanzhengmaBtnclick{
+      background: #6be659 !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="cotain col-md-12">
+    <div class="login">
+      <div class="title">
+        <span class="lOr active" id='login'>登录</span>
+        <span></span>
+        <span class="lOr" id='regist'>注册</span>
+      </div>
+      <div id="loginContent" class=" content">
+        <form action="loginForm" id="loginForm" method="post">
+          <div class="username">
+            <span class="iconfont">&#xe61e;</span>
+            <input type="text" name="loginNums" id="loginNums" placeholder="手机号或账号">
+            <!-- 如果非要是一个手机号的话 可以用下面这个 会提示你只允许输入数字-->
+            <!-- <input type="number" name="loginUsername" id="loginUsername" placeholder="手机号或邮箱"> -->
+            <!-- 如果要限制邮箱的话 可以用下面这个input 下面的input是会自动判断输入内容是否是一个邮箱 -->
+            <!-- <input type="email" name="loginUsername" id="loginUsername" placeholder="手机号或邮箱">   -->
+          </div>
+          <div class="password">
+            <span class="iconfont">&#xe6b1;</span>
+            <input type="password" name="password" placeholder="密码">
+          </div>
+        </form>
+        <div class="attention">
+          <text  class="hide">填入什么</text>
+        </div>
+        <div class="rember">
+          <div>
+            <label for="remberme">
+              <input type="checkbox" name="rember" id="remberBtn">
+              <span>记住我</span>
+            </label>
+          </div>
+          <a href="">登录遇到问题</a>
+        </div>
+        <div class="btn" id="loginBtn">登录</div>
+      </div>
+      <div id="registContent" class="content">
+        <form action="regist" id="registForm">
+          <div class="username">
+            <span class="iconfont">&#xe61e;</span>
+            <input type="text" name="nickname" id="nickname" placeholder="你的昵称">
+          </div>
+          <div class="username">
+            <span class="iconfont">&#xe615;</span>
+            <input type="text" name="phone" id="phone" placeholder="手机号">
+          </div>
+          <div class="username yazhenma hide">
+            <span class="iconfont">&#xe60d;</span>
+            <input type="text" name="code" id="code" placeholder="验证码">
+            <button id='yanzhengmaBtn' class="">发送验证码</button>
+          </div>
+          <input type="hidden" name="token">
+          <div class="password">
+            <span class="iconfont">&#xe6b1;</span>
+            <input type="password" name="password" id="password" placeholder="密码">
+          </div>
+        </form>
+        <div class="attention"><text class="hide">填入什么</text></div>
+        <div class="btn" id='registbtn'>注册</div>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" th:src="@{/js/direct/register.js}"></script>
+<script type="text/javascript">
+  // 登录页面的部分操作
+
+  // 点击登录tab键
+  $("#login").click(function () {
+    // 两个tab样式的切换
+      $(this).toggleClass("active");
+      $("#regist").removeClass("active");
+      // 登录内容的显示
+      $("#loginContent").css('display', "block")
+      // 注册内容的隐藏
+      $("#registContent").css('display', "none")
+  })
+
+
+  // 填入手机或者邮箱的操作
+  // keyup事件代表按下一个按键就会触发这个事件，可以在该函数中给手机或者做限制
+  $("#loginUsername").keyup(function () {
+    // 一开始给登录页面的提示语设置了隐藏，如果需要显示该提示语，把hide类移除就行（removeClass）
+    $("#loginContent .attention>text").removeClass("hide")
+    // 如果是需要隐藏该提示语，只需要加上hide类就行 （addClass）
+    $("#loginContent .attention>text").addClass("hide")
+    // 修改提示语里的内容
+    $("#loginContent .attention>text").html("修改提示语内容")
+  })
+  // 填入密码会触发该函数，可以在该函数中给密码做限制
+  $("#loginPassword").keyup(function () {
+    console.log("现在在输入密码啊！")
+  })
+
+
+  // 点击登录按钮
+  $("#loginBtn").click(function () {
+    // $('#loginForm').serialize(); //该方法能直接把loginForm这个form表单中的值获取之后用&键连接起来 你可以打印出来看看内容
+    // 需要注意的是 记住我这个选项没有被包含进去 你需要自己做相应的操作。
+    // 而且该方法并没有把数据转换成json格式 如果需要转换成json格式的话 需要找另外的方法，或者可以自己获取input的值 直接写成json格式
+
+    if(!checkLoginField()){
+      return;
+    }
+    $("#loginForm").submit()
+
+    // 返回结果为true意为选中，反之没有选中
+    // $("#remberBtn").prop("checked")
+
+  })
+
+  // 点击注册tab键
+  $("#regist").click(function () {
+    $(this).toggleClass("active");
+    $("#login").removeClass("active");
+
+    // 控制div显示和隐藏的另一种方法
+    $("#registContent").css('display', "block")
+    $("#loginContent").css('display', "none")
+  })
+
+  // 注册页面昵称输入框的输入事件
+  $("#nickname").keydown(function () {
+
+  })
+
+  // 注册页面手机号输入框的输入事件
+  $("#phone").keydown(function () {
+    // 输入手机号，显示验证码按钮
+    $(".yazhenma").removeClass("hide")
+  })
+
+
+  //发送验证码
+  function sendVerificationCode(phone){
+    $.ajax({
+      // url:/*[[@{/user/sendCode}]]*/,
+      url:'http://localhost:8080/user/sendCode',
+      type:"GET",
+      dataType:"json",
+      data:{
+        "phone":phone
+      },
+      success:function(result){
+        if(result.code!='0001'){
+          alert(result.content)
+          return;
+        }
+        alert("发送验证码成功！")
+        countDown(result.content);
+      },
+      error: function(request) {
+        alert("Connection error");
+      }
+    })
+
+  }
+
+
+
+
+  // 点击验证码
+  $("#yanzhengmaBtn").click(function (e) {
+    // 取消该按钮的默认事件 不取消的话可能会导致页面跳转
+    e.preventDefault();
+    debugger
+    console.log('点击验证码')
+    var phone = $("#phone").val();
+    var phoneReg = /(^1\d{10}$)|(^[0-9]\d{7}$)/;
+    if(phone == ''){
+      alert("请填写手机号！")
+      return false;
+    }
+    if(!phoneReg.test(phone)) {
+      alert("手机号码格式错误！");
+      return false;
+    }
+    checkPhoneUnique(phone);
+
+    // 如果需要点击了验证码之后，按钮颜色改变，且该验证码在一定时间内不能点击
+    // $(this).addClass("yanzhengmaBtnclick")
+
+    //启用按钮的禁用
+    // $(this).attr({ "disabled": "disabled" });
+
+    // 取消按钮禁用
+    // $(this).removeAttr("disabled");
+  })
+  // 点击注册按钮
+  $("#registbtn").click(function (e) {
+    // 取消该按钮的默认事件 不取消的话可能会导致页面跳转
+    e.preventDefault();
+    //校验字段
+    if(!checkRegField()){
+      return false;
+    }
+    //提交表单
+    submitRegForm();
+
+
+    // 另一种直接获取input的值 将其组合成json格式的数据
+    // var data ={}
+    // data.data1 = $("#nickname").val()
+
+  })
+
+  function checkLoginField(){
+    var username = $("#loginNums").val();
+    if(username == ''){
+      alert("请填写手机号或账号！")
+      return false;
+    }
+    var password = $("#loginForm input[name=password]").val();
+    if(password == ''){
+      alert("请填写密码！")
+      return false;
+    }
+    return true;
+  }
+
+  // function submitLoginForm(){
+  //   $.ajax({
+  //     url:"http://localhost:8080/user/logoreg",
+  //     type:"POST",
+  //     data:$('#loginForm').serialize(),
+  //     dataType:"json",
+  //     async:false,
+  //     success:function(result){
+  //       if(result.code != '0001'){
+  //         alert(result.content)
+  //         return;
+  //       }
+  //       window.location.href = 'http://localhost:8080/user/login'
+  //     },
+  //     error: function(request) {
+  //       alert("Connection error");
+  //     }
+  //   })
+  //
+  // }
+
+
+function checkRegField(){
+  var nickname = $("#nickname").val();
+  if(nickname == ''){
+    alert("请填写昵称！")
+    return false;
+  }
+  var phone = $("#phone").val();
+  var phoneReg = /(^1\d{10}$)|(^[0-9]\d{7}$)/;
+  if(phone == ''){
+    alert("请填写手机号！")
+    return false;
+  }
+  if(!phoneReg.test(phone)) {
+    alert("手机号码格式错误！");
+    return false;
+  }
+  var code = $("#code").val();
+  if(code == ''){
+    alert("请填写验证码！")
+    return false;
+  }
+  if(code.length != 6){
+    alert("验证码错误！")
+    return false;
+  }
+  var token = $("input[name=token]").val();
+  if(token == ''){
+    if(checkCode(phone,code)){
+      alert("验证码错误！")
+      return false;
+    }
+  }
+  var password = $("#registForm input[name=password]").val();
+  if(password == ''){
+    alert("密码不能为空！")
+    return false;
+  }
+  var length = password.length;
+  if(length<8 || length>12){
+    alert("密码长度应在8到12位！")
+    return false;
+  }
+  return true;
+}
+
+function submitRegForm(){
+  $.ajax({
+    url:"http://localhost:8080/user/register",
+    type:"POST",
+    data:$('#registForm').serialize(),
+    dataType:"json",
+    async:false,
+    success:function(result){
+      if(result.code != '0001'){
+        alert(result.content)
+        return;
+      }
+      alert("注册成功！正在跳转到登录页面。。。")
+      sleep(2000);
+      window.location.href = 'http://localhost:8080/login'
+    },
+    error: function(request) {
+      alert("Connection error");
+    }
+  })
+
+}
+
+function checkPhoneUnique(phone){
+  $.ajax({
+    url:"http://localhost:8080/user/checkPhoneUnique",
+    type:"GET",
+    data:{
+      'phone':phone
+    },
+    dataType:"json",
+    success:function(result){
+      if(result.code != '0001'){
+        alert(result.content)
+        return;
+      }
+      if(result.content == false){
+        alert("手机号码已经被占用！")
+        return;
+      }
+      sendVerificationCode(phone);
+    },
+    error: function(request) {
+      alert("Connection error");
+    }
+  })
+
+
+}
+
+
+
+
+
+</script>
+
+</html>
