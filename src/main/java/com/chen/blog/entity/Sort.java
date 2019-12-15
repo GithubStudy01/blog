@@ -29,7 +29,7 @@ public class Sort {
 
     @JsonView({ArticleSortView.class,SortInfoView.class})
     @NotBlank(message = "分类名不能为空")
-    @Column(name = "sort_name")
+    @Column(nullable = false,name = "sort_name")
     private String sortName;
 
     @ManyToOne(fetch = FetchType.LAZY)

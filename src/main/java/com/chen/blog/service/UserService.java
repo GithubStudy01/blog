@@ -47,7 +47,7 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user,String token) {
         //校验token
-        checkToken(user.getPhone(),token);
+//        checkToken(user.getPhone(),token);
 
         LocalDateTime createTime = OthersUtils.getCreateTime();
         user.setCreatetime(createTime);

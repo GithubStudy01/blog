@@ -58,7 +58,6 @@ public class User {
      * MD5 盐值加密
      */
     @NotBlank(message = "密码不能为空",groups = {registerUserView.class})
-    @Size(min = 8,max = 12,message = "密码长度应在{min}-{max}")
     @Column(nullable = false)
     private String password;
 
@@ -70,7 +69,7 @@ public class User {
 
     //0 私密 1男 2女
 //    @NotNull(message = "性别不能为空")
-    @Column(columnDefinition = "int(1) default 0")
+    @Column(nullable = false,columnDefinition = "int(1) default 0")
     private Integer sex;
 
     @JsonSerialize(using = LocalDateSerializer.class)//解决page里的LocalDateTime序列化不成功问题
@@ -118,12 +117,12 @@ public class User {
 
 
     //0 未删除  1删除:逻辑删除
-    @Column(name = "delete_sign",columnDefinition = "int(1) default 0")
+    @Column(nullable = false,name = "delete_sign",columnDefinition = "int(1) default 0")
     private Integer deleteSign;
 
 
     //0 未锁定 1锁定
-    @Column(name="lock_sign",columnDefinition = "int(1) default 0")
+    @Column(nullable = false,name="lock_sign",columnDefinition = "int(1) default 0")
     private Integer lockSign;
 
 
@@ -132,15 +131,15 @@ public class User {
 //    private Blog blog;
 
     @JsonView({SearchUserView.class,HomeUserView.class})
-    @Column(name = "view_times",columnDefinition = "int default 0")
+    @Column(nullable = false,name = "view_times",columnDefinition = "int default 0")
     private Integer viewSum;
 
     @JsonView({SearchUserView.class,HomeUserView.class})
-    @Column(name = "good_times",columnDefinition = "int default 0")
+    @Column(nullable = false,name = "good_times",columnDefinition = "int default 0")
     private Integer goodSum;
 
     @JsonView({SearchUserView.class,HomeUserView.class})
-    @Column(name = "comment_times",columnDefinition = "int default 0")
+    @Column(nullable = false,name = "comment_times",columnDefinition = "int default 0")
     private Integer commentSum;
 
 

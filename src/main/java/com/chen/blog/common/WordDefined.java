@@ -34,6 +34,8 @@ public class WordDefined {
 
     public static final String EXPIRE_TOKEN = "token过期！";
 
+    public static final String PASSWORD_LENGTH_ERROR = "密码长度应在 8 - 12 位";
+
 
     public static final String USER_NOT_FOUNT = "不存在该用户！";
 

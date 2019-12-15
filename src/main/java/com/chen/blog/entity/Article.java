@@ -51,7 +51,7 @@ public class Article {
 
     //0公开 1私有
     @NotNull
-    @Column(columnDefinition = "int(1) default 0")
+    @Column(nullable = false,columnDefinition = "int(1) default 0")
     private Integer type;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题
@@ -71,20 +71,20 @@ public class Article {
     private LocalDateTime updatetime;
 
     @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
-    @Column(name = "view_times",columnDefinition = "int default 0")
+    @Column(nullable = false,name = "view_times",columnDefinition = "int default 0")
     private Integer viewTimes;
 
     @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
-    @Column(name = "good_times",columnDefinition = "int default 0")
+    @Column(nullable = false,name = "good_times",columnDefinition = "int default 0")
     private Integer goodTimes;
 
     @JsonView({BaseArticleInfo.class,DetailsArticleView.class})
-    @Column(name = "comment_times",columnDefinition = "int default 0")
+    @Column(nullable = false,name = "comment_times",columnDefinition = "int default 0")
     private Integer commentTimes;
 
     @JsonView({OverheadView.class})
     //0未顶置 1顶置
-    @Column(columnDefinition = "int default 0")
+    @Column(nullable = false,columnDefinition = "int default 0")
     private Integer overhead;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

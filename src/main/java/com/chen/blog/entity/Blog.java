@@ -40,7 +40,7 @@ public class Blog {
 
 
     //0 未删除  1删除:逻辑删除
-    @Column(name = "delete_sign",columnDefinition = "int(1) default 0")
+    @Column(nullable = false,name = "delete_sign",columnDefinition = "int(1) default 0")
     private Integer deleteSign;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)//解决page里的LocalDateTime序列化不成功问题

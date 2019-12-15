@@ -1,6 +1,8 @@
 package com.chen.blog.controller;
 
+import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.User;
+import com.chen.blog.exception.BlogException;
 import com.chen.blog.service.UserService;
 import com.chen.blog.vo.RespVo;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -29,7 +31,13 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public RespVo register(@Validated(value = {User.registerUserView.class}) User user,@NotBlank(message = "token不能为空！") String token){
+    public RespVo register(@Validated(value = {User.registerUserView.class}) User user,String token){
+//        ,@NotBlank(message = "token不能为空！")
+        //手动校验，后面会替换为 MD5盐值加密，如果使用jsr303，无法保存数据库
+        String password = user.getPassword();
+        if (password.length() < 8 || password.length() > 12) {
+            throw new BlogException(WordDefined.PASSWORD_LENGTH_ERROR);
+        }
         userService.register(user,token);
         return RespVo.success();
     }

@@ -27,10 +27,10 @@ public class Tag {
 
     @JsonView({ArticleTagView.class})
     @NotBlank(message = "标签名不能为空")
-    @Column(name = "tag_name")
+    @Column(nullable = false,name = "tag_name")
     private String tagName;
 
-    @Column(columnDefinition = "int default 0")
+    @Column(nullable = false,columnDefinition = "int default 0")
     private Integer num;
 
 
