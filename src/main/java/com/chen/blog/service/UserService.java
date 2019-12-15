@@ -48,8 +48,14 @@ public class UserService {
     public void register(User user,String token) {
         //校验token
 //        checkToken(user.getPhone(),token);
-
         LocalDateTime createTime = OthersUtils.getCreateTime();
+        initUser(user,createTime);
+        User saveUser = userRepository.save(user);
+        Blog blog = initBlog(saveUser, createTime);
+        blogRepository.save(blog);
+    }
+
+    private void initUser(User user,LocalDateTime createTime){
         user.setCreatetime(createTime);
         //分配唯一账号
         Long account = dbIdGenerate.doGetDBId(WordDefined.ACCOUNT, dbIdConfig.getAccount());
@@ -59,14 +65,22 @@ public class UserService {
         //MD5 盐值加密
         String password = OthersUtils.MD5(Constant.connectPassword(user.getPassword()));
         user.setPassword(password);
-        User saveUser = userRepository.save(user);
+        user.setSex(0);
+        user.setViewSum(0);
+        user.setGoodSum(0);
+        user.setDeleteSign(0);
+        user.setCommentSum(0);
+        user.setLockSign(0);
+    }
 
+    private Blog initBlog(User user,LocalDateTime createTime){
         Blog blog = new Blog();
         //默认博客的名称为昵称（可修改）
         blog.setBlogName(user.getNickname());
         blog.setCreatetime(createTime);
-        blog.setUser(saveUser);
-        blogRepository.save(blog);
+        blog.setUser(user);
+        blog.setDeleteSign(0);
+        return blog;
     }
 
 
