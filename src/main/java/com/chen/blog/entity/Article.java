@@ -32,13 +32,15 @@ public class Article {
 
     public interface OverheadView{}
 
+    public interface HotListView{}
+
     @NotNull(groups = {Comment.AddCommentView.class},message = "文章id不能为空")
-    @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class,HotListView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-    @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class})
+    @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class,HotListView.class})
     @NotBlank(message = "标题不能为空")
     @Column(nullable = false)
     private String title;

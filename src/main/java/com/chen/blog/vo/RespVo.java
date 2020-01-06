@@ -20,8 +20,9 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonView({User.BaseUserInfo.class, Article.BaseArticleInfo.class,
-        User.TopUserView.class,User.SearchUserView.class,User.HomeUserView.class,
-        Vo.ArticleDetailsNoCommentView.class, Comment.ArticleCommentView.class,Sort.SortInfoView.class,Article.RecentUpdatesView.class})//这里的接口要是方法上接口的父类或相同
+        User.HotUserView.class,Tag.HotTagView.class,User.SearchUserView.class,User.HomeUserView.class,
+        Vo.ArticleDetailsNoCommentView.class, Comment.ArticleCommentView.class,
+        Sort.SortInfoView.class,Article.RecentUpdatesView.class,Article.HotListView.class})//这里的接口要是方法上接口的父类或相同
 public class RespVo<T> {
 
     /**

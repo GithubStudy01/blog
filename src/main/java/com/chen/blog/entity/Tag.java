@@ -20,12 +20,14 @@ public class Tag {
 
     public interface ArticleTagView{}
 
-    @JsonView({ArticleTagView.class})
+    public interface HotTagView{}
+
+    @JsonView({ArticleTagView.class,HotTagView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Integer id;
 
-    @JsonView({ArticleTagView.class})
+    @JsonView({ArticleTagView.class,HotTagView.class})
     @NotBlank(message = "标签名不能为空")
     @Column(nullable = false,name = "tag_name")
     private String tagName;

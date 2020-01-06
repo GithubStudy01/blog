@@ -19,12 +19,12 @@
     overflow: hidden;
 }
 /*头像*/
-#article-attribute img{
+.article-attribute img{
     width:45px;
     height:45px;
 }
 /*姓名*/
-#article-attribute div:first-child span:nth-child(2){
+.article-attribute div:first-child span:nth-child(2){
     display: inline-block;
     margin-left: 4px;
     width:130px;
@@ -34,14 +34,14 @@
     vertical-align: middle;
 }
 /*日期时间*/
-#article-attribute div:first-child span:last-child{
+.article-attribute div:first-child span:last-child{
     display: inline-block;
     height:45px;
     line-height: 45px;
     margin-left: 4px;
 }
 /*点赞、查看、评论*/
-#article-attribute div:last-child span{
+.article-attribute div:last-child span{
     height: 45px;
     line-height: 45px;
     margin-right: 4px;

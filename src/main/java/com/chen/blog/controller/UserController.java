@@ -66,8 +66,8 @@ public class UserController {
     }
 
 
-    @JsonView(User.TopUserView.class)
-    @GetMapping("/getList")
+    @JsonView(User.HotUserView.class)
+    @GetMapping("/hot")
     @ResponseBody
     public RespVo getNameAndIdList(@PageableDefault(sort = {"goodSum","viewSum","commentSum"}, direction = Sort.Direction.DESC, page = 0, size = 10)Pageable pageable){
         Page<User> userList = userService.getList(pageable);

@@ -223,10 +223,10 @@
         <span class="lOr" id='regist'>注册</span>
       </div>
       <div id="loginContent" class=" content">
-        <form action="loginForm" id="loginForm" method="post">
+        <form action="/logoreg" id="loginForm" method="post">
           <div class="username">
             <span class="iconfont">&#xe61e;</span>
-            <input type="text" name="loginNums" id="loginNums" placeholder="手机号或账号">
+            <input type="text" name="username" id="loginNums" placeholder="手机号或账号">
             <!-- 如果非要是一个手机号的话 可以用下面这个 会提示你只允许输入数字-->
             <!-- <input type="number" name="loginUsername" id="loginUsername" placeholder="手机号或邮箱"> -->
             <!-- 如果要限制邮箱的话 可以用下面这个input 下面的input是会自动判断输入内容是否是一个邮箱 -->
@@ -320,9 +320,10 @@
       return;
     }
     $("#loginForm").submit()
+    // login();
 
     // 返回结果为true意为选中，反之没有选中
-    // $("#remberBtn").prop("checked")
+    //
 
   })
 
@@ -516,7 +517,7 @@ function submitRegForm(){
       }
       alert("注册成功！正在跳转到登录页面。。。")
       sleep(2000);
-      window.location.href = 'http://localhost:8080/login'
+      window.location.href = 'http://localhost:8080/logoreg'
     },
     error: function(request) {
       alert("Connection error");

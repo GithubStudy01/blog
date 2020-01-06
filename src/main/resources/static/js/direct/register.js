@@ -1,16 +1,14 @@
-
-$(function(){
-
+$(function () {
 
 
 })
 
 
 //倒计时
-function countDown(num){
-    var obj=$("#yanzhengmaBtn");
-    if(num == null){
-        num=120;
+function countDown(num) {
+    var obj = $("#yanzhengmaBtn");
+    if (num == null) {
+        num = 120;
     }
     var timer = setInterval(function () {
         if (num > 1) {
@@ -63,25 +61,45 @@ function countDown(num){
 // }
 
 
-function checkCode(phone,code){
+function checkCode(phone, code) {
     $.ajax({
-        url:"http://localhost:8080/user/checkCode",
-        type:"POST",
-        data:{
-            "phone":phone,
-            "code":code
+        url: "http://localhost:8080/user/checkCode",
+        type: "POST",
+        data: {
+            "phone": phone,
+            "code": code
         },
-        dataType:"json",
-        async:false,
-        success:function(result){
-            if(result.code != '0001'){
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            if (result.code != '0001') {
                 alert(result.content)
                 return false;
             }
             $("input[name=token]").val(result.content);
             return true;
         },
-        error: function(request) {
+        error: function (request) {
+            alert("Connection error");
+        }
+    })
+}
+
+function login() {
+    $.ajax({
+        url: "http://localhost:8080/logoreg",
+        type: "POST",
+        data: {
+            "username": $("#loginNums").val(),
+            "password": $("#loginForm input[name=password]").val(),
+            "remember": $("#remberBtn").prop("checked")
+        },
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+        },
+        error: function (request) {
             alert("Connection error");
         }
     })

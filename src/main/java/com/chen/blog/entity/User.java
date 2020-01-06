@@ -35,19 +35,19 @@ public class User {
 
     public interface registerUserView{}//暂时没用
 
-    public interface TopUserView{}//只用 name 和 id
+    public interface HotUserView{}//只用 name 和 id
 
     public interface SearchUserView{}//查询视图
 
     public interface HomeUserView{}//主页个人信息视图
 
     @NotNull(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
-    @JsonView({BaseUserInfo.class,TopUserView.class,SearchUserView.class,HomeUserView.class})
+    @JsonView({BaseUserInfo.class,HotUserView.class,SearchUserView.class,HomeUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
-    @JsonView({TopUserView.class})
+
     @NotBlank(message = "登录账号")
     @Size(min = 8,max = 12,message = "账号长度应在{min}-{max}")
     @Column(nullable = false,unique = true,length = 12)
@@ -89,13 +89,13 @@ public class User {
     @Column
     private String briefIntr;
 
-    @JsonView({BaseUserInfo.class,SearchUserView.class,HomeUserView.class})
+    @JsonView({BaseUserInfo.class,SearchUserView.class,HomeUserView.class,HotUserView.class})
     @NotBlank(message = "昵称不能为空",groups = {registerUserView.class})
     @Column(nullable = false)
     private String nickname;
 
 
-    @JsonView({BaseUserInfo.class,SearchUserView.class,HomeUserView.class})
+    @JsonView({BaseUserInfo.class,SearchUserView.class,HomeUserView.class,HotUserView.class})
     @NotBlank(message = "头像不能为空")
     @Column(nullable = false)
     private String headurl;

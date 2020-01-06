@@ -39,6 +39,14 @@ public class ArticleController {
         return RespVo.success(page,null);
     }
 
+    @GetMapping("/hot")
+    @ResponseBody
+    @JsonView({Article.HotListView.class})
+    public RespVo hotList(@PageableDefault(sort = {"goodTimes","commentTimes","viewTimes","createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable){
+        Page<Article> page = articleService.getList(pageable);
+        return RespVo.success(page,null);
+    }
+
 
     @GetMapping("/articles/{id}")
     @ResponseBody

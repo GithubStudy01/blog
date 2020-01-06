@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 
 /**
  * 查询用户的权限信息
@@ -15,25 +17,25 @@ import org.springframework.stereotype.Service;
 @Service("userDetailService")
 public class UserDetailService implements UserDetailsService {
 
-	@Autowired
-	UserRepository userRepository;
-	
-	@Override
-	public UserDetails loadUserByUsername(String loginNums) throws UsernameNotFoundException {
-		com.chen.blog.entity.User user = userRepository.findUserByPhoneOrAccount(loginNums,loginNums);
-		if(user==null) {
-			throw new UsernameNotFoundException("账号不存在");
-		}
-		boolean accountNonLocked=true;
-		boolean enabled=true;
-		if(1==user.getLockSign()){
-			accountNonLocked=false;//冻结
-		}
-		if(1==user.getDeleteSign()){
-			enabled=false;//删除
-		}
+    @Autowired
+    UserRepository userRepository;
 
-		return new User(loginNums, user.getPassword(),enabled, true, true, accountNonLocked,null);//在上面的代码中可以查询该用户是否为锁定、删除信息，并注入到User中
-	}
+    @Override
+    public UserDetails loadUserByUsername(String loginNums) throws UsernameNotFoundException {
+        com.chen.blog.entity.User user = userRepository.findUserByPhoneOrAccount(loginNums, loginNums);
+        if (user == null) {
+            throw new UsernameNotFoundException("账号不存在");
+        }
+        boolean accountNonLocked = true;
+        boolean enabled = true;
+        if (1 == user.getLockSign()) {
+            accountNonLocked = false;//冻结
+        }
+        if (1 == user.getDeleteSign()) {
+            enabled = false;//删除
+        }
+
+        return new User(loginNums, user.getPassword(), enabled, true, true, accountNonLocked, new ArrayList<>());//在上面的代码中可以查询该用户是否为锁定、删除信息，并注入到User中
+    }
 
 }
