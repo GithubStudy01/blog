@@ -1,6 +1,6 @@
 $(function () {
-
-    getArticle(1);
+    var href = window.location.href.split("/");
+    getArticle(href[href.length-2]);
 })
 
 function getArticle(id){

@@ -11,12 +11,12 @@ public class GlobalConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/logoreg").setViewName("direct/logoreg");
-        registry.addViewController("/home").setViewName("direct/home");
+        registry.addViewController("/home/{userId}").setViewName("direct/home");
         registry.addViewController("/edit").setViewName("security/edit");
         registry.addViewController("/manage").setViewName("security/manage");
         registry.addViewController("/search/author").setViewName("direct/author-search");
         registry.addViewController("/search/article").setViewName("direct/article-search");
-        registry.addViewController("/details").setViewName("direct/details");
+        registry.addViewController("/details/{userId}/{articleId}").setViewName("direct/details");
         registry.addViewController("/index").setViewName("index");
     }
 }

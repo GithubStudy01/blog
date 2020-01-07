@@ -2,6 +2,7 @@ package com.chen.blog.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
@@ -26,15 +27,19 @@ import java.util.List;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//解决转换异常
 public class Blog {
 
+    public interface BlogInfoView{}
+
+    @JsonView({BlogInfoView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Long id;
 
+    @JsonView({BlogInfoView.class})
     @NotBlank(message = "博客名称不能为空")
     @Column(name = "blog_name")
     private String blogName;
 
-
+    @JsonView({BlogInfoView.class})
     @Column
     private String description;
 

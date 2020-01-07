@@ -99,7 +99,7 @@ public class Article {
     @JoinColumn(name="blog_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private Blog blog;
 
-    @JsonView({User.BaseUserInfo.class})
+    @JsonView({User.BaseUserInfo.class,User.HotUserView.class})
     @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)
     @JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))//不生成外键
     private User user;

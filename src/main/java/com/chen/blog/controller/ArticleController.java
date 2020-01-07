@@ -39,9 +39,10 @@ public class ArticleController {
         return RespVo.success(page,null);
     }
 
+
     @GetMapping("/hot")
     @ResponseBody
-    @JsonView({Article.HotListView.class})
+    @JsonView({Vo.HotArticleView.class})
     public RespVo hotList(@PageableDefault(sort = {"goodTimes","commentTimes","viewTimes","createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable){
         Page<Article> page = articleService.getList(pageable);
         return RespVo.success(page,null);
@@ -66,10 +67,10 @@ public class ArticleController {
     }
 
 
-    @GetMapping("/recent")
+    @GetMapping("/recent/{id}")
     @ResponseBody
     @JsonView({Article.RecentUpdatesView.class})
-    public RespVo getRecentUpdatesList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable pageable,@NotNull(message = "用户id不能为空！") Long userId){
+    public RespVo getRecentUpdatesList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable pageable,@PathVariable(value="id") @NotNull(message = "用户id不能为空！") Long userId){
         Page<Article> page = articleService.getArticleListByUserId(pageable,userId);
         return RespVo.success(page,null);
     }

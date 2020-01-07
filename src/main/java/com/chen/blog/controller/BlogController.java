@@ -1,15 +1,18 @@
 package com.chen.blog.controller;
 
+
 import com.chen.blog.entity.Blog;
-import com.chen.blog.entity.User;
 import com.chen.blog.service.BlogService;
 import com.chen.blog.vo.RespVo;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.constraints.NotNull;
 
 @Controller
 @RequestMapping("/blog")
@@ -30,6 +33,13 @@ public class BlogController {
         return RespVo.success();
     }
 
+    @GetMapping("/getByUserId")
+    @ResponseBody
+    @JsonView({Blog.BlogInfoView.class})
+    public RespVo getByUserId(@NotNull(message = "用户id不能为空！") Long userId){
+        Blog blog = blogService.getById(userId);
+        return RespVo.success(blog,null);
+    }
 
 
 }

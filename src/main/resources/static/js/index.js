@@ -23,6 +23,7 @@ function getLeftData(page,size){
         dataType: "json",
         async: false,
         success: function (result) {
+            console.log(result)
             var code = result.code;
             if(code !='0001'){
                 alert(result.msg)
@@ -33,8 +34,8 @@ function getLeftData(page,size){
             var resultContent = content.content;
             for(var i=0;i<resultContent.length;i++){
                 var html = '<div class="list-group-item"><h3 class="list-group-item-heading">' +
-                    '<a href="'+"www.baidu.com"+'">'+resultContent[i].title+'</a></h3><p class="list-group-item-text">'+resultContent[i].content+'</p>' +
-                    '<div class="row article-attribute"><div class="col-sm-8 col-md-9"><a href="'+"www.baidu.com"+'">' +
+                    '<a href="/details/'+resultContent[i].id+"/"+resultContent[i].user.id+'">'+resultContent[i].title+'</a></h3><p class="list-group-item-text">'+resultContent[i].content+'</p>' +
+                    '<div class="row article-attribute"><div class="col-sm-8 col-md-9"><a href="/home/'+resultContent[i].id+'">' +
                     '<img src="'+resultContent[i].user.headurl+'" alt="'+resultContent[i].user.nickname+'" class="img-circle"></a>' +
                     '<span style="">'+resultContent[i].user.nickname+'</span><span style="">'+resultContent[i].createtime+'</span></div>' +
                     '<div class="col-sm-8 col-md-3"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>'+resultContent[i].goodTimes+
@@ -66,7 +67,7 @@ function getHotArticle(){
             }
             var content = result.content.content;
             for(var i = 0;i<content.length;i++){
-                var html = '<li class="list-group-item"><a href="'+content[i].id+'">'+content[i].title+'</a></li>';
+                var html = '<li class="list-group-item"><a href="/details/'+content[i].id+"/"+content[i].user.id+'">'+content[i].title+'</a></li>';
                 $("#article-hot").append(html);
             }
         },
