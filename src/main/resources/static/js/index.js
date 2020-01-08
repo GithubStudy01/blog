@@ -93,7 +93,7 @@ function getHotUser(){
             }
             var content = result.content.content;
             for(var i = 0;i<content.length;i++){
-                var html = '<li class="list-group-item"><a href="'+content[i].id+'">'+content[i].nickname+'</a></li>';
+                var html = '<li class="list-group-item"><a href="/home/'+content[i].id+'">'+content[i].nickname+'</a></li>';
                 $("#user-hot").append(html);
             }
         },

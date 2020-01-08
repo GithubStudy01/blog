@@ -15,31 +15,37 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-public interface ArticleRepository extends JpaRepository<Article,Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Page<Article> findAllByType(Integer type, Pageable pageable);
 
-    Page<Article> findAllBySort(Sort sort,Pageable pageable);
+    Page<Article> findAllByTypeAndCreatetimeGreaterThan(Integer type, LocalDateTime limitTime, Pageable pageable);
+
+    Page<Article> findAllByTypeAndCreatetimeGreaterThanAndTitleLike(Integer type, LocalDateTime limitTime, String title, Pageable pageable);
+
+    Page<Article> findAllByTypeAndTitleLike(Integer type, String title, Pageable pageable);
+
+    Page<Article> findAllBySort(Sort sort, Pageable pageable);
 
 
-    Page<Article> findAllBySortAndType(Sort sort,Integer type,Pageable pageable);
+    Page<Article> findAllBySortAndType(Sort sort, Integer type, Pageable pageable);
 
     int countById(Long articleId);
 
 
     Page<Article> findAllByTypeAndUser(Integer type, User user, Pageable pageable);
 
-    Page<Article> findAllByUser(User user,Pageable pageable);
+    Page<Article> findAllByUser(User user, Pageable pageable);
 
 
     @Modifying
     @Query("update Article a set a.overhead = :overhead,a.overheadTime = :overheadTime where a.id = :articleId")
-    int updateOverheadAndOverheadTime(@Param(value = "overhead") Integer overhead, @Param(value = "overheadTime")LocalDateTime overheadTime,@Param(value = "articleId")Long articleId);
+    int updateOverheadAndOverheadTime(@Param(value = "overhead") Integer overhead, @Param(value = "overheadTime") LocalDateTime overheadTime, @Param(value = "articleId") Long articleId);
 
 
     @Modifying
     @Query("update Article a set a.type = :type where a.id = :articleId")
-    int updateType(@Param(value = "type") Integer type,@Param(value = "articleId")Long articleId);
+    int updateType(@Param(value = "type") Integer type, @Param(value = "articleId") Long articleId);
 
     //删除中间表使用原生sql
     @Modifying

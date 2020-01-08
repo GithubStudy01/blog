@@ -1,6 +1,7 @@
 $(function () {
-    var nickname = getQueryVariable("nickname");
-    searchAuthor(nickname)
+    var article = getQueryVariable("article");
+    // searchArticle(article,null,null,null,null)
+    test();
 })
 function getQueryVariable(variable)
 {
@@ -10,13 +11,25 @@ function getQueryVariable(variable)
         var pair = vars[i].split("=");
         if(pair[0] == variable){return pair[1];}
     }
-    return(false);
+    return("");
 }
-function searchAuthor(nickname){
+function test(){
+    // searchArticle("","1","createtime,desc",null,null)
+    searchArticle("","3",["goodTimes,desc","commentTimes,desc","viewTimes,desc"],null,null)
+}
+
+function searchArticle(title,limitTimeType,sort,page,size){
     $.ajax({
-        url: "http://localhost:8080/user/users?nickname="+nickname,
+        url: "http://localhost:8080/article/search",
         type: "GET",
         dataType: "json",
+        data:{
+          "title":title,
+          "limitTimeType":limitTimeType,
+            "page":page,
+            "size":size,
+            "sort":sort
+        },
         async: false,
         success: function (result) {
             console.log(result)
@@ -25,6 +38,7 @@ function searchAuthor(nickname){
                 alert(result.msg)
                 return;
             }
+
 
         },
         error: function (request) {

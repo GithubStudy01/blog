@@ -1,5 +1,6 @@
 package com.chen.blog.service;
 
+import com.chen.blog.common.TimeLimitEnum;
 import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.*;
 import com.chen.blog.exception.BlogException;
@@ -15,8 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,13 +45,13 @@ public class ArticleService {
     private TagRepository tagRepository;
 
     public Page<Article> getList(Pageable pageable) {
-        return articleRepository.findAllByType(WordDefined.ARTICLE_OPEN,pageable);
+        return articleRepository.findAllByType(WordDefined.ARTICLE_OPEN, pageable);
     }
 
     public Article getById(Long id) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
         //不存在
-        optionalArticle.orElseThrow(()->new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
+        optionalArticle.orElseThrow(() -> new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
         Article article = optionalArticle.get();
         //公开 || 私有==登录的用户
         if (article.getType() == WordDefined.ARTICLE_OPEN || article.getUser().getId().equals(SessionUtils.getUserId())) {
@@ -56,9 +60,9 @@ public class ArticleService {
         throw new BlogException(WordDefined.NO_ACCESS);
     }
 
-    public Page<Article> getListBySortId(Integer sortId,Pageable pageable) {
+    public Page<Article> getListBySortId(Integer sortId, Pageable pageable) {
         Optional<Sort> optionalSort = sortRepository.findById(sortId);
-        optionalSort.orElseThrow(()->new BlogException(WordDefined.SORT_NOT_FOUNT));
+        optionalSort.orElseThrow(() -> new BlogException(WordDefined.SORT_NOT_FOUNT));
         Long userId = SessionUtils.getUserId();
         Sort sort = optionalSort.get();
         if (userId == -1 || !sort.getBlog().getUser().getId().equals(userId)) {
@@ -69,22 +73,22 @@ public class ArticleService {
         return articleRepository.findAllBySort(sort, pageable);
     }
 
-    public Page<Article> getArticleListByUserId(Pageable pageable,Long userId) {
+    public Page<Article> getArticleListByUserId(Pageable pageable, Long userId) {
         Long loginUserId = SessionUtils.getUserId();
         User user = getUser(userId);
         //没有登录 || 登录用户 ！= 获取列表主人
         if (loginUserId == -1 || !loginUserId.equals(userId)) {
             //公开
-            return articleRepository.findAllByTypeAndUser(WordDefined.ARTICLE_OPEN,user,pageable);
+            return articleRepository.findAllByTypeAndUser(WordDefined.ARTICLE_OPEN, user, pageable);
         }
         //全部
-        return articleRepository.findAllByUser(user,pageable);
+        return articleRepository.findAllByUser(user, pageable);
     }
 
     //存在则返回，不存在则抛出异常
-    private User getUser(Long userId){
+    private User getUser(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        optionalUser.orElseThrow(()->new BlogException(WordDefined.USER_NOT_FOUNT));
+        optionalUser.orElseThrow(() -> new BlogException(WordDefined.USER_NOT_FOUNT));
         User user = optionalUser.get();
         Integer deleteSign = user.getDeleteSign();
         if (deleteSign == WordDefined.DELETE) {
@@ -94,7 +98,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public int changeOverhead(Long articleId,Integer overhead) {
+    public int changeOverhead(Long articleId, Integer overhead) {
         Article article = getArticle(articleId);
         Long userId = SessionUtils.getUserId();
         if (article.getUser().getId().equals(userId)) {
@@ -102,7 +106,7 @@ public class ArticleService {
             if (WordDefined.OVERHEAD_OPEN == overhead) {
                 overheadTime = OthersUtils.getCreateTime();
             }
-            return articleRepository.updateOverheadAndOverheadTime(overhead,overheadTime , articleId);
+            return articleRepository.updateOverheadAndOverheadTime(overhead, overheadTime, articleId);
         }
         throw new BlogException(WordDefined.NO_ACCESS);
     }
@@ -112,16 +116,16 @@ public class ArticleService {
         Article article = getArticle(articleId);
         Long userId = SessionUtils.getUserId();
         if (article.getUser().getId().equals(userId)) {
-            return articleRepository.updateType(type,articleId);
+            return articleRepository.updateType(type, articleId);
         }
         throw new BlogException(WordDefined.NO_ACCESS);
     }
 
 
     //存在则返回，不存在则抛出异常
-    private Article getArticle(Long articleId){
+    private Article getArticle(Long articleId) {
         Optional<Article> optionalArticle = articleRepository.findById(articleId);
-        optionalArticle.orElseThrow(()->new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
+        optionalArticle.orElseThrow(() -> new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
         return optionalArticle.get();
     }
 
@@ -147,5 +151,35 @@ public class ArticleService {
             articleRepository.deleteById(articleId);
         }
         throw new BlogException(WordDefined.NO_ACCESS);
+    }
+
+    public Page<Article> getListBySearch(Pageable pageable, String title,String limitTimeType) {
+        LocalDateTime localDateTime = null;
+        //今天23:59:59:999..
+        LocalDateTime todayMax = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+        if (limitTimeType.equals(TimeLimitEnum.ONEDAY.getType())) {
+            //最近一天
+            localDateTime = todayMax.plusDays(-1);
+        } else if (limitTimeType.equals(TimeLimitEnum.ABNORMAL.getType())) {
+            //最近一周
+            localDateTime = todayMax.plusWeeks(-1);
+        } else if (limitTimeType.equals(TimeLimitEnum.PARAMETER_ERROR.getType())) {
+            //最近一个月
+            localDateTime = todayMax.plusMonths(-1);
+        }
+        return getListBySearch(pageable,title,localDateTime);
+    }
+    public Page<Article> getListBySearch(Pageable pageable, String title, LocalDateTime limitTime) {
+        if (title == null || title.trim().equals("")) {
+            if (limitTime == null) {
+                return articleRepository.findAllByType(WordDefined.ARTICLE_OPEN, pageable);
+            }
+            return articleRepository.findAllByTypeAndCreatetimeGreaterThan(WordDefined.ARTICLE_OPEN, limitTime, pageable);
+        }
+        if (limitTime == null) {
+            return articleRepository.findAllByTypeAndTitleLike(WordDefined.ARTICLE_OPEN, title, pageable);
+        }
+        return articleRepository.findAllByTypeAndCreatetimeGreaterThanAndTitleLike(WordDefined.ARTICLE_OPEN, limitTime, title, pageable);
+
     }
 }
