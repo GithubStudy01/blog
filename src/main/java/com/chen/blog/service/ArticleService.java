@@ -153,7 +153,7 @@ public class ArticleService {
         throw new BlogException(WordDefined.NO_ACCESS);
     }
 
-    public Page<Article> getListBySearch(Pageable pageable, String title,String limitTimeType) {
+    public Page<Article> getListBySearch(Pageable pageable, String title, String limitTimeType) {
         LocalDateTime localDateTime = null;
         //今天23:59:59:999..
         LocalDateTime todayMax = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
@@ -167,8 +167,9 @@ public class ArticleService {
             //最近一个月
             localDateTime = todayMax.plusMonths(-1);
         }
-        return getListBySearch(pageable,title,localDateTime);
+        return getListBySearch(pageable, title, localDateTime);
     }
+
     public Page<Article> getListBySearch(Pageable pageable, String title, LocalDateTime limitTime) {
         if (title == null || title.trim().equals("")) {
             if (limitTime == null) {
@@ -177,9 +178,9 @@ public class ArticleService {
             return articleRepository.findAllByTypeAndCreatetimeGreaterThan(WordDefined.ARTICLE_OPEN, limitTime, pageable);
         }
         if (limitTime == null) {
-            return articleRepository.findAllByTypeAndTitleLike(WordDefined.ARTICLE_OPEN, title, pageable);
+            return articleRepository.findAllByTypeAndTitleLike(WordDefined.ARTICLE_OPEN, "%" + title + "%", pageable);
         }
-        return articleRepository.findAllByTypeAndCreatetimeGreaterThanAndTitleLike(WordDefined.ARTICLE_OPEN, limitTime, title, pageable);
+        return articleRepository.findAllByTypeAndCreatetimeGreaterThanAndTitleLike(WordDefined.ARTICLE_OPEN, limitTime, "%" + title + "%", pageable);
 
     }
 }
