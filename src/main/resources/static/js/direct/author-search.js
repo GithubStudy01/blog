@@ -59,7 +59,8 @@ function searchAuthor(nickname){
                 }
             }
             $("#author-search").append(html)
-
+            //分页
+            paging(content);
 
         },
         error: function (request) {

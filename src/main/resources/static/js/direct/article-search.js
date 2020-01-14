@@ -90,6 +90,8 @@ function searchArticle(title, limitTimeType, sort, page, size) {
             }
             var content = result.content;
             $("#totalCount").text(content.totalElements+" 个结果")
+            //分页
+            paging(content);
         },
         error: function (request) {
             alert("Connection error");

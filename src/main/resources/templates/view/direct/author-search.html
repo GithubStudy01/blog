@@ -31,34 +31,12 @@
 
         </div>
 
-        <div class="row" id="paging">
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="disabled">
-                      <span>
-                        <span aria-hidden="true">&laquo;</span>
-                      </span>
-                    </li>
-                    <li class="active">
-                        <span>1 <span class="sr-only">(current)</span></span>
-                    </li>
-                    <li class="">
-                        <span>2 <span class="sr-only">(current)</span></span>
-                    </li>
-                    <li class="">
-                        <span>3 <span class="sr-only">(current)</span></span>
-                    </li>
-                    <li class="disabled">
-                      <span>
-                        <span aria-hidden="true">&raquo;</span>
-                      </span>
-                    </li>
-                </ul>
-            </nav>
+        <div class="row" id="paging" >
         </div>
     </div>
 </main>
 <div th:replace="~{common/footer :: footer}"></div>
 </body>
 <script type="text/javascript" th:src="@{/js/direct/author-search.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/paging.js}"></script>
 </html>

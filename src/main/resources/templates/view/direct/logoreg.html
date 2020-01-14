@@ -243,13 +243,14 @@
         <div class="rember">
           <div>
             <label for="remberme">
-              <input type="checkbox" name="rember" id="remberBtn">
+              <input type="checkbox" name="remberme" id="remberBtn">
               <span>记住我</span>
             </label>
           </div>
           <a href="">登录遇到问题</a>
         </div>
         <div class="btn" id="loginBtn">登录</div>
+
       </div>
       <div id="registContent" class="content">
         <form action="regist" id="registForm">
@@ -277,9 +278,13 @@
       </div>
     </div>
   </div>
+  <p id="error" th:if="${param.error}" class="hidden" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
 </body>
 <script type="text/javascript" th:src="@{/js/direct/register.js}"></script>
 <script type="text/javascript">
+
+
+
   // 登录页面的部分操作
 
   // 点击登录tab键

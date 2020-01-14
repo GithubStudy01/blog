@@ -55,7 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .maxSessionsPreventsLogin(true)
         .expiredUrl("/exceeded");	*/
         //启用rememberMe功能，将用户信息保存在cookie中
-        http.rememberMe();
+        http.rememberMe()
+                .rememberMeParameter("remberme");
     }
 
     @Override

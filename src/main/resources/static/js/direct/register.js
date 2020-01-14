@@ -1,5 +1,8 @@
 $(function () {
-
+    var errorInfo = $("#error").text();
+    if(errorInfo != ''){
+        alert(errorInfo)
+    }
 
 })
 
