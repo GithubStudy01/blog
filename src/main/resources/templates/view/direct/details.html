@@ -5,6 +5,15 @@
     <title>文章详情</title>
     <div th:replace="~{common/baseimport :: baseimport}"></div>
     <link rel="stylesheet" th:href="@{/css/details.css}">
+    <link rel="stylesheet" th:href="@{/editor/css/editormd.css}"/>
+    <script th:src="@{/editor/lib/marked.min.js}"></script>
+    <script th:src="@{/editor/lib/prettify.min.js}"></script>
+    <script th:src="@{/editor/lib/raphael.min.js}"></script>
+    <script th:src="@{/editor/lib/underscore.min.js}"></script>
+    <script th:src="@{/editor/lib/sequence-diagram.min.js}"></script>
+    <script th:src="@{/editor/lib/flowchart.min.js}"></script>
+    <script th:src="@{/editor/lib/jquery.flowchart.min.js}"></script>
+    <script th:src="@{/editor/js/editormd.js}"></script>
 </head>
 <script type="application/javascript">
 
@@ -22,7 +31,7 @@
                 </div>
                 <!--文章内容-->
                 <div id="article-content">
-
+                    <textarea style="display:none;" placeholder="markdown语言"></textarea>
                 </div>
             </div>
         </div>

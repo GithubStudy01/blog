@@ -1,8 +1,10 @@
 $(function () {
+
+})
+layui.use('layer',function(){
     var href = window.location.href.split("/");
     getArticle(href[href.length-2]);
 })
-
 function getArticle(id){
     $.ajax({
         url: "http://localhost:8080/article/articles/"+id,
@@ -13,7 +15,7 @@ function getArticle(id){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content;
@@ -28,8 +30,18 @@ function getArticle(id){
             }
             $("#article-info").append(html);
             $("#article-info").append(sortHtml);
-            $("#article-content").append(content.content);
-
+            $("#article-content>textarea").text(content.content);
+            //markdown语言
+            var testEditor = editormd.markdownToHTML("article-content", {//注意：这里是上面DIV的id
+                htmlDecode: "style,script,iframe",
+                emoji: true,
+                taskList: true,
+                tocm: true,
+                tex: true, // 默认不解析
+                flowChart: true, // 默认不解析
+                sequenceDiagram: true, // 默认不解析
+                codeFold: true
+            });
         },
         error: function (request) {
             alert("Connection error");

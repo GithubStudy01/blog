@@ -1,8 +1,10 @@
 $(function () {
+
+})
+layui.use('layer',function(){
     var href = window.location.href.split("/");
     getUserArticles(href[href.length-1]);
 })
-
 function getUserArticles(id){
     $.ajax({
         url: "http://localhost:8080/article/user/"+id,
@@ -13,7 +15,7 @@ function getUserArticles(id){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
 

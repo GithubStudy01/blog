@@ -1,8 +1,6 @@
+
 $(function () {
-    var errorInfo = $("#error").text();
-    if(errorInfo != ''){
-        alert(errorInfo)
-    }
+
 
 })
 
@@ -76,7 +74,7 @@ function checkCode(phone, code) {
         async: false,
         success: function (result) {
             if (result.code != '0001') {
-                alert(result.content)
+                layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
                 return false;
             }
             $("input[name=token]").val(result.content);

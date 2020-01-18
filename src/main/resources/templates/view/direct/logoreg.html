@@ -282,7 +282,12 @@
 </body>
 <script type="text/javascript" th:src="@{/js/direct/register.js}"></script>
 <script type="text/javascript">
-
+  layui.use('layer',function(){
+    var errorInfo = $("#error").text();
+    if(errorInfo != ''){
+      layer.msg(errorInfo, {icon: 5, time: 1000,shift : 6})
+    }
+  })
 
 
   // 登录页面的部分操作
@@ -366,10 +371,10 @@
       },
       success:function(result){
         if(result.code!='0001'){
-          alert(result.content)
+          layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
           return;
         }
-        alert("发送验证码成功！")
+        layer.msg("发送验证码成功！", {icon: 6, time: 1000})
         countDown(result.content);
       },
       error: function(request) {
@@ -391,11 +396,11 @@
     var phone = $("#phone").val();
     var phoneReg = /(^1\d{10}$)|(^[0-9]\d{7}$)/;
     if(phone == ''){
-      alert("请填写手机号！")
+      layer.msg('请填写手机号！', {icon: 5, time: 1000,shift : 6})
       return false;
     }
     if(!phoneReg.test(phone)) {
-      alert("手机号码格式错误！");
+      layer.msg('手机号码格式错误！', {icon: 5, time: 1000,shift : 6})
       return false;
     }
     checkPhoneUnique(phone);
@@ -430,12 +435,12 @@
   function checkLoginField(){
     var username = $("#loginNums").val();
     if(username == ''){
-      alert("请填写手机号或账号！")
+      layer.msg('请填写手机号或账号！', {icon: 5, time: 1000,shift : 6})
       return false;
     }
     var password = $("#loginForm input[name=password]").val();
     if(password == ''){
-      alert("请填写密码！")
+      layer.msg('请填写密码！', {icon: 5, time: 1000,shift : 6})
       return false;
     }
     return true;
@@ -466,43 +471,43 @@
 function checkRegField(){
   var nickname = $("#nickname").val();
   if(nickname == ''){
-    alert("请填写昵称！")
+    layer.msg("请填写昵称！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   var phone = $("#phone").val();
   var phoneReg = /(^1\d{10}$)|(^[0-9]\d{7}$)/;
   if(phone == ''){
-    alert("请填写手机号！")
+    layer.msg("请填写手机号！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   if(!phoneReg.test(phone)) {
-    alert("手机号码格式错误！");
+    layer.msg("手机号码格式错误！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   var code = $("#code").val();
   if(code == ''){
-    alert("请填写验证码！")
+    layer.msg("请填写验证码！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   if(code.length != 6){
-    alert("验证码错误！")
+    layer.msg("验证码错误！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   var token = $("input[name=token]").val();
   if(token == ''){
     if(checkCode(phone,code)){
-      alert("验证码错误！")
+      layer.msg("验证码错误！", {icon: 5, time: 1000,shift : 6})
       return false;
     }
   }
   var password = $("#registForm input[name=password]").val();
   if(password == ''){
-    alert("密码不能为空！")
+    layer.msg("密码不能为空！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   var length = password.length;
   if(length<8 || length>12){
-    alert("密码长度应在8到12位！")
+    layer.msg("密码长度应在8到12位！", {icon: 5, time: 1000,shift : 6})
     return false;
   }
   return true;
@@ -520,7 +525,7 @@ function submitRegForm(){
         alert(result.content)
         return;
       }
-      alert("注册成功！正在跳转到登录页面。。。")
+      layer.msg("注册成功！正在跳转到登录页面。。。", {icon: 6, time: 2000})
       sleep(2000);
       window.location.href = 'http://localhost:8080/logoreg'
     },
@@ -541,11 +546,11 @@ function checkPhoneUnique(phone){
     dataType:"json",
     success:function(result){
       if(result.code != '0001'){
-        alert(result.content)
+        layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
         return;
       }
       if(result.content == false){
-        alert("手机号码已经被占用！")
+        layer.msg("手机号码已经被占用！", {icon: 5, time: 1000,shift : 6})
         return;
       }
       sendVerificationCode(phone);

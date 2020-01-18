@@ -1,10 +1,12 @@
 $(function () {
+
+})
+layui.use('layer',function(){
     var href = window.location.href.split("/");
     getUser(href[href.length-1]);
     getUserNewArticle(href[href.length-1]);
     getBlogId(href[href.length-1]);
 })
-
 function getUser(id){
     $.ajax({
         url: "http://localhost:8080/user/users/"+id,
@@ -15,7 +17,7 @@ function getUser(id){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content;
@@ -46,7 +48,7 @@ function getUserNewArticle(userId){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content.content;
@@ -71,7 +73,7 @@ function getBlogId(userId){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             getAricleSort(result.content.id);
@@ -92,7 +94,7 @@ function getAricleSort(blogId){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content;

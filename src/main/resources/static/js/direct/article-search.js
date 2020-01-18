@@ -1,4 +1,7 @@
 $(function () {
+
+})
+layui.use('layer',function(){
     var title = localStorage.getItem("title");
     localStorage.removeItem("title");
     if(title == ""){
@@ -25,7 +28,6 @@ $(function () {
     })
 
 })
-
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -59,7 +61,7 @@ function searchArticle(title, limitTimeType, sort, page, size) {
             console.log(result)
             var code = result.code;
             if (code != '0001') {
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             //清空子节点

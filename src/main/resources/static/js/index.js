@@ -1,18 +1,32 @@
-var last = false;
-var page = 0;
 var size = 10;
-$(function () {
-
-    if(!last){
-        getLeftData(page,size);
-    }
+layui.use(['flow','layer'],function(){
+    // if(!last){
+    //     getLeftData(page,size);
+    // }
     getHotArticle();
     getHotUser();
     getHotTag();
+    var flow = layui.flow;
+    var layer = layui.layer;
+    flow.load({
+        elem: '#index-left .list-group' //流加载容器
+        , scrollElem: '#index-left .list-group' //滚动条所在元素，一般不用填，此处只是演示需要。
+        , isAuto:true
+        , end : '<p style="text-align:center;color:lightgray;">到底啦！</p>'
+        , done: function (page, next) { //执行下一页的回调
+            //前端从1开始，后端从0开始
+            getLeftData(page-1,size,next);
+        }
+    });
+})
+
+$(function () {
+
+
 
 })
 // 首页左侧按更新时间排序
-function getLeftData(page,size){
+function getLeftData(page,size,next){
     $.ajax({
         url: "http://localhost:8080/article/articles",
         type: "GET",
@@ -26,14 +40,14 @@ function getLeftData(page,size){
             console.log(result)
             var code = result.code;
             if(code !='0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content;
-            last = content.last;
             var resultContent = content.content;
+            var html = [];
             for(var i=0;i<resultContent.length;i++){
-                var html = '<div class="list-group-item"><h3 class="list-group-item-heading">' +
+                var point = '<div class="list-group-item"><h3 class="list-group-item-heading">' +
                     '<a href="/details/'+resultContent[i].id+"/"+resultContent[i].user.id+'">'+resultContent[i].title+'</a></h3><p class="list-group-item-text">'+resultContent[i].content+'</p>' +
                     '<div class="row article-attribute"><div class="col-sm-8 col-md-9"><a href="/home/'+resultContent[i].id+'">' +
                     '<img src="'+resultContent[i].user.headurl+'" alt="'+resultContent[i].user.nickname+'" class="img-circle"></a>' +
@@ -42,8 +56,10 @@ function getLeftData(page,size){
                     '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>'+resultContent[i].viewTimes+
                     '<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>'+resultContent[i].commentTimes+
                     '</div></div></div>';
-                $("#index-left .list-group").append(html);
+                html.push(point);
             }
+            // $("#index-left .list-group").append(html);
+            next(html.join(''), page < content.totalPages);
         },
         error: function (request) {
             alert("Connection error");
@@ -62,7 +78,7 @@ function getHotArticle(){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content.content;
@@ -88,7 +104,7 @@ function getHotUser(){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content.content;
@@ -113,7 +129,7 @@ function getHotTag(){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             var content = result.content.content;

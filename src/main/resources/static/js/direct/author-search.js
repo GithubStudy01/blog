@@ -1,4 +1,7 @@
 $(function () {
+
+})
+layui.use('layer',function(){
     var nickname = getQueryVariable("nickname");
     searchAuthor(nickname)
     $("#search-input").val(nickname);
@@ -28,7 +31,7 @@ function searchAuthor(nickname){
             console.log(result)
             var code = result.code;
             if(code != '0001'){
-                alert(result.msg)
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
                 return;
             }
             //清空子节点
