@@ -32,10 +32,10 @@ public class CommentService {
     private ArticleRepository articleRepository;
 
 
-    public Page<Comment> getList(Pageable pageable,Long articleId,Integer tid) {
+    public Page<Comment> getList(Pageable pageable, Long articleId, Integer tid) {
         Article article = getArticle(articleId);
         //公开 || 私有 == 登录的用户
-        if (article.getType()==WordDefined.ARTICLE_OPEN || article.getUser().getId().equals(SessionUtils.getUserId())) {
+        if (article.getType() == WordDefined.ARTICLE_OPEN || article.getUser().getId().equals(SessionUtils.getUserId())) {
             Page<Comment> page = commentRepository.findByArticleIsAndTid(article, tid, pageable);
             combineReplyCount(page);
             return page;
@@ -44,13 +44,13 @@ public class CommentService {
     }
 
     //组装回复数量
-    private void combineReplyCount(Page<Comment> page){
+    private void combineReplyCount(Page<Comment> page) {
         List<Comment> comments = page.getContent();
         if (comments == null || comments.size() == 0) {
             return;
         }
         comments.parallelStream()
-                .forEach(c->{
+                .forEach(c -> {
                     Integer id = c.getId();
                     //顶级评论被回复总数量
                     int count = commentRepository.countByTid(id);
@@ -59,10 +59,10 @@ public class CommentService {
     }
 
     //存在则返回，不存在抛出异常
-    private Article getArticle(Long articleId){
+    private Article getArticle(Long articleId) {
         Optional<Article> optionalArticle = articleRepository.findById(articleId);
         //不存在
-        optionalArticle.orElseThrow(()->new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
+        optionalArticle.orElseThrow(() -> new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
         return optionalArticle.get();
     }
 
@@ -72,7 +72,7 @@ public class CommentService {
         //公开 || 私有==登录的用户
         if (article.getType() == WordDefined.ARTICLE_OPEN || article.getUser().getId().equals(SessionUtils.getUserId())) {
             //通过创建时间排序
-            List<Comment> comments = commentRepository.findByArticleIsAndTid(article, tid,Sort.by(Sort.Direction.ASC, "createtime"));
+            List<Comment> comments = commentRepository.findByArticleIsAndTid(article, tid, Sort.by(Sort.Direction.ASC, "createtime"));
             combineNickname(comments);
             return comments;
         }
@@ -80,12 +80,12 @@ public class CommentService {
     }
 
     //组装被回复者的昵称
-    private void combineNickname(List<Comment> comments){
-        Map<Integer,String> map = comments.parallelStream()
+    private void combineNickname(List<Comment> comments) {
+        Map<Integer, String> map = comments.parallelStream()
                 .collect(Collectors.toMap(Comment::getId, c -> c.getUser().getNickname()));
 
         comments.parallelStream()
-                .forEach(c->{
+                .forEach(c -> {
                     Integer cId = c.getCid();
                     String nickname = map.get(cId);
                     if (nickname == null) {
@@ -93,7 +93,7 @@ public class CommentService {
                         if (optionalComment.isPresent()) {
                             nickname = optionalComment.get().getUser().getNickname();
                         }
-                        map.put(cId,nickname == null?"":nickname);//即使是空也存进去
+                        map.put(cId, nickname == null ? "" : nickname);//即使是空也存进去
                     }
                     c.setNickname(nickname);
                 });

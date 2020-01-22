@@ -62,11 +62,13 @@ public class Comment {
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="c_id")
 
+    //评论的直接父级
     //注意这里是cid而不是cId,不然会报错
     @Column(nullable = false,name = "c_id",columnDefinition = "int(255) default 0")
     @NotNull(groups = {AddCommentView.class},message = "cid不能为空！")
     private Integer cid;
 
+    //评论的顶级父级
     //注意这里是tid而不是tId,不然会报错
     @JsonView({ArticleCommentView.class,ReplyCommentView.class})
     @Column(nullable = false,name = "t_id",columnDefinition = "int(255) default 0")

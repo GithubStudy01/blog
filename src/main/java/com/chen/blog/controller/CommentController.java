@@ -28,6 +28,16 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    /**
+     * 一级评论
+     *
+     * tid = 0;
+     *
+     * @param pageable
+     * @param articleId
+     * @param tid
+     * @return
+     */
     @GetMapping("/comments")
     @JsonView({Vo.CommentView.class})
     public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.ASC, page = 0, size = 3) Pageable pageable, @NotNull Long articleId,@NotNull Integer tid){
@@ -35,7 +45,15 @@ public class CommentController {
         return RespVo.success(page,null);
     }
 
-
+    /**
+     * 查看回复
+     *
+     * tid = 一级评论的id
+     *
+     * @param articleId
+     * @param tid
+     * @return
+     */
     @GetMapping("/replys")
     @JsonView({Vo.ReplyView.class})
     public RespVo getReply(@NotNull Long articleId,@NotNull Integer tid){
@@ -43,6 +61,11 @@ public class CommentController {
         return RespVo.success(comments,null);
     }
 
+    /**
+     * 回复
+     * @param comment
+     * @return
+     */
     @PostMapping("/reply")
     public RespVo addReply(@Validated(value = {Comment.AddCommentView.class})Comment comment){
         commentService.addReply(comment);
