@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" })//解决转换异常
-public class User {
+public class User implements Serializable {
 
     public interface BaseUserInfo{}//文章列表视图
 
@@ -41,7 +42,7 @@ public class User {
 
     public interface HomeUserView{}//主页个人信息视图
 
-    @NotNull(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
+    @NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
     @JsonView({BaseUserInfo.class,HotUserView.class,SearchUserView.class,HomeUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
@@ -152,4 +153,13 @@ public class User {
 //    @OneToMany(targetEntity = Good.class,fetch = FetchType.LAZY,mappedBy = "user")
 //    private List<Good> goodList;
 
+
+    public User(Long id,String account,String phone, String briefIntr,String nickname,String headurl) {
+        this.id = id;
+        this.account = account;
+        this.phone = phone;
+        this.briefIntr = briefIntr;
+        this.nickname = nickname;
+        this.headurl = headurl;
+    }
 }

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll()
 //                .anyRequest().authenticated();
         http.authorizeRequests()
-                .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit","/manage").authenticated()//任何经过身份验证的用户才能访问
+                .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit","/manage","/comment/reply").authenticated()//任何经过身份验证的用户才能访问
                 .and()
                 .logout()
                 .logoutSuccessUrl("/logoreg")//退出成功跳转的地址

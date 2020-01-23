@@ -3,6 +3,7 @@ package com.chen.blog.utils;
 import com.chen.blog.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SessionUtils {
 
@@ -15,7 +16,7 @@ public class SessionUtils {
      * @return
      */
     public final static User getUser() {
-        /*Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if("anonymousUser".equals(object.toString())) {
             return null;
         }
@@ -27,7 +28,6 @@ public class SessionUtils {
         }catch (ClassCastException e) {
             log.error("类型转换错误");
         }
-        return null;*/
         return null;
     }
 

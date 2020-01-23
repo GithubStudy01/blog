@@ -3,6 +3,7 @@ package com.chen.blog.service;
 import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.Article;
 import com.chen.blog.entity.Comment;
+import com.chen.blog.entity.User;
 import com.chen.blog.exception.BlogException;
 import com.chen.blog.repository.ArticleRepository;
 import com.chen.blog.repository.CommentRepository;
@@ -101,6 +102,8 @@ public class CommentService {
     }
 
     public void addReply(Comment comment) {
+        User user = SessionUtils.getUser();
+        comment.setUser(user);
         comment.setCreatetime(OthersUtils.getCreateTime());
         commentRepository.save(comment);
     }
