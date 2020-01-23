@@ -278,15 +278,15 @@
       </div>
     </div>
   </div>
-  <p id="error" th:if="${param.error}" class="hidden" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>
+<!--  <p id="error" th:if="${param.error}" class="hidden" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></p>-->
 </body>
 <script type="text/javascript" th:src="@{/js/direct/register.js}"></script>
 <script type="text/javascript">
   layui.use('layer',function(){
-    var errorInfo = $("#error").text();
-    if(errorInfo != ''){
-      layer.msg(errorInfo, {icon: 5, time: 1000,shift : 6})
-    }
+    // var errorInfo = $("#error").text();
+    // if(errorInfo != ''){
+    //   layer.msg(errorInfo, {icon: 5, time: 1000,shift : 6})
+    // }
   })
 
 
@@ -329,8 +329,8 @@
     if(!checkLoginField()){
       return;
     }
-    $("#loginForm").submit()
-    // login();
+    // $("#loginForm").submit()
+    login();
 
     // 返回结果为true意为选中，反之没有选中
     //

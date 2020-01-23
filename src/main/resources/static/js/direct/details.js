@@ -44,7 +44,7 @@ function modalSaveBtn(){
     if(content == null || content.trim() == ''){
         layer.msg("请输入回复内容！", {icon: 5, time: 1000,shift : 6})
     }
-    var aid = $("#save-articleId").attr("aid",aid);
+    var aid = $("#save-articleId").attr("aid");
     var tid = $('#replyBtn').attr("tid");
     var commentid = $("#replyBtn").attr("commentid");
     writeComment(tid,commentid,content,aid);
@@ -252,7 +252,17 @@ function writeComment(tid,cid,reply,articleId){
 
         },
         error: function (request) {
-            alert("Connection error");
+            var code = request.responseJSON.code;
+            if(code == "0004"){
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    layer.closeAll('dialog');
+                    window.location.href="/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000,shift : 6})
         }
     })
 

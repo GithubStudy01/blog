@@ -1,13 +1,34 @@
 package com.chen.blog.security;
 
+import com.alibaba.fastjson.JSON;
+import com.chen.blog.common.CodeEnum;
+import com.chen.blog.vo.RespVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 自定义配置类
@@ -25,38 +46,56 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/","/css/**","/user/checkPhoneUnique","/user/checkPhoneUnique","/user/checkPhoneUnique","/js/**","/images/**","/iconfont/**","/index","/search/**","/home","/details")//允许所有用户访问  /main 多个路径用 , 隔开,如："/test1","/test2","/test3"
-//                .permitAll()
-//                .anyRequest().authenticated();
-        http.authorizeRequests()
+        http.httpBasic()
+                .authenticationEntryPoint((request,response,e)->{
+                    //未登陆
+                    combinRepVo(HttpServletResponse.SC_FORBIDDEN,CodeEnum.LOGIN_NO,response,e);
+                })
+                .and()
+                .authorizeRequests()
                 .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit","/manage","/comment/reply").authenticated()//任何经过身份验证的用户才能访问
                 .and()
-                .logout()
-                .logoutSuccessUrl("/logoreg")//退出成功跳转的地址
-                .deleteCookies()
-                .invalidateHttpSession(true)
-                .and()
-                .csrf().disable();        //暂时禁用CSRF，否则无法提交表单
-
-        http.authorizeRequests()
-                .and()
                 .formLogin()
-                .loginPage("/logoreg")    //跳转登录页面的控制器，该地址要保证和表单提交的地址一致！
-                .defaultSuccessUrl("/index", true)//登录成功默认跳转的页面 true表示登录成功后始终从定向到 "/index"
-                .failureUrl("/logoreg?error=true") //发生错误跳转的地址
+                .loginPage("/logoreg")
+                .loginProcessingUrl("/logoreg")
                 .permitAll()
+                .failureHandler((request,response,e)->{
+                    //登陆失败
+                    combinRepVo(HttpServletResponse.SC_UNAUTHORIZED,CodeEnum.LOGIN_FAIL,response,e);
+                })
+                .successHandler((request,response,auth)->{
+                    //登陆成功
+                    combinRepVo(HttpServletResponse.SC_OK,CodeEnum.LOGIN_SUCCESS,response,null);
+                })
                 .and()
-                .headers().frameOptions().disable()//关闭 防止网页被其他框架使用
-                .and().exceptionHandling().accessDeniedPage("/403");//拒绝访问时跳转
-		/*.and()
-        .sessionManagement()
-        .maximumSessions(1)
-        .maxSessionsPreventsLogin(true)
-        .expiredUrl("/exceeded");	*/
-        //启用rememberMe功能，将用户信息保存在cookie中
+//                .exceptionHandling()
+//                .accessDeniedHandler((request,response,ex) -> {
+//                    response.setContentType("application/json;charset=utf-8");
+//                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//                    PrintWriter out = response.getWriter();
+//                    Map<String,Object> map = new HashMap<String,Object>();
+//                    map.put("code",403);
+//                    map.put("message", "权限不足");
+//                    out.write(objectMapper.writeValueAsString(map));
+//                    out.flush();
+//                    out.close();
+//                })
+//                .and()
+                .logout()
+                .deleteCookies()
+                .logoutSuccessHandler((request,response,auth)->{
+                    //注销成功
+                    combinRepVo(HttpServletResponse.SC_OK,CodeEnum.LOGOUT_SUCCESS,response,null);
+                })
+                .invalidateHttpSession(true)
+                .permitAll();
+        //开启跨域访问
+//        http.cors().disable();
+        //开启模拟请求，比如API POST测试工具的测试，不开启时，API POST为报403错误
+        http.csrf().disable();
+
         http.rememberMe()
-                .rememberMeParameter("remberme");
+                .rememberMeParameter("remember");
     }
 
     @Override
@@ -70,4 +109,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //自定义用户登录校验类 (认证)
         auth.authenticationProvider(blogSecurityProvider);
     }
+
+
+    public void combinRepVo(int status,CodeEnum code,HttpServletResponse response,AuthenticationException e) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
+        response.setStatus(status);
+        PrintWriter out = response.getWriter();
+        RespVo<Object> respVo = RespVo.general(code, e == null?null:e.getMessage(), null);
+        String json = JSON.toJSONString(respVo);
+        out.write(json);
+        out.flush();
+        out.close();
+    }
+
 }

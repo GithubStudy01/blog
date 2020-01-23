@@ -99,9 +99,13 @@ function login() {
         async: false,
         success: function (result) {
             console.log(result)
+            if(result.code == '0005'){
+                window.location.href = '/'
+            }
         },
         error: function (request) {
-            alert("Connection error");
+            console.log(request)
+            layer.msg(request.responseJSON.content, {icon: 5, time: 1000,shift : 6})
         }
     })
 }

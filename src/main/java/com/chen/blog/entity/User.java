@@ -42,6 +42,7 @@ public class User implements Serializable {
 
     public interface HomeUserView{}//主页个人信息视图
 
+
     @NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
     @JsonView({BaseUserInfo.class,HotUserView.class,SearchUserView.class,HomeUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略

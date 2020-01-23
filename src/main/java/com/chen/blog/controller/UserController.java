@@ -4,6 +4,7 @@ import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.User;
 import com.chen.blog.exception.BlogException;
 import com.chen.blog.service.UserService;
+import com.chen.blog.utils.SessionUtils;
 import com.chen.blog.vo.RespVo;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,19 @@ public class UserController {
     @ResponseBody
     public RespVo getById(@PathVariable(value = "id")@NotNull Long id){
         User user = userService.getById(id);
+        return RespVo.success(user,null);
+    }
+
+
+    /**
+     * 获取登陆信息
+     * @return
+     */
+    @JsonView(User.HomeUserView.class)
+    @GetMapping("/loginInfo")
+    @ResponseBody
+    public RespVo getLoginInfo(){
+        User user = SessionUtils.getUser();
         return RespVo.success(user,null);
     }
 

@@ -11,7 +11,10 @@ import lombok.NoArgsConstructor;
 public enum CodeEnum {
 
     FAIL("0000","请求失败"),SUCCESS("0001","请求成功"),
-    ABNORMAL("0003","请求异常"),PARAMETER_ERROR("0004","参数错误");
+    ABNORMAL("0002","请求异常"),PARAMETER_ERROR("0003","参数错误"),
+    LOGIN_NO("0004","未登陆"),LOGIN_SUCCESS("0005","登陆成功！"),
+    LOGIN_FAIL("0006","登陆失败！"), LOGOUT_FAIL("0007","注销失败！"),
+    LOGOUT_SUCCESS("0008","注销成功！");
 
 
     /**
