@@ -1,0 +1,34 @@
+.article-list{
+    clear: both;
+    overflow: hidden;
+}
+@media screen and (max-width: 560px) {
+    .article-option{
+        float:left;
+        text-align: center;
+    }
+}
+@media screen and (min-width: 561px){
+    .article-option{
+        float:right;
+        text-align: center;
+        line-height: 46.6px;
+    }
+}
+.article-attribute{
+    float: left;
+    text-align: center;
+}
+
+
+.article-option a{
+    text-decoration:none;
+}
+.article-option a:not(:first-child){
+    margin: 0 4px;
+}
+.article-option a span{
+    margin-right: 2px;
+    display: inline-block;
+    line-height: 16px;
+}
