@@ -195,6 +195,17 @@ public class ArticleService {
 
     @Transactional
     public void addArticle(Article article, String tagName, String sortId) {
+        List<Tag> tagList = combinData(article, tagName, sortId);
+        Article saveArticle = articleRepository.save(article);
+        Long articleId = saveArticle.getId();
+        //插入中间表
+        for (Tag tag : tagList) {
+            articleRepository.insertArticleTag(tag.getId(), articleId);
+        }
+    }
+
+    @Transactional
+    public List<Tag> combinData(Article article,String tagName, String sortId){
         User user = SessionUtils.getUser();
         Blog blog = sortService.getBlog(user);
         if (sortId != null && !sortId.trim().equals(WordDefined.SORT_NOT + "")) {
@@ -219,7 +230,7 @@ public class ArticleService {
         List<Tag> saveTagList = new ArrayList<>();
         List<Integer> tagIdList = new ArrayList<>();
         tagNameList.parallelStream()
-                .forEach(name->{
+                .forEach(name -> {
                     Tag tag = tagMap.get(name);
                     if (tag == null) {
                         Tag saveTag = new Tag();
@@ -231,11 +242,11 @@ public class ArticleService {
                     Integer id = tag.getId();
                     tagIdList.add(id);
                 });
-        //自增
+        //引用标签+1
         if (tagIdList.size() > 0) {
             tagRepository.updateTagAddOne(tagIdList);
         }
-        //保存
+        //保存还没有的标签
         if (saveTagList.size() > 0) {
             List<Tag> tag = tagRepository.saveAll(saveTagList);
             tagList.addAll(tag);
@@ -249,18 +260,45 @@ public class ArticleService {
         article.setUser(user);
         article.setBlog(blog);
         article.setCreatetime(createTime);
-        Article saveArticle = articleRepository.save(article);
-        Long articleId = saveArticle.getId();
-        //中间表
-        for (Tag tag : tagList) {
-            articleRepository.insertArticleTag(tag.getId(),articleId);
-        }
+        return tagList;
     }
 
-    private void initTimes(Article article){
+    private void initTimes(Article article) {
         article.setCommentTimes(0);
         article.setGoodTimes(0);
         article.setViewTimes(0);
     }
 
+    public void checkArticleAuthor(Long articleId) {
+        Optional<Article> optionalArticle = articleRepository.findById(articleId);
+        //不存在
+        optionalArticle.orElseThrow(() -> new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
+        Article article = optionalArticle.get();
+        //是否是文章的拥有者
+        if (!article.getUser().getId().equals(SessionUtils.getUserId())) {
+            throw new BlogException(WordDefined.NO_ACCESS);
+        }
+    }
+
+    @Transactional
+    public void updateArticle(Article article, String tagName, String sortId) {
+        Article dbArticle = getById(article.getId());
+        List<Tag> tagList = dbArticle.getTagList();
+        if (tagList != null && tagList.size() > 0) {
+            //删除中间表的标签
+            articleRepository.deleteArticleTag(dbArticle.getId());
+            List<Integer> tagIdList = tagList.parallelStream()
+                    .map(Tag::getId)
+                    .collect(Collectors.toList());
+            //引用标签统计 -1
+            tagRepository.updateTagCountDownOne(tagIdList);
+        }
+        List<Tag> saveTag = combinData(article, tagName, sortId);
+        Article saveArticle = articleRepository.save(article);
+        Long articleId = saveArticle.getId();
+        //插入中间表
+        for (Tag tag : saveTag) {
+            articleRepository.insertArticleTag(tag.getId(), articleId);
+        }
+    }
 }

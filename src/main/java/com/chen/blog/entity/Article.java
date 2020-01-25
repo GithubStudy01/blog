@@ -36,7 +36,9 @@ public class Article {
 
     public interface AddArticleView{}
 
-    @NotNull(groups = {Comment.AddCommentView.class},message = "文章id不能为空")
+    public interface UpdateArticleView extends AddArticleView{}
+
+    @NotNull(groups = {UpdateArticleView.class,Comment.AddCommentView.class},message = "文章id不能为空")
     @JsonView({BaseArticleInfo.class,DetailsArticleView.class,RecentUpdatesView.class,HotListView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
@@ -54,6 +56,7 @@ public class Article {
     private String content;
 
     //0公开 1私有
+    @JsonView({DetailsArticleView.class})
     @NotNull(groups = {AddArticleView.class},message = "是否公开属性不能为空！")
     @Column(nullable = false,columnDefinition = "int(1) default 0")
     private Integer type;
@@ -87,7 +90,7 @@ public class Article {
     private Integer commentTimes;
 
     @NotNull(groups = {AddArticleView.class},message = "是否顶置属性不能为空！")
-    @JsonView({OverheadView.class})
+    @JsonView({OverheadView.class,DetailsArticleView.class})
     //0未顶置 1顶置
     @Column(nullable = false,columnDefinition = "int default 0")
     private Integer overhead;

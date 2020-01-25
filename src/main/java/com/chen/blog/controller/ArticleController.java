@@ -128,4 +128,18 @@ public class ArticleController {
         return RespVo.success(null, null);
     }
 
+
+    //检查文章作者
+    @GetMapping("/check/{id}")
+    public RespVo checkArticleAuthor(@PathVariable(value = "id") @NotNull(message = "文章id不能为空！") Long articleId) {
+        articleService.checkArticleAuthor(articleId);
+        return RespVo.success(null, null);
+    }
+
+    //已经登录
+    @PutMapping("/update")
+    public RespVo updateArticle(@Validated(value = {Article.UpdateArticleView.class})Article article,String tagName,@Pattern(regexp = "-?[1-9]\\d*",message = "分类参数有误！")String sortId) {
+        articleService.updateArticle(article,tagName,sortId);
+        return RespVo.success(null, null);
+    }
 }
