@@ -55,6 +55,8 @@ public class WordDefined {
 
     public static final String SORT_NOT_FOUNT = "分类不存在！";
 
+    public static final String SORT_ALREADY_EXIST = "分类已经存在！";
+
 
     //文章公开
     public static final Integer ARTICLE_OPEN = 0;
@@ -67,6 +69,9 @@ public class WordDefined {
 
     //顶置
     public static final Integer OVERHEAD_OPEN = 1;
+
+    //无分类（默认）
+    public static final Integer SORT_NOT = -1;
 
 
     //手机验证码位数

@@ -26,18 +26,18 @@
                 <h4>属性</h4>
                 <div class="col-sm-12 col-md-12">
                     <label class="radio-inline">
-                        <input type="radio" name="overheadRadioOptions" id="overhead" value="1">顶置
+                        <input type="radio" name="overheadRadioOptions" id="overhead" value="option1">顶置
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="overheadRadioOptions" id="overhead-no" value="0">不顶置
+                        <input type="radio" name="overheadRadioOptions" id="overhead-no" value="option2">不顶置
                     </label>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <label class="radio-inline">
-                        <input type="radio" name="typeRadioOptions" id="type-open" value="0">公开
+                        <input type="radio" name="typeRadioOptions" id="type-open" value="option1">公开
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="typeRadioOptions" id="type-close" value="1">隐藏
+                        <input type="radio" name="typeRadioOptions" id="type-close" value="option2">隐藏
                     </label>
                 </div>
             </div>
@@ -49,8 +49,12 @@
             </div>
             <div class="col-sm-12 col-md-4">
                 <h4>分类</h4>
-                <select class="form-control" id="sorts">
-
+                <select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
                 </select>
             </div>
         </div>
@@ -62,13 +66,13 @@
                         <input type="text" class="form-control" id="new-sort" placeholder="请输入新分类">
                     </div>
                     <div class="col-sm-12 col-md-8" style="margin: 0px;padding: 0px;">
-                        <button type="button" class="btn btn-primary" id="add-new-sort">添加</button>
+                        <button type="button" class="btn btn-primary">添加</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row" style="clear: both;overflow: hidden;">
-            <button type="button" class="btn btn-danger" id="submitBtn" style="float: right;margin-right: 15px;" onclick="checkAticle()">确认提交</button>
+            <button type="button" class="btn btn-danger" id="submitBtn" style="float: right;margin-right: 15px;">确认提交</button>
         </div>
     </div>
 </main>

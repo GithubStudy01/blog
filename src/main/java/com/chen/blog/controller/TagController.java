@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 
-@Controller
+@RestController
 @RequestMapping("/tag")
 @Validated
 public class TagController {
@@ -32,7 +32,6 @@ public class TagController {
 
     @JsonView(Tag.HotTagView.class)
     @GetMapping("/hot")
-    @ResponseBody
     public RespVo getNameAndIdList(@PageableDefault(sort = {"num"}, direction = Sort.Direction.DESC, page = 0, size = 10)Pageable pageable){
         Page<Tag> tagList = tagService.getList(pageable);
         return RespVo.success(tagList,null);

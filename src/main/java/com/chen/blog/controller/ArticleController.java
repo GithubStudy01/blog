@@ -1,6 +1,7 @@
 package com.chen.blog.controller;
 
 import com.chen.blog.entity.Article;
+import com.chen.blog.entity.Comment;
 import com.chen.blog.service.ArticleService;
 import com.chen.blog.vo.RespVo;
 import com.chen.blog.vo.Vo;
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
-@Controller
+@RestController
 @RequestMapping("/article")
 @Validated
 public class ArticleController {
@@ -36,7 +37,6 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/articles")
-    @ResponseBody
     @JsonView({Vo.BaseUserAndArticle.class})
     public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
         Page<Article> page = articleService.getList(pageable);
@@ -54,7 +54,6 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/search")
-    @ResponseBody
     @JsonView({Vo.BaseUserAndArticle.class})
     public RespVo getListBySearch(@PageableDefault(sort = {"goodTimes", "createtime", "commentTimes", "viewTimes"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable, String title, @RequestParam(defaultValue = "0",required = false) @Pattern(regexp = "^[0-3]$", message = "非法状态值！")String limitTimeType) {
         Page<Article> page = articleService.getListBySearch(pageable, title, limitTimeType);
@@ -62,7 +61,6 @@ public class ArticleController {
     }
 
     @GetMapping("/hot")
-    @ResponseBody
     @JsonView({Vo.HotArticleView.class})
     public RespVo hotList(@PageableDefault(sort = {"goodTimes", "commentTimes", "viewTimes", "createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
         Page<Article> page = articleService.getList(pageable);
@@ -71,7 +69,6 @@ public class ArticleController {
 
 
     @GetMapping("/articles/{id}")
-    @ResponseBody
     @JsonView({Vo.ArticleDetailsNoCommentView.class})
     public RespVo getById(@PathVariable("id") @NotNull Long id) {
         Article article = articleService.getById(id);
@@ -79,7 +76,6 @@ public class ArticleController {
     }
 
     @GetMapping("/sort")
-    @ResponseBody
     @JsonView({Vo.BaseUserAndArticle.class})
     public RespVo getListBySortId(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable,
                                   @NotNull(message = "分类id不能为空！") Integer sortId) {
@@ -89,7 +85,6 @@ public class ArticleController {
 
 
     @GetMapping("/recent/{id}")
-    @ResponseBody
     @JsonView({Article.RecentUpdatesView.class})
     public RespVo getRecentUpdatesList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 5) Pageable pageable, @PathVariable(value = "id") @NotNull(message = "用户id不能为空！") Long userId) {
         Page<Article> page = articleService.getArticleListByUserId(pageable, userId);
@@ -98,7 +93,6 @@ public class ArticleController {
 
 
     @GetMapping("/user/{id}")
-    @ResponseBody
     @JsonView({Vo.BaseUserAndArticleWithOverhead.class})
     public RespVo getArticleListByUserId(@PageableDefault(sort = {"overhead", "overheadTime", "createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable, @PathVariable(value = "id") @NotNull(message = "用户id不能为空！") Long userId) {
         Page<Article> page = articleService.getArticleListByUserId(pageable, userId);
@@ -116,7 +110,6 @@ public class ArticleController {
 
     //已经登录
     @PutMapping("/changeType")
-    @ResponseBody
     public RespVo changeType(@NotNull(message = "文章id不能为空！") Long articleId, @NotNull(message = "是否公开标志不能为空！") Integer type) {
         int i = articleService.changeType(articleId, type);
         return RespVo.success(i, null);
@@ -124,11 +117,15 @@ public class ArticleController {
 
     //已经登录
     @DeleteMapping("/delete/{id}")
-    @ResponseBody
     public RespVo delete(@PathVariable(value = "id") @NotNull(message = "文章id不能为空！") Long articleId) {
         articleService.delete(articleId);
         return RespVo.success(null, null);
     }
 
+    @PostMapping("/add")
+    public RespVo addArticle(@Validated(value = {Article.AddArticleView.class})Article article,String tagName,@Pattern(regexp = "-?[1-9]\\d*",message = "分类参数有误！")String sortId) {
+        articleService.addArticle(article,tagName,sortId);
+        return RespVo.success(null, null);
+    }
 
 }

@@ -12,6 +12,6 @@ public interface SortRepository extends JpaRepository<Sort,Integer> {
 
     List<Sort> findByBlog(Blog blog);
 
-
+    Sort findBySortNameAndBlog(String sortName,Blog blog);
 
 }

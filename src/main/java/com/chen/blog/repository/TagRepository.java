@@ -14,4 +14,9 @@ public interface TagRepository extends JpaRepository<Tag,Integer> {
     @Query(nativeQuery = true,value = "update tag set num = (num-1) where id in(:tagIdList)")
     void updateTagCountDownOne(List<Integer> tagIdList);
 
+    @Modifying
+    @Query(nativeQuery = true,value = "update tag set num = (num+1) where id in(:tagIdList)")
+    void updateTagAddOne(List<Integer> tagIdList);
+
+    List<Tag> findAllByTagNameIn(List<String> nameList);
 }

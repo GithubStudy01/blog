@@ -22,13 +22,15 @@ public class Sort {
 
     public interface SortInfoView{}
 
+    public interface AddSortView{}
+
     @JsonView({ArticleSortView.class,SortInfoView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id
     private Integer id;
 
     @JsonView({ArticleSortView.class,SortInfoView.class})
-    @NotBlank(message = "分类名不能为空")
+    @NotBlank(groups = {AddSortView.class},message = "分类名不能为空")
     @Column(nullable = false,name = "sort_name")
     private String sortName;
 

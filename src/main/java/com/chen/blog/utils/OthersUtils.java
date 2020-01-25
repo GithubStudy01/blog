@@ -3,6 +3,9 @@ package com.chen.blog.utils;
 
 
 import com.alibaba.druid.sql.visitor.functions.Hex;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.util.DigestUtils;
 
 import java.security.MessageDigest;
@@ -13,7 +16,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class OthersUtils {
@@ -116,6 +121,32 @@ public class OthersUtils {
         return dateTime.format(formatter);
     }
 
+    /**
+     * str字符串转List
+     *
+     * str字符串使用“，”分隔
+     *
+     * @param str
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> changeStrToList(String str,Class<T> clazz){
+        if (str == null || str.trim().equals("")) {
+            JSONArray array = new JSONArray();
+            return JSON.parseArray(array.toString(),clazz);
+        }
+        String[] data = str.split(",");
+        String array = JSON.toJSONString(data);
+        return JSON.parseArray(array, clazz);
+    }
+
+    public static void main(String[] args) {
+        List<Long> idLong = changeStrToList("1,2,4", Long.class);
+        List<String> idStr = changeStrToList("1,2,3,4", String.class);
+        List<Long> test = changeStrToList(null, Long.class);
+
+    }
 
 
 }

@@ -52,5 +52,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(nativeQuery = true, value = "delete from join_tag_article where article_id = :articleId")
     void deleteArticleTag(@Param("articleId") Long articleId);
 
+    //添加中间表使用原生的sql
+    @Modifying
+    @Query(nativeQuery = true, value = "insert into join_tag_article(tag_id,article_id) value(:tagId,:articleId)")
+    void insertArticleTag(Integer tagId,Long articleId);
 
 }

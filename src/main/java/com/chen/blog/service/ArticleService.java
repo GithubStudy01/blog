@@ -9,6 +9,7 @@ import com.chen.blog.utils.OthersUtils;
 import com.chen.blog.utils.SessionUtils;
 import com.sun.xml.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +19,17 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -43,6 +49,9 @@ public class ArticleService {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private SortService sortService;
 
     public Page<Article> getList(Pageable pageable) {
         return articleRepository.findAllByType(WordDefined.ARTICLE_OPEN, pageable);
@@ -183,4 +192,75 @@ public class ArticleService {
         return articleRepository.findAllByTypeAndCreatetimeGreaterThanAndTitleLike(WordDefined.ARTICLE_OPEN, limitTime, "%" + title + "%", pageable);
 
     }
+
+    @Transactional
+    public void addArticle(Article article, String tagName, String sortId) {
+        User user = SessionUtils.getUser();
+        Blog blog = sortService.getBlog(user);
+        if (sortId != null && !sortId.trim().equals(WordDefined.SORT_NOT + "")) {
+            Integer sId = Integer.valueOf(sortId);
+            List<Sort> sortList = sortRepository.findByBlog(blog);
+            Sort saveSort = null;
+            for (Sort tempSort : sortList) {
+                if (tempSort.getId().equals(sId)) {
+                    saveSort = tempSort;
+                    article.setSort(saveSort);
+                    break;
+                }
+            }
+            if (saveSort == null) {
+                throw new BlogException(WordDefined.SORT_NOT_FOUNT);
+            }
+        }
+        List<String> tagNameList = OthersUtils.changeStrToList(tagName, String.class);
+        List<Tag> tagList = tagRepository.findAllByTagNameIn(tagNameList);
+        Map<String, Tag> tagMap = tagList.parallelStream()
+                .collect(Collectors.toMap(Tag::getTagName, t -> t));
+        List<Tag> saveTagList = new ArrayList<>();
+        List<Integer> tagIdList = new ArrayList<>();
+        tagNameList.parallelStream()
+                .forEach(name->{
+                    Tag tag = tagMap.get(name);
+                    if (tag == null) {
+                        Tag saveTag = new Tag();
+                        saveTag.setNum(1);
+                        saveTag.setTagName(name);
+                        saveTagList.add(saveTag);
+                        return;
+                    }
+                    Integer id = tag.getId();
+                    tagIdList.add(id);
+                });
+        //自增
+        if (tagIdList.size() > 0) {
+            tagRepository.updateTagAddOne(tagIdList);
+        }
+        //保存
+        if (saveTagList.size() > 0) {
+            List<Tag> tag = tagRepository.saveAll(saveTagList);
+            tagList.addAll(tag);
+        }
+        LocalDateTime createTime = OthersUtils.getCreateTime();
+        //顶置
+        if (article.getOverhead().equals(WordDefined.OVERHEAD_OPEN)) {
+            article.setOverheadTime(createTime);
+        }
+        initTimes(article);
+        article.setUser(user);
+        article.setBlog(blog);
+        article.setCreatetime(createTime);
+        Article saveArticle = articleRepository.save(article);
+        Long articleId = saveArticle.getId();
+        //中间表
+        for (Tag tag : tagList) {
+            articleRepository.insertArticleTag(tag.getId(),articleId);
+        }
+    }
+
+    private void initTimes(Article article){
+        article.setCommentTimes(0);
+        article.setGoodTimes(0);
+        article.setViewTimes(0);
+    }
+
 }

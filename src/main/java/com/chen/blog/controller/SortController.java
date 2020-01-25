@@ -1,6 +1,7 @@
 package com.chen.blog.controller;
 
 import com.chen.blog.entity.Article;
+import com.chen.blog.entity.Comment;
 import com.chen.blog.entity.Sort;
 import com.chen.blog.service.SortService;
 import com.chen.blog.vo.RespVo;
@@ -9,15 +10,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/sort")
 @Validated
 public class SortController {
@@ -27,7 +26,6 @@ public class SortController {
 
 
     @GetMapping("/sorts")
-    @ResponseBody
     @JsonView({Sort.SortInfoView.class})
     public RespVo getList(@NotNull Long blogId){
         List<Sort> sorts = sortService.getList(blogId);
@@ -46,5 +44,18 @@ public class SortController {
 //        return RespVo.success(article,null);
 //    }
 
+    //需要登录
+    @PostMapping("/add")
+    public RespVo add(@Validated(value = {Sort.AddSortView.class}) Sort sort){
+        sortService.add(sort);
+        return RespVo.success(null,null);
+    }
 
+    //需要登录
+    @GetMapping("/user")
+    @JsonView({Sort.SortInfoView.class})
+    public RespVo getUserSortList(){
+        List<Sort> sorts = sortService.getList();
+        return RespVo.success(sorts,null);
+    }
 }
