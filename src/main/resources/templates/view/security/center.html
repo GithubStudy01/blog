@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <div th:replace="~{common/baseimport :: baseimport}"></div>
+    <link rel="stylesheet" th:href="@{/css/security/common/info.css}">
+</head>
+
+<body>
+<div th:replace="~{common/header :: header}"></div>
+<main role="main" class="flex-shrink-0">
+    <div class="container" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a>
+                                    个人资料
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a>
+                                    我的收藏
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9">
+                <div th:replace="~{security/common/info :: info}"></div>
+            </div>
+        </div>
+    </div>
+</main>
+<div th:replace="~{common/footer :: footer}"></div>
+</body>
+<script th:src="@{/cropbox/cropbox.js}"></script>
+<script type="text/javascript" th:src="@{/js/security/common/info.js}"></script>
+</html>

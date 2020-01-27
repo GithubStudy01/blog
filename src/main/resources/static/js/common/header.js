@@ -29,11 +29,11 @@ function loginInfo(){
                     '                            <span class="caret"></span>\n' +
                     '                        </a>\n' +
                     '                        <ul class="dropdown-menu">\n' +
-                    '                            <li><a href="#">个人中心</a></li>\n' +
+                    '                            <li><a href="/center">个人中心</a></li>\n' +
                     '                            <li><a href="/home/'+user.id+'">我的博客</a></li>\n' +
                     '                            <li><a href="/edit">写博客</a></li>\n' +
-                    '                            <li><a href="#">博客管理</a></li>\n' +
-                    '                            <li><a href="#">我的收藏</a></li>\n' +
+                    '                            <li><a href="/manage">博客管理</a></li>\n' +
+                    '                            <li><a href="/collect">我的收藏</a></li>\n' +
                     '                            <li role="separator" class="divider"></li>\n' +
                     '                            <li><a href="javascript:void(0)" id="logout">注销</a></li>\n' +
                     '                        </ul>\n' +

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div th:fragment="info">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <div style="width: 200px;height: 200px;margin: 0 auto;">
+                <img src='http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg' alt='头像' id='headurl'
+                     style="width:auto;height:auto;max-height: 200px;max-width: 200px;">
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">账号</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">52968490</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">手机号</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">13556518178</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">昵称</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">请娶你的快递</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">简介</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">哈哈哈哈呵呵呵</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <p class="btn btn-primary btn-lg" data-toggle="modal" onclick="update()">
+                            编辑</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="addTeachingMessageModel" tabindex="-1" role="dialog" aria-labelledby="addTeachingMessageModel" aria-hidden="true">
+        <!--最外层这个框直接用就行，id内容就是上面的p标签里data-target指代的模态框的名字-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">个人信息</h4>
+                </div>
+                <div class="modal-body clearfloat">
+                    <form class="form-horizontal" role="form" id="addTeachingMessageForm">
+                        <input type="text" class="form-control hidden" id="personnelIdModal" name="personnelId">
+                        <input type="text" class="form-control hidden" id="personnelFaceId" name="personnelFaceId">
+                        <div class="clearfloat">
+                            <div class="addTeacherLeft">
+                                <div class="teacherImg">
+                                    <p><text style="color: red">*</text>头像照片</p>
+                                    <div class="addTeacherImage" id="uploadPhotos" onclick="uploadPhotos()">
+                                        <div class="addTeacherImageL">
+                                            <!--因为浏览器兼容性问题，如果图片的src为空的话，会导致在火狐浏览器里面图片会有边框，所以在显示数据内容的时候要把hidden移除图片才能正常显示出来-->
+                                            <img src='' alt='' id='teacherImage' class="hidden" style="width: 90px;height: 120px" onerror="hideImg()">
+                                            <!-- onerror="hideImg()" 这个事件是当图片的src为空 或者是 图片路径无法访问的时候会触发的时间-->
+                                        </div>
+                                        <p>点击上传照片</p>
+                                    </div>
+                                    <!--<input type="text" class="hidden" value="" id="teacherPicName">-->
+                                    <!--<input type="file" id="file" style="float:left; width: 250px">-->
+                                    <input type="file" class="hidden" id="file" accept="image/png, image/jpeg" />
+                                    <p class="uploadPhotos hiddenWarning" >请上传照片</p>
+                                </div>
+                                <div class="attention">带<text style="color: red">*</text>号内容为必填项！请如实填写。</div>
+
+                            </div>
+                            <div class="addTeacherRight">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="" data-dismiss="modal">关闭</button>
+                    <button type="button" class="button-success" click="sunmit">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+
+    </div>
+    <div aria-hidden="true" aria-labelledby="cutImage"
+         role="dialog" tabindex="-1" id="cutImage"
+         class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">裁剪图片</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="imageBox">
+                        <div class="thumbBox"></div>
+                        <div class="spinner" style="display: none">Loading...</div>
+                    </div>
+                    <div class="cropped">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn"  onclick="backtoChose()">取消</button>
+                    <button type="button" class="button-success" id="btnCrop" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
