@@ -79,7 +79,7 @@
                                     <div class="addTeacherImage" id="uploadPhotos" onclick="uploadPhotos()">
                                         <div class="addTeacherImageL">
                                             <!--因为浏览器兼容性问题，如果图片的src为空的话，会导致在火狐浏览器里面图片会有边框，所以在显示数据内容的时候要把hidden移除图片才能正常显示出来-->
-                                            <img src="" alt='' id="teacherImage" class="hidden" style="width: 90px;height: 120px" onerror="hideImg()">
+                                            <img src="" alt='' id="teacherImage" class="hidden" style="width: 90px;height: 120px" >
                                             <!-- onerror="hideImg()" 这个事件是当图片的src为空 或者是 图片路径无法访问的时候会触发的时间-->
                                         </div>
                                         <p>点击上传照片</p>
@@ -96,7 +96,7 @@
                                 <div class="form-group teachername">
                                     <label for="personnelNameModal" class="control-label">账号：</label>
                                     <div class="promptDiv">
-                                        <p class="form-control-static promptInput" id="personnelNameModal" name="personnelName"></p>
+                                        <p class="form-control-static promptInput" id="personnelNameModal" name="personnelName" style="padding-left: 0px;"></p>
                                     </div>
                                 </div>
                                 <p class="inputNumber hiddenWarning"></p>

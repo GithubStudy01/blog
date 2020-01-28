@@ -15,4 +15,7 @@ public class Vo {
     public interface BaseUserAndArticleWithOverhead extends User.BaseUserInfo , Article.BaseArticleInfo,Article.OverheadView{}//文章列表视图带顶置
 
     public interface HotArticleView extends Article.HotListView,User.HotUserView{}
+
+    public interface BaseArticleWithOverhead extends Article.BaseArticleInfo,Article.OverheadView{}//文章列表视图带顶置
+
 }

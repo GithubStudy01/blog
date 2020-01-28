@@ -126,7 +126,7 @@
     margin-bottom: 0 !important;
 }
 .addTeacherLeft .uploadPhotos, .addTeacherLeft .uploadPhotos, .addTeacherRight p{
-    color: red;
+    /*color: red;*/
     margin-bottom: 7px;
     /*line-height: 30px;*/
     text-align: right;

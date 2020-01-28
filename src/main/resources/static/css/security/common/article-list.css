@@ -19,7 +19,18 @@
     float: left;
     text-align: center;
 }
-
+.article-attribute span:not(:first-child){
+    height: 45px;
+    line-height: 45px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+.article-attribute span:first-child{
+    display: inline-block;
+    height:45px;
+    line-height: 45px;
+    margin: 0 4px 0;
+}
 
 .article-option a{
     text-decoration:none;

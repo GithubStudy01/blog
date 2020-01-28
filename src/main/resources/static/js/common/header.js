@@ -21,7 +21,6 @@ function loginInfo(){
             var html;
             if(user == null){
                 html = '<li><a href="/logoreg">注册 / 登陆</a></li>'
-
             }else{
                 html = '<li class="dropdown">\n' +
                     '                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 0px;">\n' +
@@ -31,7 +30,7 @@ function loginInfo(){
                     '                        <ul class="dropdown-menu">\n' +
                     '                            <li><a href="/center">个人中心</a></li>\n' +
                     '                            <li><a href="/home/'+user.id+'">我的博客</a></li>\n' +
-                    '                            <li><a href="/edit">写博客</a></li>\n' +
+                    '                            <li><a href="/edit" target="_blank">写博客</a></li>\n' +
                     '                            <li><a href="/manage">博客管理</a></li>\n' +
                     '                            <li><a href="/collect">我的收藏</a></li>\n' +
                     '                            <li role="separator" class="divider"></li>\n' +

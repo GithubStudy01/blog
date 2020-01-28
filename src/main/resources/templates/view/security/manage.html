@@ -25,7 +25,7 @@
                    <div class="panel panel-default">
                        <div class="panel-heading" role="tab" id="headingOne">
                            <h4 class="panel-title">
-                               <a>
+                               <a href="/edit">
                                    写博客
                                </a>
                            </h4>
@@ -40,10 +40,10 @@
                            </h4>
                        </div>
                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                           <ul class="list-group">
+                           <ul class="list-group" id="article-type">
                                <li class="list-group-item">全部</li>
-                               <li class="list-group-item">公开</li>
-                               <li class="list-group-item">私密</li>
+                               <li class="list-group-item" articleType="0">公开</li>
+                               <li class="list-group-item" articleType="1">私密</li>
                            </ul>
                        </div>
                    </div>
@@ -60,10 +60,16 @@
            </div>
            <div class="col-sm-12 col-md-9">
                <div th:replace="~{security/common/article-list :: article-list}"></div>
+               <div id="paging">
+
+               </div>
            </div>
        </div>
     </div>
 </main>
 <div th:replace="~{common/footer :: footer}"></div>
 </body>
+<script th:src="@{/js/security/manage.js}"></script>
+<script th:src="@{/js/security/common/article-list.js}"></script>
+<script type="text/javascript" th:src="@{/js/common/paging.js}"></script>
 </html>

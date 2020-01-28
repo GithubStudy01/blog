@@ -38,6 +38,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findAllByUser(User user, Pageable pageable);
 
 
+
     @Modifying
     @Query("update Article a set a.overhead = :overhead,a.overheadTime = :overheadTime where a.id = :articleId")
     int updateOverheadAndOverheadTime(@Param(value = "overhead") Integer overhead, @Param(value = "overheadTime") LocalDateTime overheadTime, @Param(value = "articleId") Long articleId);

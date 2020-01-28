@@ -158,6 +158,7 @@ public class ArticleService {
             }
             //删除文章
             articleRepository.deleteById(articleId);
+            return;
         }
         throw new BlogException(WordDefined.NO_ACCESS);
     }
@@ -300,5 +301,13 @@ public class ArticleService {
         for (Tag tag : saveTag) {
             articleRepository.insertArticleTag(tag.getId(), articleId);
         }
+    }
+
+    public Page<Article> getArticleList(Pageable pageable,Integer type) {
+        User user = SessionUtils.getUser();
+        if (type == null) {
+            return articleRepository.findAllByUser(user,pageable);
+        }
+        return articleRepository.findAllByTypeAndUser(type,user,pageable);
     }
 }

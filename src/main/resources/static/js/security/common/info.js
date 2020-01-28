@@ -2,8 +2,14 @@ $(function () {
 
     //每次显示模态框之前要先把所有内容清理一遍
     $("#addTeachingMessageModel").on("show.bs.modal", function () {
-        $("#teacherImage").attr("src", "");
-        $("#teacherImage").addClass("hidden");
+
+        $("#teacherImage").attr("src", $("#show-headurl").attr("src"));
+        $("#personnelNameModal").text($("#show-account").text())
+        $("#inputBriefIntr").text($("#show-briefIntr").text())
+        $("#personnelNumber").val($("#show-nickname").text())
+        $("#inputBlogName").val($("#show-blogName").text())
+        $("#inputDescription").text($("#show-description").text())
+
         $(this).removeData("bs.modal");
     });
 
@@ -102,12 +108,15 @@ function getUserDetail(){
 
 
             //暂时
-            $("#teacherImage").attr("src",user.headurl)
             $("#personnelNameModal").text(user.account)
             $("#inputBriefIntr").text(user.briefIntr)
             $("#personnelNumber").val(user.nickname)
             $("#inputBlogName").val(user.blogName)
             $("#inputDescription").text(user.description)
+            $("#teacherImage").removeClass("hidden");
+            $("#teacherImage").attr('src',user.headurl);
+            $("#teacherImage").css('width',"165px");
+            $("#teacherImage").css('height',"165px");
 
         },
         error: function (request) {
@@ -115,3 +124,5 @@ function getUserDetail(){
         }
     })
 }
+
+

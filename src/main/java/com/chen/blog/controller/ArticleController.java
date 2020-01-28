@@ -20,6 +20,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
+import static com.alibaba.druid.sql.ast.SQLPartitionValue.Operator.List;
+
 @RestController
 @RequestMapping("/article")
 @Validated
@@ -141,5 +143,13 @@ public class ArticleController {
     public RespVo updateArticle(@Validated(value = {Article.UpdateArticleView.class})Article article,String tagName,@Pattern(regexp = "-?[1-9]\\d*",message = "分类参数有误！")String sortId) {
         articleService.updateArticle(article,tagName,sortId);
         return RespVo.success(null, null);
+    }
+
+    //已经登陆
+    @GetMapping("/user")
+    @JsonView({Article.DetailsArticleView.class})
+    public RespVo getArticleList(@PageableDefault(sort = {"overhead", "overheadTime", "createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable,Integer type) {
+        Page<Article> page = articleService.getArticleList(pageable,type);
+        return RespVo.success(page, null);
     }
 }
