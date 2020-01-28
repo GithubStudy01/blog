@@ -96,5 +96,15 @@ public class UserController {
         return RespVo.success(user,null);
     }
 
-
+    /**
+     * 获取个人中心信息
+     *
+     * @return
+     */
+    @JsonView(User.UserDetailView.class)
+    @GetMapping("/getUserDetail")
+    public RespVo getUserDetail(){
+        User user = userService.getUserDetail();
+        return RespVo.success(user,null);
+    }
 }

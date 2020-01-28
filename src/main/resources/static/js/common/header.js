@@ -25,7 +25,7 @@ function loginInfo(){
             }else{
                 html = '<li class="dropdown">\n' +
                     '                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 0px;">\n' +
-                    '                            <img src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20180806/9425645d47cd4f8e9c11fc6a9959340a.jpeg" alt="测试" class="img-circle" style="width:auto;height:auto;max-width:40px;max-height:40px;padding: 0px;margin: 0px;"/>\n' +
+                    '                            <img src="'+user.headurl+'" alt="测试" class="img-circle" style="width:auto;height:auto;max-width:40px;max-height:40px;padding: 0px;margin: 0px;"/>\n' +
                     '                            <span class="caret"></span>\n' +
                     '                        </a>\n' +
                     '                        <ul class="dropdown-menu">\n' +

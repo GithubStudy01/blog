@@ -100,7 +100,7 @@
     display: inline-block;
 }
 .addTeacherRight label{
-    width: 28%;
+    width: 29%;
     text-align: right;
 }
 .addTeacherRight .modal-input, .addTeacherRight input:not([type="radio"]){

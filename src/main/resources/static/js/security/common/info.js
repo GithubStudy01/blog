@@ -44,6 +44,15 @@ $(function () {
         $("#cutImage").modal("hide");
         $("#addTeachingMessageModel").css("opacity", 1);
     })
+
+
+
+//    自己写
+    getUserDetail()
+
+
+
+
 })
 
 
@@ -64,10 +73,45 @@ function update() {
     $("#addTeachingMessageModel .modal-header .modal-title").text('修改内容');
     //显示模态框
     $("#addTeachingMessageModel").modal("show");
-    e.stopPropagation();
+    return false;
 }
 layui.use('layer',function(){
 
 
 })
 
+//    自己写
+
+
+function getUserDetail(){
+    $.ajax({
+        url: "http://localhost:8080/user/getUserDetail",
+        type: "GET",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var user = result.content;
+            $("#show-account").text(user.account);
+            $("#show-phone").text(user.phone)
+            $("#show-nickname").text(user.nickname)
+            $("#show-briefIntr").text(user.briefIntr)
+            $("#show-headurl").attr("src",user.headurl)
+            $("#show-blogName").text(user.blogName)
+            $("#show-description").text(user.description)
+
+
+            //暂时
+            $("#teacherImage").attr("src",user.headurl)
+            $("#personnelNameModal").text(user.account)
+            $("#inputBriefIntr").text(user.briefIntr)
+            $("#personnelNumber").val(user.nickname)
+            $("#inputBlogName").val(user.blogName)
+            $("#inputDescription").text(user.description)
+
+        },
+        error: function (request) {
+            alert("Connection error");
+        }
+    })
+}

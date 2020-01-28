@@ -11,6 +11,7 @@ import com.chen.blog.repository.UserRepository;
 import com.chen.blog.utils.DBIdConfig;
 import com.chen.blog.utils.DBIdGenerate;
 import com.chen.blog.utils.OthersUtils;
+import com.chen.blog.utils.SessionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,9 @@ public class UserService {
 
     @Autowired
     private DBIdConfig dbIdConfig;
+
+    @Autowired
+    private BlogService blogService;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user,String token) {
@@ -227,5 +231,13 @@ public class UserService {
             return user;
         }
         throw new BlogException(WordDefined.USER_NOT_FOUNT);
+    }
+
+    public User getUserDetail() {
+        User user = SessionUtils.getUser();
+        Blog blog = blogService.getById(user.getId());
+        user.setBlogName(blog.getBlogName());
+        user.setDescription(blog.getDescription());
+        return user;
     }
 }

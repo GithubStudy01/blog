@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-4">
             <div style="width: 200px;height: 200px;margin: 0 auto;">
-                <img src='http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg' alt='头像' id='headurl'
+                <img src='http://pic2.zhimg.com/50/v2-1c3bd9fe6c6a28c5ca3a678549dfde28_hd.jpg' alt='头像' id='show-headurl'
                      style="width:auto;height:auto;max-height: 200px;max-width: 200px;">
             </div>
         </div>
@@ -18,25 +18,37 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">账号</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">52968490</p>
+                        <p class="form-control-static" id="show-account"></p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">手机号</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">13556518178</p>
+                        <p class="form-control-static" id="show-phone"></p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">昵称</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">请娶你的快递</p>
+                        <p class="form-control-static" id="show-nickname"></p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">简介</label>
+                    <label class="col-sm-2 control-label">个性签名</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">哈哈哈哈呵呵呵</p>
+                        <p class="form-control-static" id="show-briefIntr"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">博客名称</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="show-blogName"></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">博客简介</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="show-description"></p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -67,7 +79,7 @@
                                     <div class="addTeacherImage" id="uploadPhotos" onclick="uploadPhotos()">
                                         <div class="addTeacherImageL">
                                             <!--因为浏览器兼容性问题，如果图片的src为空的话，会导致在火狐浏览器里面图片会有边框，所以在显示数据内容的时候要把hidden移除图片才能正常显示出来-->
-                                            <img src='' alt='' id='teacherImage' class="hidden" style="width: 90px;height: 120px" onerror="hideImg()">
+                                            <img src="" alt='' id="teacherImage" class="hidden" style="width: 90px;height: 120px" onerror="hideImg()">
                                             <!-- onerror="hideImg()" 这个事件是当图片的src为空 或者是 图片路径无法访问的时候会触发的时间-->
                                         </div>
                                         <p>点击上传照片</p>
@@ -81,6 +93,41 @@
 
                             </div>
                             <div class="addTeacherRight">
+                                <div class="form-group teachername">
+                                    <label for="personnelNameModal" class="control-label">账号：</label>
+                                    <div class="promptDiv">
+                                        <p class="form-control-static promptInput" id="personnelNameModal" name="personnelName"></p>
+                                    </div>
+                                </div>
+                                <p class="inputNumber hiddenWarning"></p>
+                                <div class="form-group personnelNumber clearfloat">
+                                    <label for="personnelNumber" class="control-label"><text style="color: red">*</text>昵称：</label>
+                                    <div class="promptDiv">
+                                        <input type="text" class="form-control promptInput" id="personnelNumber" name="personnelNumber" placeholder="请输入昵称">
+                                        <text  class="prompt">0/20</text>
+                                    </div>
+                                </div>
+                                <p class="inputNumber hiddenWarning">请输入正确的昵称</p>
+                                <div class="form-group identity clearfloat">
+                                    <label for="inputBriefIntr" class="control-label">个性签名：</label>
+                                    <div class="promptDiv">
+                                        <textarea class="form-control" rows="3" style="resize:none;" id="inputBriefIntr" placeholder="请输入简介"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group identity clearfloat">
+                                    <label for="inputDescription" class="control-label"><text style="color: red">*</text>博客名称：</label>
+                                    <div class="promptDiv">
+                                        <input type="text" class="form-control promptInput" id="inputBlogName" name="inputBlogName" placeholder="请输入博客名称">
+                                        <text  class="prompt">0/20</text>
+                                    </div>
+                                </div>
+                                <p class="inputNumber hiddenWarning">请输入正确的博客名称</p>
+                                <div class="form-group identity clearfloat">
+                                    <label for="inputDescription" class="control-label">博客简介：</label>
+                                    <div class="promptDiv">
+                                        <textarea class="form-control" rows="3" style="resize:none;" id="inputDescription" placeholder="请输入简介"></textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>

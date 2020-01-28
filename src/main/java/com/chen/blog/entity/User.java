@@ -40,7 +40,9 @@ public class User implements Serializable {
 
     public interface SearchUserView{}//查询视图
 
-    public interface HomeUserView{}//主页个人信息视图
+    public interface HomeUserView{}//导航栏个人信息视图
+
+    public interface UserDetailView extends HomeUserView{}//个人中心视图
 
 
     @NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
@@ -49,7 +51,7 @@ public class User implements Serializable {
     @Id
     private Long id;
 
-
+    @JsonView({UserDetailView.class})
     @NotBlank(message = "登录账号")
     @Size(min = 8,max = 12,message = "账号长度应在{min}-{max}")
     @Column(nullable = false,unique = true,length = 12)
@@ -63,6 +65,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
+    @JsonView({UserDetailView.class})
     @NotBlank(message = "电话号码不能为空",groups = {registerUserView.class})
     @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对")
     @Column(nullable = false,unique = true,length = 11)
@@ -87,7 +90,7 @@ public class User implements Serializable {
     @Column(unique = true)
     private String email;
 
-    @JsonView({HomeUserView.class,SearchUserView.class})
+    @JsonView({UserDetailView.class,SearchUserView.class})
     @Column
     private String briefIntr;
 
@@ -163,4 +166,16 @@ public class User implements Serializable {
         this.nickname = nickname;
         this.headurl = headurl;
     }
+
+//   --------------- 非数据库字段 -----------------
+
+    @JsonView({UserDetailView.class})
+    @Transient
+    private String blogName;
+
+
+    @JsonView({UserDetailView.class})
+    @Transient
+    private String description;
+
 }
