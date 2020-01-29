@@ -31,15 +31,24 @@
     line-height: 45px;
     margin: 0 4px 0;
 }
+.article-option>div{
+    display: inline-block;
+}
+.article-option>div:first-child{
+    margin-right: 4px;
+}
 
-.article-option a{
+.article-option div a{
     text-decoration:none;
+    display: inline-block;
+    margin-right: 4px;
 }
-.article-option a:not(:first-child){
-    margin: 0 4px;
-}
-.article-option a span{
+.article-option div a span{
     margin-right: 2px;
     display: inline-block;
     line-height: 16px;
+}
+
+#article-show>div>h3:hover{
+    cursor: pointer;
 }

@@ -14,9 +14,11 @@ layui.use('layer',function(){
 
     $(".deleteArticle").on("click",function(){
         console.log($(this).text())
-        var id = $(this).parent().attr("article-id");
+        var id = $(this).parents(".article-option").attr("article-id");
         deleteArticle(id)
     })
+
+
 
 })
 function getArticleListByType(type){
@@ -41,7 +43,7 @@ function getArticleListByType(type){
             var html = "";
             for(var i = 0 ;i< content.length;i++){
                 html +='        <div class="list-group-item">\n' +
-                    '            <h3 class="list-group-item-heading"><a style="text-decoration:none">'+content[i].title+'</a></h3>\n' +
+                    '            <h3 class="list-group-item-heading"><a style="text-decoration:none" href="/details/'+saveUser.id+"/"+content[i].id+'">'+content[i].title+'</a></h3>\n' +
                     '            <div class="article-list">\n' +
                     '                <div class="article-attribute">\n' +
                     '                    <span style="">'+content[i].createtime+'</span>\n' +
@@ -49,18 +51,47 @@ function getArticleListByType(type){
                     '                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>' +content[i].viewTimes+
                     '                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>' +content[i].commentTimes+
                     '                </div>\n' +
-                    '                <div class="article-option" article-id="'+content[i].id+'">\n' +
-                    '                    <a href=""><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>顶置</a>\n' +
-                    '                    <a href=""><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>公开</a>\n' +
-                    '                    <a href=""><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>隐藏</a>\n' +
-                    '                    <a href="/edit/'+content[i].id+'" target="_blank"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>\n' +
-                    '                    <a href="javascritp:void(0)" class="deleteArticle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</a>\n' +
-                    '                </div>\n' +
+                    '                    <div class="article-option" article-id="'+content[i].id+'">\n' +
+                    '                    <div>';
+                if(content[i].type == 1){
+                    html += '<select class="form-control typeChange">' +
+                        '<option value="0"><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span>公开</option>' +
+                        '<option value="1" selected><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>隐藏</option>' +
+                        '</select>';
+                }else{
+                    html += '<select class="form-control typeChange">' +
+                        '<option  value="0" selected><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>公开</option>' +
+                        '<option  value="1"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>隐藏</option>' +
+                        '</select>';
+                }
+                if(content[i].overhead == 1){
+                   html += '</div><div>' +
+                       '<a href="javascript:void(0)" class="overheadChange" overhead="1"><span class="glyphicon glyphicon-star" aria-hidden="true"></span>顶置</a>';
+                }else{
+                    html += '</div><div>' +
+                        '<a href="javascript:void(0)" class="overheadChange" overhead="0"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>顶置</a>';
+                }
+                html +='                        <a href="/edit/'+content[i].id+'" target="_blank"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑</a>\n' +
+                    '                        <a href="javascritp:void(0)" class="deleteArticle"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</a>\n' +
+                    '                    </div>\n' +
+                    '                </div>'+
                     '            </div>\n' +
                     '        </div>';
             }
             $("#article-show").empty();
             $("#article-show").append(html);
+            $(".typeChange").on("change",function(){
+                var type = $(this).val();
+                var id = $(this).parents(".article-option").attr("article-id");
+                changeType(id,type)
+            })
+
+            $(".overheadChange").on("click",function(){
+                var overheadValue = $(this).attr("overhead")
+                overheadValue = overheadValue == 1?0:1;
+                var id = $(this).parents(".article-option").attr("article-id");
+                overhead(id,overheadValue)
+            })
             //分页
             paging(result);
         },
@@ -118,7 +149,7 @@ function overhead(articleId,overhead){
         type: "PUT",
         dataType: "json",
         data:{
-          "article":articleId,
+          "articleId":articleId,
           "overhead":overhead
         },
         async: false,
@@ -154,7 +185,7 @@ function changeType(articleId,type){
         type: "PUT",
         dataType: "json",
         data:{
-            "article":articleId,
+            "articleId":articleId,
             "type":type
         },
         async: false,

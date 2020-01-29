@@ -1,3 +1,4 @@
+var saveUser;
 $(function () {
     $("#searchBtn").click(function () {
         var title = $("#search").val()
@@ -22,6 +23,7 @@ function loginInfo(){
             if(user == null){
                 html = '<li><a href="/logoreg">注册 / 登陆</a></li>'
             }else{
+                saveUser = user;
                 html = '<li class="dropdown">\n' +
                     '                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 0px;">\n' +
                     '                            <img src="'+user.headurl+'" alt="测试" class="img-circle" style="width:auto;height:auto;max-width:40px;max-height:40px;padding: 0px;margin: 0px;"/>\n' +
