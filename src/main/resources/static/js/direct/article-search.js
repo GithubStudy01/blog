@@ -74,7 +74,7 @@ function searchArticle(title, limitTimeType, sort, page, size) {
                     '                    </p>\n' +
                     '                    <div class="row">\n' +
                     '                        <div class="col-sm-8 col-md-8">\n' +
-                    '                            <a href="/home/' + resultContent[i].user.id + '"><img src="' + resultContent[i].user.headurl + '" alt="' + resultContent[i].user.nickname + '" class="img-circle"></a>\n' +
+                    '                            <a href="/home/' + resultContent[i].user.id + '"><img src="' +headBaseUrl+ resultContent[i].user.headurl + '" alt="' + resultContent[i].user.nickname + '" class="img-circle"></a>\n' +
                     '                            <span>' + resultContent[i].user.nickname + '</span>\n' +
                     '                            <span>' + resultContent[i].createtime + '</span>\n' +
                     '                        </div>\n' +

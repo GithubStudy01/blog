@@ -44,6 +44,8 @@ public class User implements Serializable {
 
     public interface UserDetailView extends HomeUserView{}//个人中心视图
 
+    public interface UserUpdateView{}
+
 
     @NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
     @JsonView({BaseUserInfo.class,HotUserView.class,SearchUserView.class,HomeUserView.class})
@@ -169,6 +171,7 @@ public class User implements Serializable {
 
 //   --------------- 非数据库字段 -----------------
 
+    @NotBlank(message = "博客名称不能为空！")
     @JsonView({UserDetailView.class})
     @Transient
     private String blogName;

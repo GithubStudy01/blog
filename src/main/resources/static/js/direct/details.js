@@ -122,7 +122,7 @@ function getComment(articleId,tid){
                 html += '<div class="row">' +
                     '                            <div class="col-xs-1 col-sm-1 col-md-1">' +
                     '                                <a target="_blank" href="/home/'+content[i].user.id+'">' +
-                    '                                    <img src="'+content[i].user.headurl+'"alt="'+content[i].user.nickname+'" class="img-circle"/>' +
+                    '                                    <img src="'+headBaseUrl+content[i].user.headurl+'"alt="'+content[i].user.nickname+'" class="img-circle"/>' +
                     '                                </a>\n' +
                     '                            </div>\n' +
                     '                            <div class="col-xs-11 col-sm-11 col-md-11">\n' +
@@ -183,7 +183,7 @@ function showReplay(articleId,tid,point){
                 html +='<div class="row">' +
                     '       <div class="col-xs-1 col-sm-1 col-md-1">' +
                     '           <a href="/home/'+resultContent[i].user.id+'">' +
-                    '               <img src="'+resultContent[i].user.headurl+'"alt="'+resultContent[i].user.nickname+'" class="img-circle" />' +
+                    '               <img src="'+headBaseUrl+resultContent[i].user.headurl+'"alt="'+resultContent[i].user.nickname+'" class="img-circle" />' +
                     '           </a>' +
                     '       </div>' +
                     '       <div class="col-xs-11 col-sm-11 col-md-11">' +

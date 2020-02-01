@@ -15,6 +15,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -107,4 +108,24 @@ public class UserController {
         User user = userService.getUserDetail();
         return RespVo.success(user,null);
     }
+
+    /**
+     * 修改用户信息
+     *
+     * @return
+     */
+    @PutMapping("/update")
+    public RespVo updateUserInfo(@RequestParam(value = "imgBase64",required = false)String imgBase64,@RequestParam(value = "imgType",required = false)String imgType,@NotBlank(message = "昵称不能为空！") String nickname,String briefIntr,@NotBlank(message = "博客名称不能为空！") String blogName,String description){
+        userService.updateUserInfo(imgBase64,imgType,nickname,briefIntr,blogName,description);
+        return RespVo.success(null,null);
+    }
+
+
+    @PostMapping("/uploadImg")
+    public RespVo uploadImg(@RequestParam(value = "file",required = true) MultipartFile file){
+        String path = userService.uploadImg(file);
+        return RespVo.success(path,null);
+    }
+
+
 }

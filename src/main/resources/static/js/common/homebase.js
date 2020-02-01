@@ -21,7 +21,7 @@ function getUser(id){
                 return;
             }
             var content = result.content;
-            var html = '<img src="'+content.headurl+'" alt="'+content.nickname+'" class="img-circle">' +
+            var html = '<img src="'+headBaseUrl+content.headurl+'" alt="'+content.nickname+'" class="img-circle">' +
                 '                <div class="caption">' +
                 '                    <h4 style="margin-bottom: 10px;text-align: center">'+content.nickname+'</h4>' +
                 '                    <div class="row">' +

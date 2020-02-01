@@ -141,6 +141,11 @@ public class OthersUtils {
         return JSON.parseArray(array, clazz);
     }
 
+    public static boolean isBlank(String s){
+        return s != null && !s.trim().equals("");
+    }
+
+
     public static void main(String[] args) {
         List<Long> idLong = changeStrToList("1,2,4", Long.class);
         List<String> idStr = changeStrToList("1,2,3,4", String.class);

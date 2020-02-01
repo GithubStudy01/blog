@@ -31,6 +31,13 @@ public class SessionUtils {
         return null;
     }
 
+    public final static void updateUserInfo(String nickname,String briefIntr,String headurl){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setHeadurl(headurl);
+        user.setNickname(nickname);
+        user.setBriefIntr(briefIntr);
+    }
+
 
     /**
      * 获取用户ID，未取到ID则返回一个非法的用户ID，避免保存数据出错

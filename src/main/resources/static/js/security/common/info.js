@@ -1,3 +1,5 @@
+var uploadImgFlag = false;
+
 $(function () {
 
     //每次显示模态框之前要先把所有内容清理一遍
@@ -49,6 +51,7 @@ $(function () {
         // $("#addTeachingMessageModel").modal("show")
         $("#cutImage").modal("hide");
         $("#addTeachingMessageModel").css("opacity", 1);
+        uploadImgFlag = true;
     })
 
 
@@ -87,8 +90,6 @@ layui.use('layer',function(){
 })
 
 //    自己写
-
-
 function getUserDetail(){
     $.ajax({
         url: "http://localhost:8080/user/getUserDetail",
@@ -102,7 +103,7 @@ function getUserDetail(){
             $("#show-phone").text(user.phone)
             $("#show-nickname").text(user.nickname)
             $("#show-briefIntr").text(user.briefIntr)
-            $("#show-headurl").attr("src",user.headurl)
+            $("#show-headurl").attr("src",headBaseUrl+user.headurl)
             $("#show-blogName").text(user.blogName)
             $("#show-description").text(user.description)
 
@@ -114,13 +115,117 @@ function getUserDetail(){
             $("#inputBlogName").val(user.blogName)
             $("#inputDescription").text(user.description)
             $("#teacherImage").removeClass("hidden");
-            $("#teacherImage").attr('src',user.headurl);
+            $("#teacherImage").attr('src',headBaseUrl+user.headurl);
             $("#teacherImage").css('width',"165px");
             $("#teacherImage").css('height',"165px");
+
+            $("#loginInfo img").attr("src",headBaseUrl+user.headurl)
 
         },
         error: function (request) {
             alert("Connection error");
+        }
+    })
+}
+function updateUserInfo(){
+    var data = {};
+
+    var img = $("#teacherImage").attr("src").split(";base64,");
+    var imgBase64 = img[1];
+    var imgType = img[0].split("/")[1];
+    var nickname = $("#personnelNumber").val();
+    var briefIntr = $("#inputBriefIntr").val();
+    var blogName = $("#inputBlogName").val();
+    var description = $("#inputDescription").val();
+
+    if(nickname == ""){
+        layer.msg("昵称不能为空！", {icon: 5, time: 1000,shift : 6})
+        return;
+    }
+    if(blogName == ""){
+        layer.msg("博客名称不能为空！", {icon: 5, time: 1000,shift : 6})
+        return;
+    }
+
+
+    data.imgBase64 = imgBase64;
+    data.imgType = imgType;
+    data.nickname = nickname;
+    data.briefIntr = briefIntr;
+    data.blogName = blogName;
+    data.description = description;
+
+    $.ajax({
+        url: "http://localhost:8080/user/update",
+        type: "PUT",
+        dataType: "json",
+        data:data,
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if(code != '0001'){
+                layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
+                return;
+            }
+            layer.msg("更新成功", {icon: 6, time: 2000})
+            //隐藏不了
+            // $('#addTeachingMessageModel').modal('hide');
+            $("#modalClose").click()
+
+            getUserDetail()
+
+        },
+        error: function (request) {
+            var code = request.responseJSON.code;
+            if(code == "0004"){
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    layer.closeAll('dialog');
+                    window.location.href="/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000,shift : 6})
+        }
+    })
+}
+
+
+
+// function uploadImg(){
+//     var img = new FormData($("#form_add")[0]);
+//     uploadFile(img);
+// }
+
+function getHeadUrl(){
+    $.ajax({
+        url: "http://localhost:8080/user/loginInfo",
+        type: "GET",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var user = result.content;
+            if(user != null){
+                $("#loginInfo img").attr("src",headBaseUrl+user.headurl)
+                $("#show-headurl").attr("src",headBaseUrl+user.headurl)
+                $("#teacherImage").attr("src",headBaseUrl+user.headurl)
+            }
+        },
+        error: function (request) {
+            var code = request.responseJSON.code;
+            if(code == "0004"){
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    layer.closeAll('dialog');
+                    window.location.href="/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000,shift : 6})
         }
     })
 }

@@ -50,7 +50,7 @@ function getLeftData(page,size,next){
                 var point = '<div class="list-group-item"><h3 class="list-group-item-heading">' +
                     '<a href="/details/'+resultContent[i].id+"/"+resultContent[i].user.id+'">'+resultContent[i].title+'</a></h3><p class="list-group-item-text">'+resultContent[i].content+'</p>' +
                     '<div class="row article-attribute"><div class="col-sm-8 col-md-9"><a href="/home/'+resultContent[i].id+'">' +
-                    '<img src="'+resultContent[i].user.headurl+'" alt="'+resultContent[i].user.nickname+'" class="img-circle"></a>' +
+                    '<img src="'+headBaseUrl+resultContent[i].user.headurl+'" alt="'+resultContent[i].user.nickname+'" class="img-circle"></a>' +
                     '<span style="">'+resultContent[i].user.nickname+'</span><span style="">'+resultContent[i].createtime+'</span></div>' +
                     '<div class="col-sm-8 col-md-3"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>'+resultContent[i].goodTimes+
                     '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>'+resultContent[i].viewTimes+

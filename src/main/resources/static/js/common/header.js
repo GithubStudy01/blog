@@ -26,7 +26,7 @@ function loginInfo(){
                 saveUser = user;
                 html = '<li class="dropdown">\n' +
                     '                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 0px;">\n' +
-                    '                            <img src="'+user.headurl+'" alt="测试" class="img-circle" style="width:auto;height:auto;max-width:40px;max-height:40px;padding: 0px;margin: 0px;"/>\n' +
+                    '                            <img src="'+headBaseUrl+user.headurl+'" alt="测试" class="img-circle" style="width:auto;height:auto;max-width:40px;max-height:40px;padding: 0px;margin: 0px;"/>\n' +
                     '                            <span class="caret"></span>\n' +
                     '                        </a>\n' +
                     '                        <ul class="dropdown-menu">\n' +

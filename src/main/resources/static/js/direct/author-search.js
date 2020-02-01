@@ -46,7 +46,7 @@ function searchAuthor(nickname){
                 }
                 html += '<div class="col-sm-6 col-md-3">' +
                     '                    <a href="/home/'+content.content[i].id+'" class="thumbnail">' +
-                    '                        <img src="'+content.content[i].headurl+'" alt="'+ content.content[i].nickname +'" class="img-circle">' +
+                    '                        <img src="'+headBaseUrl+content.content[i].headurl+'" alt="'+ content.content[i].nickname +'" class="img-circle">' +
                     '                        <div class="caption">' +
                     '                            <h4>'+ content.content[i].nickname +'</h4>' +
                     '                            <div class="row">' +
