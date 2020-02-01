@@ -49,7 +49,24 @@ url: jdbc:mysql://localhost:3306/blog?serverTimezone=Hongkong
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 注意：由于默认使用的是 MyISAM 是不支持事务的
 
+9.使用editor.md上传图片时出现错误如下：
+edit:1 Refused to display 'http://localhost:8080/article/uploadImage?guid=1580543429669' in a frame because it set 'X-Frame-Options' to 'deny'.
+jquery.js:8235 Resource interpreted as Document but transferred with MIME type application/json: "http://localhost:8080/article/uploadImage?guid=1580543429669".
+trigger @ jquery.js:8235
+(anonymous) @ jquery.js:8269
+each @ jquery.js:362
+each @ jquery.js:157
+trigger @ jquery.js:8268
+(anonymous) @ image-dialog.js:185
+dispatch @ jquery.js:5206
+elemData.handle @ jquery.js:5014
+image-dialog.js:164 Uncaught DOMException: Blocked a frame with origin "http://localhost:8080" from accessing a cross-origin frame.
+    at HTMLIFrameElement.uploadIframe.onload (http://localhost:8080/editor/plugins/image-dialog/image-dialog.js:164:129)
+解决：
+http.headers().frameOptions().sameOrigin();
 
+10.jq判断节点是否存在
+$("..").length>0
 
 1.直接子节点
     $("#sort-info>li:not(:last)").click(function(){})

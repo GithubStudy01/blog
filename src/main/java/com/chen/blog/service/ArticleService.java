@@ -1,10 +1,12 @@
 package com.chen.blog.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chen.blog.common.TimeLimitEnum;
 import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.*;
 import com.chen.blog.exception.BlogException;
 import com.chen.blog.repository.*;
+import com.chen.blog.utils.FastDFSUtil;
 import com.chen.blog.utils.OthersUtils;
 import com.chen.blog.utils.SessionUtils;
 import com.sun.xml.bind.v2.TODO;
@@ -18,7 +20,9 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -206,7 +210,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public List<Tag> combinData(Article article,String tagName, String sortId){
+    public List<Tag> combinData(Article article, String tagName, String sortId) {
         User user = SessionUtils.getUser();
         Blog blog = sortService.getBlog(user);
         if (sortId != null && !sortId.trim().equals(WordDefined.SORT_NOT + "")) {
@@ -303,11 +307,30 @@ public class ArticleService {
         }
     }
 
-    public Page<Article> getArticleList(Pageable pageable,Integer type) {
+    public Page<Article> getArticleList(Pageable pageable, Integer type) {
         User user = SessionUtils.getUser();
         if (type == null) {
-            return articleRepository.findAllByUser(user,pageable);
+            return articleRepository.findAllByUser(user, pageable);
         }
-        return articleRepository.findAllByTypeAndUser(type,user,pageable);
+        return articleRepository.findAllByTypeAndUser(type, user, pageable);
+    }
+
+    public JSONObject uploadImage(HttpServletRequest request, MultipartFile file) {
+        log.info("【FileController】 fileName={},fileOrginNmae={},fileSize={}", file.getName(), file.getOriginalFilename(), file.getSize());
+        List<String[]> list = FastDFSUtil.upload(new MultipartFile[]{file});
+        JSONObject json = new JSONObject();
+        if (list != null && list.size() > 0) {
+            String[] str = list.get(0);
+            String url = WordDefined.BASE_IMGE_URL + str[0] + "/" + str[1];
+            json.put("success", 1);//一定要为数字类型
+            json.put("message", "上传成功！");
+            json.put("url", url);
+            log.info(url);
+            return json;
+        }
+        json.put("success", 0);//一定要为数字类型
+        json.put("message", "上传失败！");
+        json.put("url", "");
+        return json;
     }
 }

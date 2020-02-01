@@ -42,8 +42,8 @@ $(function () {
         sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
         imageUpload : true,
         imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-        imageUploadURL : "/file/uploadImage",
-        onload: function(){
+        imageUploadURL : "/article/uploadImage",
+        onload: function(data){
 
         }
     });

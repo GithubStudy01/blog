@@ -94,6 +94,9 @@ public class WordDefined {
     //token过期时间
     public static final Integer PHONE_TOKEN_TIME_OUT = 60 * 5;
 
+
     public static final Integer MAX_PHONE_SEND_COUNT = 5;
 
+
+    public static final String BASE_IMGE_URL = "http://192.168.184.120:8888/";
 }

@@ -1,5 +1,6 @@
 package com.chen.blog.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chen.blog.entity.Article;
 import com.chen.blog.entity.Comment;
 import com.chen.blog.service.ArticleService;
@@ -14,7 +15,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -151,5 +154,12 @@ public class ArticleController {
     public RespVo getArticleList(@PageableDefault(sort = {"overhead", "overheadTime", "createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable,Integer type) {
         Page<Article> page = articleService.getArticleList(pageable,type);
         return RespVo.success(page, null);
+    }
+
+    @PostMapping("/uploadImage")
+    @ResponseBody
+    public JSONObject uploadImage(HttpServletRequest request, @RequestParam(value = "editormd-image-file", required = false) MultipartFile file) {
+        JSONObject obj = articleService.uploadImage(request,file);
+        return obj;
     }
 }

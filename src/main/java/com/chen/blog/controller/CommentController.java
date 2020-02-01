@@ -38,7 +38,7 @@ public class CommentController {
      */
     @GetMapping("/comments")
     @JsonView({Vo.CommentView.class})
-    public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.ASC, page = 0, size = 3) Pageable pageable, @NotNull Long articleId,@NotNull Integer tid){
+    public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.ASC, page = 0, size = 4) Pageable pageable, @NotNull Long articleId,@NotNull Integer tid){
         Page<Comment> page = commentService.getList(pageable,articleId,tid);
         return RespVo.success(page,null);
     }

@@ -96,6 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.rememberMe()
                 .rememberMeParameter("remember");
+
+        http.headers().frameOptions().sameOrigin();
     }
 
     @Override
