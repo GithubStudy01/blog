@@ -1,3 +1,5 @@
+var isGood = false;
+var isCollection = false;
 $(function () {
 
 })
@@ -7,7 +9,7 @@ layui.use('layer', function () {
     getArticle(aid);
     getComment(aid, 0)
     $("#save-articleId").attr("aid", aid);
-
+    getCollectionAndGood(aid);
 })
 
 //为回复按钮绑定事件
@@ -63,7 +65,8 @@ function getArticle(id) {
             var html = '<h2>' + content.title + '</h2>' +
                 '            <span>' + content.createtime + '</span>' +
                 '            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>' + content.viewTimes +
-                '                <a href="' + content.id + '"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>收藏</a><div>';
+                '                <a href="javascript:void(0)"><span class="glyphicon glyphicon-star-empty" aria-hidden="true" id="collectionId"  aid="' + content.id + '" ></span>收藏</a>' +
+                '<a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" id="goodId"  aid="' + content.id + '" ></span>赞</a><div>';
             var sort = content.sort;
             var sortHtml = '分类专栏:';
             for (var i = 0; i < sort.length; i++) {
@@ -83,6 +86,24 @@ function getArticle(id) {
                 sequenceDiagram: true, // 默认不解析
                 codeFold: true
             });
+
+            //为点赞和收藏绑定点击事件
+            $("#goodId").on("click",function(){
+                var aid = $(this).attr("aid");
+                if(isGood){
+                    deleteGood(aid);
+                    return;
+                }
+                addGood(aid)
+            })
+            $("#collectionId").on("click",function(){
+                var aid = $(this).attr("aid");
+                if(isCollection){
+                    deleteCollection(aid);
+                    return;
+                }
+                addCollection(aid)
+            })
         },
         error: function (request) {
             alert("Connection error");
@@ -216,11 +237,6 @@ function showReplay(articleId, tid, point) {
 
 }
 
-//回复评论
-function replyCommnet() {
-
-}
-
 
 //发表评论
 function publishComment() {
@@ -268,9 +284,184 @@ function writeComment(tid, cid, reply, articleId) {
                     var jd = $(html);
                     addJD.append(jd);
                     addJD.parents(".source").next().remove();
-                    showReplay(articleId, tid,jd);
+                    showReplay(articleId, tid, jd);
                 }
             }
+            $("#myModal textarea").val("");
+        },
+        error: function (request) {
+            var code = request.responseJSON.code;
+            if (code == "0004") {
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    layer.closeAll('dialog');
+                    window.location.href = "/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000, shift: 6})
+        }
+    })
+
+}
+
+//查看是否有收藏和点赞
+function getCollectionAndGood(articleId) {
+    $.ajax({
+        url: "http://localhost:8080/user/articleInfo/" + articleId,
+        type: "GET",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if (code != '0001') {
+                layer.msg(result.msg, {icon: 5, time: 1000, shift: 6})
+                return;
+            }
+            var content = result.content;
+            isGood = content.isGood;
+            isCollection = content.isCollection;
+            if (isGood) {
+                $("#goodId").attr("class", "glyphicon glyphicon-star");
+            }
+            if (isCollection) {
+                $("#collectionId").attr("class", "glyphicon glyphicon-heart");
+            }
+
+
+        },
+        error: function (request) {
+
+        }
+    })
+
+
+}
+
+//点赞
+function addGood(articleId) {
+    $.ajax({
+        url: "http://localhost:8080/good/add/" + articleId,
+        type: "POST",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if (code != '0001') {
+                layer.msg(result.msg, {icon: 5, time: 1000, shift: 6})
+                return;
+            }
+            $("#goodId").attr("class", "glyphicon glyphicon-star");
+            isGood = true;
+            var goodSum = $("#userGoodSum").text();
+            $("#userGoodSum").text(parseInt(goodSum)+1)
+        },
+        error: function (request) {
+            var code = request.responseJSON.code;
+            if (code == "0004") {
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    layer.closeAll('dialog');
+                    window.location.href = "/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000, shift: 6})
+        }
+    })
+
+}
+
+//取消
+function deleteGood(articleId) {
+    $.ajax({
+        url: "http://localhost:8080/good/delete/" + articleId,
+        type: "DELETE",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if (code != '0001') {
+                layer.msg(result.msg, {icon: 5, time: 1000, shift: 6})
+                return;
+            }
+            $("#goodId").attr("class", "glyphicon glyphicon-star-empty");
+            isGood = false;
+            var goodSum = $("#userGoodSum").text();
+            $("#userGoodSum").text(parseInt(goodSum)-1)
+        },
+        error: function (request) {
+            var code = request.responseJSON.code;
+            if (code == "0004") {
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    layer.closeAll('dialog');
+                    window.location.href = "/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000, shift: 6})
+        }
+    })
+
+}
+
+//收藏
+function addCollection(articleId) {
+    $.ajax({
+        url: "http://localhost:8080/collection/add/" + articleId,
+        type: "POST",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if (code != '0001') {
+                layer.msg(result.msg, {icon: 5, time: 1000, shift: 6})
+                return;
+            }
+            $("#collectionId").attr("class", "glyphicon glyphicon-heart");
+            isCollection = true;
+        },
+        error: function (request) {
+            var code = request.responseJSON.code;
+            if (code == "0004") {
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    layer.closeAll('dialog');
+                    window.location.href = "/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000, shift: 6})
+        }
+    })
+
+}
+
+//取消收藏
+function deleteCollection(articleId) {
+    $.ajax({
+        url: "http://localhost:8080/collection/delete/" + articleId,
+        type: "DELETE",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if (code != '0001') {
+                layer.msg(result.msg, {icon: 5, time: 1000, shift: 6})
+                return;
+            }
+            $("#collectionId").attr("class", "glyphicon glyphicon-thumbs-up");
+            isCollection = false;
         },
         error: function (request) {
             var code = request.responseJSON.code;

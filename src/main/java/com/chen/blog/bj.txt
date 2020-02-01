@@ -88,7 +88,8 @@ function showMsg(msg, icon){
     });
 }
 
-
+4.var goodSum = $("#userGoodSum").text();
+              $("#userGoodSum").text(parseInt(goodSum)-1)
 
 TODO
 1.使用@JoinColumn(name="user_id",foreignKey = @ForeignKey(name = "none",value = ConstraintMode.NO_CONSTRAINT))

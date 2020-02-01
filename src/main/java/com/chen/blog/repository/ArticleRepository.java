@@ -38,7 +38,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findAllByUser(User user, Pageable pageable);
 
 
-
     @Modifying
     @Query("update Article a set a.overhead = :overhead,a.overheadTime = :overheadTime where a.id = :articleId")
     int updateOverheadAndOverheadTime(@Param(value = "overhead") Integer overhead, @Param(value = "overheadTime") LocalDateTime overheadTime, @Param(value = "articleId") Long articleId);
@@ -56,6 +55,14 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     //添加中间表使用原生的sql
     @Modifying
     @Query(nativeQuery = true, value = "insert into join_tag_article(tag_id,article_id) value(:tagId,:articleId)")
-    void insertArticleTag(Integer tagId,Long articleId);
+    void insertArticleTag(Integer tagId, Long articleId);
 
+
+    @Modifying
+    @Query("update Article a set a.goodTimes = (a.goodTimes-1) where  a.id = :articleId")
+    void countDownGoodTimes(@Param(value = "articleId") Long articleId);
+
+    @Modifying
+    @Query("update Article a set a.goodTimes = (a.goodTimes+1) where  a.id = :articleId")
+    void increGoodTimes(@Param(value = "articleId") Long articleId);
 }

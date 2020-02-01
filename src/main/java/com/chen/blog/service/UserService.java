@@ -1,12 +1,14 @@
 package com.chen.blog.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chen.blog.common.Constant;
 import com.chen.blog.common.WordDefined;
-import com.chen.blog.entity.Blog;
-import com.chen.blog.entity.User;
+import com.chen.blog.entity.*;
 import com.chen.blog.exception.BlogException;
 import com.chen.blog.redis.RedisUtils;
 import com.chen.blog.repository.BlogRepository;
+import com.chen.blog.repository.CollectionRepository;
+import com.chen.blog.repository.GoodRepository;
 import com.chen.blog.repository.UserRepository;
 import com.chen.blog.utils.*;
 import io.lettuce.core.dynamic.annotation.Param;
@@ -24,6 +26,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +52,12 @@ public class UserService {
 
     @Autowired
     private BlogService blogService;
+
+    @Autowired
+    private CollectionRepository collectionRepository;
+
+    @Autowired
+    private GoodRepository goodRepository;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user, String token) {
@@ -268,11 +277,22 @@ public class UserService {
             throw new BlogException(WordDefined.USER_INOF_ERROR);
         }
         Blog blog = blogService.getById(user.getId());
-        i = blogRepository.updateBlogInfo(updatetime,blogName,description,blog.getId());
+        i = blogRepository.updateBlogInfo(updatetime, blogName, description, blog.getId());
         if (i != 1) {
             throw new BlogException(WordDefined.BLOG_INFO_ERROR);
         }
-        SessionUtils.updateUserInfo(nickname,briefIntr,headurl);
+        SessionUtils.updateUserInfo(nickname, briefIntr, headurl);
     }
 
+    public JSONObject getCollectionAndGood(Long articleId) {
+        Article article = new Article();
+        article.setId(articleId);
+        User user = SessionUtils.getUser();
+        Collection collection = collectionRepository.findAllByArticleAndUser(article, user);
+        Good good = goodRepository.findAllByArticleAndUser(article, user);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("isCollection", collection == null ? false : true);
+        jsonObject.put("isGood", good == null ? false : true);
+        return jsonObject;
+    }
 }

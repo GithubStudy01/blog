@@ -1,8 +1,13 @@
 package com.chen.blog.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.chen.blog.common.WordDefined;
+import com.chen.blog.entity.Collection;
 import com.chen.blog.entity.User;
 import com.chen.blog.exception.BlogException;
+import com.chen.blog.repository.GoodRepository;
+import com.chen.blog.service.CollectionService;
+import com.chen.blog.service.GoodService;
 import com.chen.blog.service.UserService;
 import com.chen.blog.utils.SessionUtils;
 import com.chen.blog.vo.RespVo;
@@ -29,6 +34,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
 
 
     @PostMapping("/register")
@@ -125,6 +132,15 @@ public class UserController {
     public RespVo uploadImg(@RequestParam(value = "file",required = true) MultipartFile file){
         String path = userService.uploadImg(file);
         return RespVo.success(path,null);
+    }
+
+
+
+    //需要登录
+    @GetMapping("/articleInfo/{articleId}")
+    public RespVo getCollectionAndGood(@PathVariable("articleId") @NotNull Long articleId){
+        JSONObject json = userService.getCollectionAndGood(articleId);
+        return RespVo.success(json,null);
     }
 
 

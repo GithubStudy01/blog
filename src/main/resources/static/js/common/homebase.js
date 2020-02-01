@@ -25,13 +25,12 @@ function getUser(id){
                 '                <div class="caption">' +
                 '                    <h4 style="margin-bottom: 10px;text-align: center">'+content.nickname+'</h4>' +
                 '                    <div class="row">' +
-                '                        <div class="col-sm-4 col-md-4" style="text-align: center;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;'+content.goodSum+'</div>' +
-                '                        <div class="col-sm-4 col-md-4" style="text-align: center;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;'+content.viewSum+'</div>' +
-                '                        <div class="col-sm-4 col-md-4" style="text-align: center;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;'+content.commentSum+'</div>' +
+                '                        <div class="col-sm-4 col-md-4" style="text-align: center;"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><span style="margin-left: 2px" id="userGoodSum">'+content.goodSum+'</span></div>' +
+                '                        <div class="col-sm-4 col-md-4" style="text-align: center;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span style="margin-left: 2px" id="userViewSum">'+content.viewSum+'</span></div>' +
+                '                        <div class="col-sm-4 col-md-4" style="text-align: center;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span style="margin-left: 2px" id="userCommenSum">'+content.commentSum+'</span></div>' +
                 '                    </div>' +
                 '                </div>';
             $("#user-info").append(html)
-
         },
         error: function (request) {
             alert("Connection error");
