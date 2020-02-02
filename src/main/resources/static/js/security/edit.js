@@ -79,7 +79,6 @@ function getArticle(id){
                 return;
             }
             var content = result.content;
-            console.log("这里")
             //回显标签
             var tagList = content.tagList;
             if(tagList !=null && tagList.length>0){

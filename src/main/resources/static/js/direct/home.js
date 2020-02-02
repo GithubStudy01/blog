@@ -1,16 +1,22 @@
+var saveUserId = null;
 $(function () {
 
 })
 layui.use('layer',function(){
     var href = window.location.href.split("/");
-    getUserArticles(href[href.length-1]);
+    saveUserId = href[href.length-1];
+    getUserArticles(saveUserId,0,10);
 })
-function getUserArticles(id){
+function getUserArticles(id,page,size){
     $.ajax({
         url: "http://localhost:8080/article/user/"+id,
         type: "GET",
         dataType: "json",
         async: false,
+        data:{
+          'page':page,
+          'size':size
+        },
         success: function (result) {
             console.log(result)
             var code = result.code;
@@ -20,9 +26,9 @@ function getUserArticles(id){
             }
 
             var content = result.content.content;
+            var html = '';
             for(var i = 0;i<content.length;i++){
                 var overhead = content[i].overhead;
-                var html = '';
                 if(overhead){
                     html += '<div class="list-group-item overhead">';
                 }else{
@@ -41,13 +47,27 @@ function getUserArticles(id){
                     '                            </div>\n' +
                     '                        </div>\n' +
                     '                    </div>';
-
-                $("#article-list>div").append(html)
             }
+            $("#article-list .list-group").empty()
+            $("#article-list .list-group").append(html)
+
+            paging(result.content);
+            bindHomeArticlePage();
         },
         error: function (request) {
             alert("Connection error");
         }
     })
 
+}
+function bindHomeArticlePage(){
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var pid = $(this).attr("pid");
+        getUserArticles(saveUserId,pid,10);
+    })
 }

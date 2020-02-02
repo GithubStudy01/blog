@@ -1,3 +1,5 @@
+var sortsave = null;
+var timelimitsave = null;
 $(function () {
 
 })
@@ -9,8 +11,7 @@ layui.use('layer',function(){
     }else{
         $("#search").val(title)
     }
-    var sortsave = null;
-    var timelimitsave = null;
+
     searchArticle(title,null,null,null,null)
     $("#sort-info").children(":not(:last)").click(function(){
         var sort = $(this).attr("sort")
@@ -40,10 +41,7 @@ function getQueryVariable(variable) {
     return ("");
 }
 
-function test() {
-    // searchArticle("","1","createtime,desc",null,null)
-    searchArticle("", "3", "sort=goodTimes,desc&sort=commentTimes,desc&sort=viewTimes,desc", null, null)
-}
+
 
 function searchArticle(title, limitTimeType, sort, page, size) {
     $.ajax({
@@ -69,7 +67,7 @@ function searchArticle(title, limitTimeType, sort, page, size) {
             var resultContent = result.content.content;
             for (var i = 0; i < resultContent.length; i++) {
                 var html = '<div class="list-group-item">\n' +
-                    '                    <h3 class="list-group-item-heading"><a href="/details/' + resultContent[i].user.id + "/" + resultContent[i].id + '">' + resultContent[i].title + '</a></h3>\n' +
+                    '                    <h3 class="list-group-item-heading"><a href="/details/' + resultContent[i].id + "/" + resultContent[i].user.id + '">' + resultContent[i].title + '</a></h3>\n' +
                     '                    <p class="list-group-item-text">\n' +
                     '                    </p>\n' +
                     '                    <div class="row">\n' +
@@ -94,9 +92,25 @@ function searchArticle(title, limitTimeType, sort, page, size) {
             $("#totalCount").text(content.totalElements+" 个结果")
             //分页
             paging(content);
+            bindPage()
         },
         error: function (request) {
             alert("Connection error");
         }
     })
+}
+function bindPage(){
+
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var title = $("#search").val()
+        var pid = $(this).attr("pid");
+        searchArticle(title,timelimitsave,sortsave,pid,2)
+    })
+
+
 }

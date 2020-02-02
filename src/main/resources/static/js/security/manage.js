@@ -62,6 +62,7 @@ function sortmanage(page,size){
 
             //分页
             paging(result);
+            bindSortPage();
         },
         error: function (request) {
             var code = request.responseJSON.code;
@@ -78,6 +79,18 @@ function sortmanage(page,size){
         }
     })
 }
+function bindSortPage(){
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var pid = $(this).attr("pid");
+        sortmanage(pid,10);
+    })
+}
+
 
 //模态框确认修改按钮
 function updateSort(){

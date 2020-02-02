@@ -37,10 +37,10 @@ public class CollectionController {
         return RespVo.success(null, null);
     }
 
-/*    //已经登录
+    //已经登录
     @GetMapping
     public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
         Page<Collection> page = collectionService.getList(pageable);
         return RespVo.success(page, null);
-    }*/
+    }
 }

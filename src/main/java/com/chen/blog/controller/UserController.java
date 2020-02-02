@@ -80,7 +80,7 @@ public class UserController {
 
     @JsonView(User.SearchUserView.class)
     @GetMapping("/users")
-    public RespVo getList(@PageableDefault(sort = {"goodSum","viewSum","commentSum"}, direction = Sort.Direction.DESC, page = 0, size = 10)Pageable pageable,String nickname){
+    public RespVo getList(@PageableDefault(sort = {"goodSum","viewSum","commentSum"}, direction = Sort.Direction.DESC, page = 0, size = 12)Pageable pageable,String nickname){
         Page<User> userList = userService.getListLikeNickname(pageable,nickname);
         return RespVo.success(userList,null);
     }

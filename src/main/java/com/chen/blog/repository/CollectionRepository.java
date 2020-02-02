@@ -17,7 +17,7 @@ public interface CollectionRepository extends JpaRepository<Collection,Integer> 
     void deleteAllByArticleAndUser(Article article,User user);
 
 
-//    @Query(value = "select new com.chen.blog.entity.Collection(c.id,c.createtime,a.title,a.id) from collection c join article a on c.articleId=a.id where c.user_id = :userId and a.type = :type")
-//    Page<Collection> findAllByCondition(@Param("userId") Long userId, @Param("type") Integer type, Pageable pageable);
+    @Query(value = "select new com.chen.blog.entity.Collection(c.id,c.createtime,a.title,a.id) from Collection c join Article a on c.article.id=a.id where c.user.id = :userId and a.type = :type")
+    Page<Collection> findAllByCondition(@Param("userId") Long userId, @Param("type") Integer type, Pageable pageable);
 
 }

@@ -1,5 +1,4 @@
-var page = 0;
-var size = 1;
+var saveSort = null;
 $(function () {
 
 })
@@ -108,6 +107,7 @@ function getAricleSort(blogId){
                 page = 0;
                 size = 10;
                 var id = $(this).attr("sid");
+                saveSort = id;
                 getSortArticles(id,page,size)
             })
         },
@@ -160,13 +160,29 @@ function getSortArticles(id,page,size){
 
 
             }
-            html +='</div>';
+            html +='</div><div id="paging"></div>';
             $("#article-list").empty();
             $("#article-list").append(html)
+
+            //分页
+            paging(result.content);
+            bindSortArticleListPage();
         },
         error: function (request) {
             alert("Connection error");
         }
     })
 
+}
+
+function bindSortArticleListPage(){
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var pid = $(this).attr("pid");
+        getSortArticles(saveSort, pid,10);
+    })
 }

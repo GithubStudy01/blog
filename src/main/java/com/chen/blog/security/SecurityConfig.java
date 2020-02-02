@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .and()
                 .authorizeRequests()
-                .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit/**","/manage","/comment/reply","/sort/add","/sort/user","/sort/delete/**","/article/add",
+                .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit/**","/manage","/comment/reply","/sort/add","/sort/user",
+                        "/sort/delete/**","/sort/choice","/article/add",
                         "/article/check/**","/article/update","/center/**","/article/user","/user/update","/good/add/**","/good/delete/**",
                         "/collection/**").authenticated()//任何经过身份验证的用户才能访问
                 .and()

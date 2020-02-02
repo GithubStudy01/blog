@@ -51,8 +51,8 @@ public class CollectionService {
         return collection;
     }
 
-/*    public Page<Collection> getList(Pageable pageable) {
+    public Page<Collection> getList(Pageable pageable) {
         User user = SessionUtils.getUser();
         return collectionRepository.findAllByCondition(5l,WordDefined.ARTICLE_OPEN,pageable);
-    }*/
+    }
 }

@@ -7,7 +7,7 @@ layui.use('layer', function () {
     var href = window.location.href.split("/");
     var aid = href[href.length - 2];
     getArticle(aid);
-    getComment(aid, 0)
+    getComment(aid, 0,0,4)
     $("#save-articleId").attr("aid", aid);
     getCollectionAndGood(aid);
 })
@@ -114,14 +114,16 @@ function getArticle(id) {
 }
 
 // 一级评论 数据库tid=0，回复一级评论tid=一级评论id
-function getComment(articleId, tid) {
+function getComment(articleId, tid,page,size) {
     $.ajax({
         url: "http://localhost:8080/comment/comments",
         type: "GET",
         dataType: "json",
         data: {
             'articleId': articleId,
-            'tid': tid
+            'tid': tid,
+            'page':page,
+            'size':size
         },
         async: false,
         success: function (result) {
@@ -171,7 +173,7 @@ function getComment(articleId, tid) {
             $("#comment-content").append(html);
             //分页
             paging(resultContent);
-
+            bindCommentPage();
             bindReply();
             //查看回复
             $(".showReply").on("click", function () {
@@ -274,7 +276,7 @@ function writeComment(tid, cid, reply, articleId) {
                 $("#reply-content>textarea").val("");
                 layer.msg("评论成功！", {icon: 6, time: 2000})
                 var aid = $("#save-articleId").attr("aid");
-                getComment(aid, 0);
+                getComment(aid, 0,0,4);
             } else {
                 $("#myModal").modal("hide")
                 layer.msg("回复成功！", {icon: 6, time: 2000})
@@ -480,4 +482,17 @@ function deleteCollection(articleId) {
         }
     })
 
+}
+
+function bindCommentPage(){
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var pid = $(this).attr("pid");
+        var aid = $("#save-articleId").attr("aid");
+        getComment(aid, 0,pid,4);
+    })
 }

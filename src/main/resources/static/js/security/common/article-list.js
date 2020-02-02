@@ -4,16 +4,15 @@ $(function () {
 
 })
 layui.use('layer',function(){
-    getArticleListByType();
+    getArticleListByType(saveType,0,10);
 
     $("#article-type li").click(function(){
         var type = $(this).attr("articleType");
         saveType = type;
-        getArticleListByType(type);
+        getArticleListByType(type,0,10);
     })
 
     $(".deleteArticle").on("click",function(){
-        console.log($(this).text())
         var id = $(this).parents(".article-option").attr("article-id");
         deleteArticle(id)
     })
@@ -21,13 +20,15 @@ layui.use('layer',function(){
 
 
 })
-function getArticleListByType(type){
+function getArticleListByType(type,page,size){
     $.ajax({
         url: "http://localhost:8080/article/user",
         type: "GET",
         dataType: "json",
         data:{
-            "type":type
+            "type":type,
+            "page":page,
+            "size":size
         },
         async: false,
         success: function (result) {
@@ -95,6 +96,7 @@ function getArticleListByType(type){
             })
             //分页
             paging(result);
+            bindArticleListByTypePage();
         },
         error: function (request) {
             var code = request.responseJSON.code;
@@ -112,6 +114,18 @@ function getArticleListByType(type){
     })
 }
 
+function bindArticleListByTypePage(){
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var pid = $(this).attr("pid");
+        getArticleListByType(saveType, pid,10);
+    })
+}
+
 function deleteArticle(id){
     $.ajax({
         url: "http://localhost:8080/article/delete/"+id,
@@ -126,7 +140,7 @@ function deleteArticle(id){
                 return;
             }
             layer.msg("删除成功！", {icon: 6, time: 1000})
-            getArticleListByType(saveType);
+            getArticleListByType(saveType,0,10);
         },
         error: function (request) {
             var code = request.responseJSON.code;
@@ -162,7 +176,7 @@ function overhead(articleId,overhead){
                 return;
             }
             layer.msg("操作成功！", {icon: 6, time: 1000})
-            getArticleListByType(saveType);
+            getArticleListByType(saveType,0,10);
         },
         error: function (request) {
             var code = request.responseJSON.code;
@@ -198,7 +212,7 @@ function changeType(articleId,type){
                 return;
             }
             layer.msg("操作成功！", {icon: 6, time: 1000})
-            getArticleListByType(saveType);
+            getArticleListByType(saveType,0,10);
         },
         error: function (request) {
             var code = request.responseJSON.code;

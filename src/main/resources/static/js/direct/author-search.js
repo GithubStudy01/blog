@@ -18,14 +18,18 @@ function getQueryVariable(variable)
 }
 function getSearch(){
     var nickname = $("#search-input").val();
-    searchAuthor(nickname)
+    searchAuthor(nickname,0,12);
 }
 
-function searchAuthor(nickname){
+function searchAuthor(nickname,page,size){
     $.ajax({
         url: "http://localhost:8080/user/users?nickname="+nickname,
         type: "GET",
         dataType: "json",
+        data:{
+          "page":page,
+          "size":size
+        },
         async: false,
         success: function (result) {
             console.log(result)
@@ -64,7 +68,8 @@ function searchAuthor(nickname){
             $("#author-search").append(html)
             //分页
             paging(content);
-
+            //绑定分页点击事件
+            bindPage();
         },
         error: function (request) {
             alert("Connection error");
@@ -72,4 +77,19 @@ function searchAuthor(nickname){
     })
 }
 
+function bindPage(){
+
+    $("#paging li").on("click",function(){
+        var disabled = $(this).hasClass("disabled");
+        var active = $(this).hasClass("active");
+        if(disabled || active){
+            return;
+        }
+        var nickname = $("#search-input").val();
+        var pid = $(this).attr("pid");
+        searchAuthor(nickname,pid,12);
+    })
+
+
+}
 
