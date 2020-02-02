@@ -65,4 +65,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Modifying
     @Query("update Article a set a.goodTimes = (a.goodTimes+1) where  a.id = :articleId")
     void increGoodTimes(@Param(value = "articleId") Long articleId);
+
+    @Modifying
+    @Query(nativeQuery = true,value = "update article a set a.sort_id = :newSortId where a.sort_id = :sortId")
+    int updateSortId(@Param(value = "newSortId") Integer newSortId,@Param(value = "sortId") Integer sortId);
 }

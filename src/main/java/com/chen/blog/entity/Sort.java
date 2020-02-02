@@ -30,7 +30,7 @@ public class Sort {
     private Integer id;
 
     @JsonView({ArticleSortView.class,SortInfoView.class})
-    @NotBlank(groups = {AddSortView.class},message = "分类名不能为空")
+    @NotBlank(groups = {AddSortView.class},message = "分类名不能为空!")
     @Column(nullable = false,name = "sort_name")
     private String sortName;
 
