@@ -249,6 +249,7 @@ function showSortList(){
                 return;
             }
             var content = result.content;
+
             var html = '<option value="-1">其它(默认)</option>';
             for(var i = 0;i<content.length;i++){
                 html += '<option value="'+content[i].id+'">'+content[i].sortName+'</option>';

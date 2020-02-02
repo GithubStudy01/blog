@@ -1,10 +1,12 @@
 $(function () {
+    layui.use('layer',function(){
 
+    })
 })
-layui.use('layer',function(){
+// layui.use('layer',function(){
+//
+// })
 
-
-})
 
 function sortmanage(page,size){
     $.ajax({
@@ -51,9 +53,9 @@ function sortmanage(page,size){
             })
             //绑定重命名事件
             $("#sort-show .sort-edit").on("click",function(){
-                var cid = $(this).attr("sid");
+                var sid = $(this).attr("sid");
                 var sortname = $(this).parent().prev().text();
-                $('#sortModalEdit').attr("cid", cid);
+                $('#sortModalEdit').attr("sid", sid);
                 $("#sortModal input").val(sortname);
                 $('#sortModal').modal();
             })
@@ -79,41 +81,9 @@ function sortmanage(page,size){
 
 //模态框确认修改按钮
 function updateSort(){
-    var sortId = $(this).attr("sid");
+    var sortId = $("#sortModalEdit").attr("sid");
     var sortName = $("#sortModal input").val();
-    $.ajax({
-        url: "http://localhost:8080/sort/update",
-        type: "PUT",
-        dataType: "json",
-        async: false,
-        data:{
-            "sortId":sortId,
-            "sortName":sortName
-        },
-        success: function (result) {
-            console.log(result)
-            var code = result.code;
-            if(code != '0001'){
-                layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
-                return;
-            }
-            layer.msg("修改成功！", {icon: 6, time: 2000})
-            $("#sort-show .sort-edit").parent().prev().text(sortName);
-        },
-        error: function (request) {
-            var code = request.responseJSON.code;
-            if(code == "0004"){
-                layer.confirm('您还未登陆，现在去登陆？', {
-                    btn: ['确定','取消'] //按钮
-                }, function(){
-                    layer.closeAll('dialog');
-                    window.location.href="/logoreg";
-                });
-                return;
-            }
-            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000,shift : 6})
-        }
-    })
+    sortEdit(sortId,sortName);
 }
 
 
@@ -151,7 +121,7 @@ function sortDelete(sortId){
     })
 }
 
-function sortEdit(sortId,sortname){
+function sortEdit(sortId,sortName){
     $.ajax({
         url: "http://localhost:8080/sort/update",
         type: "PUT",
@@ -159,7 +129,7 @@ function sortEdit(sortId,sortname){
         async: false,
         data:{
           "sortId":sortId,
-          "sortname":sortname
+          "sortName":sortName
         },
         success: function (result) {
             console.log(result)
@@ -169,7 +139,8 @@ function sortEdit(sortId,sortname){
                 return;
             }
             layer.msg("修改成功！", {icon: 6, time: 2000})
-
+            $("#sort-show .sort-edit[sid="+sortId+"]").parent().prev().text(sortName);
+            $("#sortModal").modal("hide")
         },
         error: function (request) {
             var code = request.responseJSON.code;
@@ -186,3 +157,4 @@ function sortEdit(sortId,sortname){
         }
     })
 }
+

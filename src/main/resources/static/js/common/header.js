@@ -34,7 +34,6 @@ function loginInfo(){
                     '                            <li><a href="/home/'+user.id+'">我的博客</a></li>\n' +
                     '                            <li><a href="/edit" target="_blank">写博客</a></li>\n' +
                     '                            <li><a href="/manage">博客管理</a></li>\n' +
-                    '                            <li><a href="/collect">我的收藏</a></li>\n' +
                     '                            <li role="separator" class="divider"></li>\n' +
                     '                            <li><a href="javascript:void(0)" id="logout">注销</a></li>\n' +
                     '                        </ul>\n' +

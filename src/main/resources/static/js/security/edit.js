@@ -104,11 +104,11 @@ function getArticle(id){
             //回显内容
             $("#content").text(content.content);
             //回显分类
-            var sortId = content.sort.id;
-            console.log(sortId)
-            if(sortId != null){
+            if(content.sort != null){
+                var sortId = content.sort.id;
                 $("#sorts option[value="+sortId+"]").attr("selected", true);
             }
+
             //回显属性
             $("input[type='radio'][name='overheadRadioOptions'][value="+content.overhead+"]").attr('checked','true');
             $("input[type='radio'][name='typeRadioOptions'][value="+content.type+"]").attr('checked','true');
@@ -272,7 +272,7 @@ function addNewSort(sortName){
 
 function showSortList(){
     $.ajax({
-        url: "http://localhost:8080/sort/user",
+        url: "http://localhost:8080/sort/choice",
         type: "GET",
         dataType: "json",
         async: false,

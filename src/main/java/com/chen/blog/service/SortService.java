@@ -41,6 +41,13 @@ public class SortService {
     }
 
     //需要登录
+    public List<Sort> getList() {
+        User user = SessionUtils.getUser();
+        Blog blog = getBlog(user);
+        return sortRepository.findByBlog(blog);
+    }
+
+    //需要登录
     public Page<Sort> getList(Pageable pageable) {
         User user = SessionUtils.getUser();
         Blog blog = getBlog(user);
@@ -112,11 +119,13 @@ public class SortService {
 
     @Transactional
     public void update(Integer sortId, String sortName) {
-        Sort sort = hasAccess(sortId);
-        sort.setSortName(sortName);
         User user = SessionUtils.getUser();
         Blog blog = getBlog(user);
-        hasExist(blog, sort);
+        Sort tempSort = new Sort();
+        tempSort.setSortName(sortName);
+        hasExist(blog,tempSort);
+        Sort sort = hasAccess(sortId);
+        sort.setSortName(sortName);
         sortRepository.save(sort);
     }
 }

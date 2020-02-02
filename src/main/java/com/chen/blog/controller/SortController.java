@@ -73,4 +73,12 @@ public class SortController {
         sortService.update(sortId,sortName);
         return RespVo.success(null,null);
     }
+
+    //需要登录
+    @GetMapping("/choice")
+    @JsonView({Sort.SortInfoView.class})
+    public RespVo getUserSortList(){
+        List<Sort> sorts = sortService.getList();
+        return RespVo.success(sorts,null);
+    }
 }

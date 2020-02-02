@@ -40,7 +40,7 @@ function getArticleListByType(type){
             var result = result.content;
             var content = result.content;
 
-            var html = "";
+            var html = '<div class="list-group" id="article-show">';
             for(var i = 0 ;i< content.length;i++){
                 html +='        <div class="list-group-item">\n' +
                     '            <h3 class="list-group-item-heading"><a style="text-decoration:none" href="/details/'+saveUser.id+"/"+content[i].id+'">'+content[i].title+'</a></h3>\n' +
@@ -78,8 +78,9 @@ function getArticleListByType(type){
                     '            </div>\n' +
                     '        </div>';
             }
-            $("#article-show").empty();
-            $("#article-show").append(html);
+            html += '</div>';
+            $("#result").empty();
+            $("#result").append(html);
             $(".typeChange").on("change",function(){
                 var type = $(this).val();
                 var id = $(this).parents(".article-option").attr("article-id");

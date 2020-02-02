@@ -69,8 +69,10 @@ function getArticle(id) {
                 '<a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" id="goodId"  aid="' + content.id + '" ></span>赞</a><div>';
             var sort = content.sort;
             var sortHtml = '分类专栏:';
-            for (var i = 0; i < sort.length; i++) {
-                sortHtml += '<a href="' + sort[i].id + '">' + sort[i].sortName + '</a></div>';
+            if(sort!=null){
+                for (var i = 0; i < sort.length; i++) {
+                    sortHtml += '<a href="' + sort[i].id + '">' + sort[i].sortName + '</a></div>';
+                }
             }
             $("#article-info").append(html);
             $("#article-info").append(sortHtml);
