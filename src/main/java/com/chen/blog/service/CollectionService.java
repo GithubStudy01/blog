@@ -1,5 +1,6 @@
 package com.chen.blog.service;
 
+import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.Article;
 import com.chen.blog.entity.Collection;
 import com.chen.blog.entity.User;
@@ -8,6 +9,8 @@ import com.chen.blog.utils.OthersUtils;
 import com.chen.blog.utils.SessionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,4 +51,8 @@ public class CollectionService {
         return collection;
     }
 
+/*    public Page<Collection> getList(Pageable pageable) {
+        User user = SessionUtils.getUser();
+        return collectionRepository.findAllByCondition(5l,WordDefined.ARTICLE_OPEN,pageable);
+    }*/
 }

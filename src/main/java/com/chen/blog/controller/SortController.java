@@ -1,18 +1,13 @@
 package com.chen.blog.controller;
 
-import com.chen.blog.entity.Article;
-import com.chen.blog.entity.Comment;
 import com.chen.blog.entity.Sort;
 import com.chen.blog.service.SortService;
 import com.chen.blog.vo.RespVo;
-import com.chen.blog.vo.Vo;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -31,6 +26,7 @@ public class SortController {
         List<Sort> sorts = sortService.getList(blogId);
         return RespVo.success(sorts,null);
     }
+
 
 
 //    @GetMapping("/article/{id}")

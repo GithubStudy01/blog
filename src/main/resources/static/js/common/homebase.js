@@ -1,3 +1,5 @@
+var page = 0;
+var size = 1;
 $(function () {
 
 })
@@ -99,12 +101,72 @@ function getAricleSort(blogId){
             var content = result.content;
 
             for(var i = 0;i<content.length;i++){
-                var html = '<li class="list-group-item"><a href="">'+content[i].sortName+'</a></li>';
+                var html = '<li class="list-group-item" sid="'+content[i].id+'"><a href="javascript:void(0)" >'+content[i].sortName+'</a></li>';
                 $("#article-sort").append(html)
             }
+            $("#article-sort li").on("click",function(){
+                page = 0;
+                size = 10;
+                var id = $(this).attr("sid");
+                getSortArticles(id,page,size)
+            })
         },
         error: function (request) {
             alert("Connection error");
         }
     })
+}
+
+function getSortArticles(id,page,size){
+    $.ajax({
+        url: "http://localhost:8080/article/sort",
+        type: "GET",
+        dataType: "json",
+        data: {
+            "sortId":id,
+            "page": page,
+            "size": size
+        },
+        async: false,
+        success: function (result) {
+            console.log(result)
+            var code = result.code;
+            if(code != '0001'){
+                layer.msg(result.msg, {icon: 5, time: 1000,shift : 6})
+                return;
+            }
+            var html = '<div class="list-group">';
+            var content = result.content.content;
+            for(var i = 0;i<content.length;i++){
+                var overhead = content[i].overhead;
+                if(overhead){
+                    html += '<div class="list-group-item overhead">';
+                }else{
+                    html += '<div class="list-group-item">';
+                }
+                html += '<h3 class="list-group-item-heading"><a href="/details/'+content[i].id+'/'+content[i].user.id+'">'+content[i].title+'</a></h3>' +
+                    '                        <p class="list-group-item-text">' +content[i].content+'</p>' +
+                    '                        <div class="row">' +
+                    '                            <div class="col-sm-8 col-md-9">' +
+                    '                                <span>'+content[i].createtime+'</span>' +
+                    '                            </div>' +
+                    '                            <div class="col-sm-8 col-md-3">' +
+                    '                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>' +content[i].goodTimes+
+                    '                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>' +content[i].viewTimes+
+                    '                                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>' +content[i].commentTimes+
+                    '                            </div>\n' +
+                    '                        </div>\n' +
+                    '                    </div>';
+
+
+            }
+            html +='</div>';
+            $("#article-list").empty();
+            $("#article-list").append(html)
+        },
+        error: function (request) {
+            alert("Connection error");
+        }
+    })
+
 }

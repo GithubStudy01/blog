@@ -59,7 +59,7 @@
                    <div class="panel panel-default">
                        <div class="panel-heading" role="tab" id="headingFour">
                            <h4 class="panel-title">
-                               <a>
+                               <a href="javascript:void(0)">
                                    我的收藏
                                </a>
                            </h4>
@@ -68,7 +68,10 @@
                </div>
            </div>
            <div class="col-sm-12 col-md-9">
-               <div th:replace="~{security/common/article-list :: article-list}"></div>
+               <div id="result">
+<!--                   <div th:replace="~{security/common/article-list :: article-list}"></div>-->
+                   <div th:replace="~{security/common/collect :: collect}"></div>
+               </div>
                <div id="paging">
 
                </div>
@@ -80,5 +83,6 @@
 </body>
 <script th:src="@{/js/security/manage.js}"></script>
 <script th:src="@{/js/security/common/article-list.js}"></script>
+<script th:src="@{/js/security/common/collect.js}"></script>
 <script type="text/javascript" th:src="@{/js/common/paging.js}"></script>
 </html>

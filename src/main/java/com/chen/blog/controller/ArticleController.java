@@ -81,8 +81,9 @@ public class ArticleController {
     }
 
     @GetMapping("/sort")
-    @JsonView({Vo.BaseUserAndArticle.class})
-    public RespVo getListBySortId(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable,
+//    @JsonView({Vo.BaseUserAndArticle.class})
+    @JsonView({Vo.BaseUserAndArticleWithOverhead.class})
+    public RespVo getListBySortId(@PageableDefault(sort = {"overhead", "overheadTime", "createtime"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable,
                                   @NotNull(message = "分类id不能为空！") Integer sortId) {
         Page<Article> article = articleService.getListBySortId(sortId, pageable);
         return RespVo.success(article, null);

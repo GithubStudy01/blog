@@ -28,7 +28,7 @@ function getUserArticles(id){
                 }else{
                     html += '<div class="list-group-item">';
                 }
-                html += '<h3 class="list-group-item-heading"><a>'+content[i].title+'</a></h3>' +
+                html += '<h3 class="list-group-item-heading"><a href="/details/'+content[i].id+'/'+content[i].user.id+'">'+content[i].title+'</a></h3>' +
                     '                        <p class="list-group-item-text">' +content[i].content+'</p>' +
                     '                        <div class="row">' +
                     '                            <div class="col-sm-8 col-md-9">' +

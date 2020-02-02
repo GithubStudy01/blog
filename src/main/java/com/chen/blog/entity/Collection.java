@@ -41,4 +41,21 @@ public class Collection {
     @Column(nullable = false)
 //    @org.hibernate.annotations.CreationTimestamp  // 由数据库自动创建时间
     private LocalDateTime createtime;
+
+
+//    ---------- 非数据库字段 ------------
+
+
+    public Collection(Integer id,LocalDateTime createtime,String title, Long articleId) {
+        this.id = id;
+        this.createtime = createtime;
+        this.title = title;
+        this.articleId = articleId;
+    }
+
+    @Transient
+    private String title;
+
+    @Transient
+    private Long articleId;
 }

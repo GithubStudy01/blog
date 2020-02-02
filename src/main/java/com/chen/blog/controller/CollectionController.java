@@ -5,6 +5,10 @@ import com.chen.blog.entity.Collection;
 import com.chen.blog.service.CollectionService;
 import com.chen.blog.vo.RespVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,4 +37,10 @@ public class CollectionController {
         return RespVo.success(null, null);
     }
 
+/*    //已经登录
+    @GetMapping
+    public RespVo getList(@PageableDefault(sort = "createtime", direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable) {
+        Page<Collection> page = collectionService.getList(pageable);
+        return RespVo.success(page, null);
+    }*/
 }
