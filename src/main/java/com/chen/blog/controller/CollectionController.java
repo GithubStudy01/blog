@@ -13,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 
 @RestController
@@ -24,16 +23,23 @@ public class CollectionController {
     @Autowired
     private CollectionService collectionService;
 
-    @PostMapping("/add/{id}")
+    @PostMapping("/{id}")
     public RespVo addCollection(@PathVariable(value = "id") @NotNull(message = "文章id不能为空！") Long articleId) {
         collectionService.addCollection(articleId);
         return RespVo.success(null, null);
     }
 
     //已经登录
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public RespVo delete(@PathVariable(value = "id") @NotNull(message = "收藏id不能为空！") Integer id) {
         collectionService.delete(id);
+        return RespVo.success(null, null);
+    }
+
+    //已经登录
+    @DeleteMapping("/delete/{id}")
+    public RespVo deleteByArticleId(@PathVariable(value = "id") @NotNull(message = "文章id不能为空！") Long articleId) {
+        collectionService.deleteByArticleId(articleId);
         return RespVo.success(null, null);
     }
 

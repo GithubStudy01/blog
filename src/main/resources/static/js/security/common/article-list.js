@@ -44,7 +44,7 @@ function getArticleListByType(type,page,size){
             var html = '<div class="list-group" id="article-show">';
             for(var i = 0 ;i< content.length;i++){
                 html +='        <div class="list-group-item">\n' +
-                    '            <h3 class="list-group-item-heading"><a style="text-decoration:none" href="/details/'+saveUser.id+"/"+content[i].id+'">'+content[i].title+'</a></h3>\n' +
+                    '            <h3 class="list-group-item-heading"><a style="text-decoration:none" href="/details/'+content[i].id+"/"+saveUser.id+'" target="_blank">'+content[i].title+'</a></h3>\n' +
                     '            <div class="article-list">\n' +
                     '                <div class="article-attribute">\n' +
                     '                    <span style="">'+content[i].createtime+'</span>\n' +

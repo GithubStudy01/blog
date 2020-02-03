@@ -66,16 +66,27 @@ function getArticle(id) {
                 '            <span>' + content.createtime + '</span>' +
                 '            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>' + content.viewTimes +
                 '                <a href="javascript:void(0)"><span class="glyphicon glyphicon-star-empty" aria-hidden="true" id="collectionId"  aid="' + content.id + '" ></span>收藏</a>' +
-                '<a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" id="goodId"  aid="' + content.id + '" ></span>赞</a><div>';
+                '<a href="javascript:void(0)"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" id="goodId"  aid="' + content.id + '" ></span>赞</a>';
             var sort = content.sort;
-            var sortHtml = '分类专栏:';
+            html += '<div>分类专栏 : ';
             if(sort!=null){
-                for (var i = 0; i < sort.length; i++) {
-                    sortHtml += '<a href="' + sort[i].id + '">' + sort[i].sortName + '</a></div>';
-                }
+                html += '<a href="javascript:void(0)" onclick="getSortArticles(' + sort.id + ',0,10)">' + sort.sortName + '</a></div>';
+            }else{
+                html += '无</div>';
             }
+            html += '<div>标签 : ';
+            var tagList = content.tagList;
+            if(tagList.length>0){
+                for(var i=0;i<tagList.length;i++){
+                    html += '<span class="label label-info" style="margin: 0 2px;font-size: 13px;">'+tagList[i].tagName+'</span>';
+                }
+                html += '</div>';
+            }else{
+                    html += '无</div>';
+            }
+
             $("#article-info").append(html);
-            $("#article-info").append(sortHtml);
+
             $("#article-content>textarea").text(content.content);
             //markdown语言
             var testEditor = editormd.markdownToHTML("article-content", {//注意：这里是上面DIV的id
@@ -380,7 +391,7 @@ function addGood(articleId) {
 
 }
 
-//取消
+//取消赞
 function deleteGood(articleId) {
     $.ajax({
         url: "http://localhost:8080/good/delete/" + articleId,
@@ -419,7 +430,7 @@ function deleteGood(articleId) {
 //收藏
 function addCollection(articleId) {
     $.ajax({
-        url: "http://localhost:8080/collection/add/" + articleId,
+        url: "http://localhost:8080/collection/" + articleId,
         type: "POST",
         dataType: "json",
         async: false,

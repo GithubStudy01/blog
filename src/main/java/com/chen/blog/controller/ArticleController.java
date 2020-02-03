@@ -60,7 +60,7 @@ public class ArticleController {
      */
     @GetMapping("/search")
     @JsonView({Vo.BaseUserAndArticle.class})
-    public RespVo getListBySearch(@PageableDefault(sort = {"goodTimes", "createtime", "commentTimes", "viewTimes"}, direction = Sort.Direction.DESC, page = 0, size = 2) Pageable pageable, String title, @RequestParam(defaultValue = "0",required = false) @Pattern(regexp = "^[0-3]$", message = "非法状态值！")String limitTimeType) {
+    public RespVo getListBySearch(@PageableDefault(sort = {"goodTimes", "createtime", "commentTimes", "viewTimes"}, direction = Sort.Direction.DESC, page = 0, size = 10) Pageable pageable, String title, @RequestParam(defaultValue = "0",required = false) @Pattern(regexp = "^[0-3]$", message = "非法状态值！")String limitTimeType) {
         Page<Article> page = articleService.getListBySearch(pageable, title, limitTimeType);
         return RespVo.success(page, null);
     }

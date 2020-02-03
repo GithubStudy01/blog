@@ -76,7 +76,7 @@ function bindCollectionPage(){
 
 function cancelCollection(cid){
     $.ajax({
-        url: "http://localhost:8080/collection/delete/"+cid,
+        url: "http://localhost:8080/collection/"+cid,
         type: "DELETE",
         dataType: "json",
         async: false,

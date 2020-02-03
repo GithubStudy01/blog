@@ -81,21 +81,22 @@ function getArticle(id){
             var content = result.content;
             //回显标签
             var tagList = content.tagList;
+            var tagArray = [];
             if(tagList !=null && tagList.length>0){
-                var tagArray = [];
                 for(var i = 0;i<tagList.length;i++){
                     tagArray.push(tagList[i].tagName);
                 }
-                // 初始化标签控件
-                $("#tag").tagEditor({
-                    initialTags: tagArray,
-                    maxTags: 5,
-                    delimiter: ',',
-                    forceLowercase: false,
-                    animateDelete: 0,
-                    placeholder: '请输入标签'
-                });
+
             }
+            // 初始化标签控件
+            $("#tag").tagEditor({
+                initialTags: tagArray,
+                maxTags: 5,
+                delimiter: ',',
+                forceLowercase: false,
+                animateDelete: 0,
+                placeholder: '请输入标签'
+            });
 
             //回显标题
             var title = content.title;

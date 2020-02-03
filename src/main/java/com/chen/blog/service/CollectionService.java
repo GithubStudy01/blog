@@ -69,4 +69,11 @@ public class CollectionService {
         User user = SessionUtils.getUser();
         return collectionRepository.findAllByCondition(user.getId(),WordDefined.ARTICLE_OPEN,pageable);
     }
+
+    @Transactional
+    public void deleteByArticleId(Long articleId) {
+        Article article = articleService.getById(articleId);
+        User user = SessionUtils.getUser();
+        collectionRepository.deleteAllByArticleAndUser(article, user);
+    }
 }

@@ -134,7 +134,7 @@ function getHotTag(){
             }
             var content = result.content.content;
             for(var i = 0;i<content.length;i++){
-                var html = '<li class="list-group-item"><a href="'+content[i].id+'">'+content[i].tagName+'</a></li>';
+                var html = '<li class="list-group-item"><a tid="'+content[i].id+'" href="javascript:void(0)">'+content[i].tagName+'</a></li>';
                 $("#tag-hot").append(html);
             }
         },

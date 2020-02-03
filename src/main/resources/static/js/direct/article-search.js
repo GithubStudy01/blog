@@ -67,7 +67,7 @@ function searchArticle(title, limitTimeType, sort, page, size) {
             var resultContent = result.content.content;
             for (var i = 0; i < resultContent.length; i++) {
                 var html = '<div class="list-group-item">\n' +
-                    '                    <h3 class="list-group-item-heading"><a href="/details/' + resultContent[i].id + "/" + resultContent[i].user.id + '">' + resultContent[i].title + '</a></h3>\n' +
+                    '                    <h3 class="list-group-item-heading"><a href="/details/' + resultContent[i].id + "/" + resultContent[i].user.id + '" target="_blank">' + resultContent[i].title + '</a></h3>\n' +
                     '                    <p class="list-group-item-text">\n' +
                     '                    </p>\n' +
                     '                    <div class="row">\n' +
@@ -109,7 +109,7 @@ function bindPage(){
         }
         var title = $("#search").val()
         var pid = $(this).attr("pid");
-        searchArticle(title,timelimitsave,sortsave,pid,2)
+        searchArticle(title,timelimitsave,sortsave,pid,10)
     })
 
 
