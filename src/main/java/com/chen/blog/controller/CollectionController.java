@@ -32,8 +32,8 @@ public class CollectionController {
 
     //已经登录
     @DeleteMapping("/delete/{id}")
-    public RespVo delete(@PathVariable(value = "id") @NotNull(message = "文章id不能为空！") Long articleId) {
-        collectionService.delete(articleId);
+    public RespVo delete(@PathVariable(value = "id") @NotNull(message = "收藏id不能为空！") Integer id) {
+        collectionService.delete(id);
         return RespVo.success(null, null);
     }
 

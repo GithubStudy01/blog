@@ -61,6 +61,7 @@ public class WordDefined {
 
     public static final String SORT_ALREADY_EXIST = "分类已经存在！";
 
+    public static final String COLLECTION_NOT_FOUNT = "收藏不存在！";
 
     //文章公开
     public static final Integer ARTICLE_OPEN = 0;

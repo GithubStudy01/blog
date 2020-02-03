@@ -99,13 +99,74 @@ function getUserDetail(){
         success: function (result) {
             console.log(result)
             var user = result.content;
-            $("#show-account").text(user.account);
-            $("#show-phone").text(user.phone)
-            $("#show-nickname").text(user.nickname)
-            $("#show-briefIntr").text(user.briefIntr)
-            $("#show-headurl").attr("src",headBaseUrl+user.headurl)
-            $("#show-blogName").text(user.blogName)
-            $("#show-description").text(user.description)
+            if(user != null){
+                var html = '    <div class="row">\n' +
+                    '        <div class="col-sm-12 col-md-4">\n' +
+                    '            <div style="width: 200px;height: 200px;margin: 0 auto;">\n' +
+                    '                <img src="'+headBaseUrl+user.headurl+'" alt="头像" id="show-headurl"' +
+                    '                     style="width:auto;height:auto;max-height: 200px;max-width: 200px;">\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '        <div class="col-sm-12 col-md-8">\n' +
+                    '            <form class="form-horizontal">\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label">账号</label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="form-control-static" id="show-account">'+user.account+'</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label">手机号</label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="form-control-static" id="show-phone">'+user.phone+'</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label">昵称</label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="form-control-static" id="show-nickname">'+user.nickname+'</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label">个性签名</label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="form-control-static" id="show-briefIntr">'+user.briefIntr+'</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label">博客名称</label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="form-control-static" id="show-blogName">'+user.blogName+'</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label">博客简介</label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="form-control-static" id="show-description">'+user.description+'</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '                <div class="form-group">\n' +
+                    '                    <label class="col-sm-2 control-label"></label>\n' +
+                    '                    <div class="col-sm-10">\n' +
+                    '                        <p class="btn btn-primary btn-lg" data-toggle="modal" onclick="update()">\n' +
+                    '                            编辑</p>\n' +
+                    '                    </div>\n' +
+                    '                </div>\n' +
+                    '            </form>\n' +
+                    '        </div>\n' +
+                    '    </div>';
+                $("#result").empty();
+                $("#result").append(html);
+            }
+            $("#paging").empty()
+
+            // $("#show-account").text(user.account);
+            // $("#show-phone").text(user.phone)
+            // $("#show-nickname").text(user.nickname)
+            // $("#show-briefIntr").text(user.briefIntr)
+            // $("#show-headurl").attr("src",headBaseUrl+user.headurl)
+            // $("#show-blogName").text(user.blogName)
+            // $("#show-description").text(user.description)
 
 
             //暂时
@@ -123,7 +184,17 @@ function getUserDetail(){
 
         },
         error: function (request) {
-            alert("Connection error");
+            var code = request.responseJSON.code;
+            if(code == "0004"){
+                layer.confirm('您还未登陆，现在去登陆？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    layer.closeAll('dialog');
+                    window.location.href="/logoreg";
+                });
+                return;
+            }
+            layer.msg(request.responseJSON.msg, {icon: 5, time: 1000,shift : 6})
         }
     })
 }

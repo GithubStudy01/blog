@@ -46,11 +46,12 @@ public class Collection {
 //    ---------- 非数据库字段 ------------
 
 
-    public Collection(Integer id,LocalDateTime createtime,String title, Long articleId) {
+    public Collection(Integer id,LocalDateTime createtime,String title, Long articleId,Long authorId) {
         this.id = id;
         this.createtime = createtime;
         this.title = title;
         this.articleId = articleId;
+        this.authorId = authorId;
     }
 
     @Transient
@@ -58,4 +59,8 @@ public class Collection {
 
     @Transient
     private Long articleId;
+
+    @Transient
+    private Long authorId;
+
 }
