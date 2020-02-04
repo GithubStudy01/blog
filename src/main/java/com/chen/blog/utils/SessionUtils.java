@@ -1,9 +1,12 @@
 package com.chen.blog.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.chen.blog.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class SessionUtils {
 
@@ -21,8 +24,10 @@ public class SessionUtils {
             return null;
         }
         try {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (null != user) {
+            UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (null != userDetails) {
+                String userJson = userDetails.getUsername();
+                User user = JSON.parseObject(userJson, User.class);
                 return user;
             }
         }catch (ClassCastException e) {
@@ -32,10 +37,16 @@ public class SessionUtils {
     }
 
     public final static void updateUserInfo(String nickname,String briefIntr,String headurl){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userJson = userDetails.getUsername();
+        User user = JSON.parseObject(userJson, User.class);
         user.setHeadurl(headurl);
         user.setNickname(nickname);
         user.setBriefIntr(briefIntr);
+        String jsonUser = JSON.toJSONString(user);
+        org.springframework.security.core.userdetails.User newUser = new org.springframework.security.core.userdetails.User(jsonUser, "", userDetails.isEnabled(), userDetails.isAccountNonExpired(), userDetails.isCredentialsNonExpired(), userDetails.isAccountNonLocked(), userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(), newUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
 

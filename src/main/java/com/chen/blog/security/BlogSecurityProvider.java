@@ -1,5 +1,6 @@
 package com.chen.blog.security;
 
+import com.alibaba.fastjson.JSON;
 import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.User;
 import com.chen.blog.repository.UserRepository;
@@ -43,10 +44,8 @@ public class BlogSecurityProvider implements AuthenticationProvider {
         if (!password.equals(DigestUtils.md5DigestAsHex(loginPwd.getBytes()))) {
             throw new BadCredentialsException("用户名或密码错误");
         }
-        User user = userRepository.findUserByPhoneOrAccount(loginNum, loginNum);
-        User saveUser = new User(user.getId(),user.getAccount(),user.getPhone(),user.getBriefIntr(),user.getNickname(),user.getHeadurl());
         // 授权
-        return new UsernamePasswordAuthenticationToken(saveUser, password, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
 

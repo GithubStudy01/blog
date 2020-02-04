@@ -1,5 +1,6 @@
 package com.chen.blog.security;
 
+import com.alibaba.fastjson.JSON;
 import com.chen.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -34,8 +35,9 @@ public class UserDetailService implements UserDetailsService {
         if (1 == user.getDeleteSign()) {
             enabled = false;//删除
         }
-
-        return new User(loginNums, user.getPassword(), enabled, true, true, accountNonLocked, new ArrayList<>());//在上面的代码中可以查询该用户是否为锁定、删除信息，并注入到User中
+        com.chen.blog.entity.User saveUser = new com.chen.blog.entity.User(user.getId(),user.getAccount(),user.getPhone(),user.getBriefIntr(),user.getNickname(),user.getHeadurl());
+        String jsonUser = JSON.toJSONString(saveUser);
+        return new User(jsonUser, user.getPassword(), enabled, true, true, accountNonLocked, new ArrayList<>());//在上面的代码中可以查询该用户是否为锁定、删除信息，并注入到User中
     }
 
 }

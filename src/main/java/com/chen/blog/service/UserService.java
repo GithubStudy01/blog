@@ -62,7 +62,7 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user, String token) {
         //校验token
-//        checkToken(user.getPhone(),token);
+        checkToken(user.getPhone(),token);
         LocalDateTime createTime = OthersUtils.getCreateTime();
         initUser(user, createTime);
         User saveUser = userRepository.save(user);
@@ -86,6 +86,7 @@ public class UserService {
         user.setDeleteSign(0);
         user.setCommentSum(0);
         user.setLockSign(0);
+        user.setBlogName(user.getNickname());
     }
 
     private Blog initBlog(User user, LocalDateTime createTime) {

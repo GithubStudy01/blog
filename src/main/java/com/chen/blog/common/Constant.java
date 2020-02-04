@@ -17,4 +17,7 @@ public class Constant {
     public static String connectPassword(String password){
         return WordDefined.PSWD_SALT + password;
     }
+    public static String connectRememberToken(String token){
+        return WordDefined.BLOG_TOKEN_REMEMBER + token;
+    }
 }

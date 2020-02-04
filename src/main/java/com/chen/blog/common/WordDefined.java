@@ -90,6 +90,8 @@ public class WordDefined {
     //验证码通过后token
     public static final String BLOG_TOKEN_CODE = "blog:token:code:";//blog:token:code:1355xxxxx
 
+    public static final String BLOG_TOKEN_REMEMBER = "blog:token:remember:";//blog:token:remember:xxxxx
+
     //手机验证码过期时间
     public static final Integer PHONE_CODE_TIME_OUT = 60 * 2;
     //token过期时间

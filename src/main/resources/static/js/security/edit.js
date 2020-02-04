@@ -129,8 +129,7 @@ function checkArticleAuthor(articleId) {
             var code = result.code;
             if(code != '0001'){
                 layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
-                sleep(1000);
-                window.location.href = 'http://localhost:8080/'
+                setTimeout(function(){window.location.href = 'http://localhost:8080/'},1000)
                 return;
             }
             //获取文章
@@ -213,8 +212,7 @@ function addArticle(title,content,sort,tagName,overhead,type){
                 return;
             }
             layer.msg("添加成功！正在跳转到首页。。。", {icon: 6, time: 2000})
-            sleep(2000);
-            window.location.href = 'http://localhost:8080/'
+            setTimeout(function(){window.location.href = 'http://localhost:8080/'},2000)
         },
         error: function (request) {
             var code = request.responseJSON.code;
@@ -331,8 +329,7 @@ function updateArticle(id,title,content,sort,tagName,overhead,type){
                 return;
             }
             layer.msg("更新成功！正在跳转到首页。。。", {icon: 6, time: 2000})
-            sleep(2000);
-            window.location.href = 'http://localhost:8080/'
+            setTimeout(function(){window.location.href = 'http://localhost:8080/'},2000)
         },
         error: function (request) {
             var code = request.responseJSON.code;

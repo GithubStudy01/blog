@@ -244,7 +244,7 @@
           <div>
             <label for="remberme">
               <input type="checkbox" name="remberme" id="remberBtn">
-              <span>记住我</span>
+              <span>自动登录</span>
             </label>
           </div>
           <a href="">登录遇到问题</a>
@@ -330,6 +330,9 @@
       return;
     }
     // $("#loginForm").submit()
+    var rember = $("#remberBtn").prop("checked")
+    console.log("remberBtn:"+rember);
+
     login();
 
     // 返回结果为true意为选中，反之没有选中
@@ -494,11 +497,13 @@ function checkRegField(){
     return false;
   }
   var token = $("input[name=token]").val();
+  var isTrueCode = true
   if(token == ''){
-    if(checkCode(phone,code)){
-      layer.msg("验证码错误！", {icon: 5, time: 1000,shift : 6})
-      return false;
-    }
+    checkCode(phone,code);
+  }
+  token = $("input[name=token]").val();
+  if(token == ''){
+    return false;
   }
   var password = $("#registForm input[name=password]").val();
   if(password == ''){
@@ -522,12 +527,11 @@ function submitRegForm(){
     async:false,
     success:function(result){
       if(result.code != '0001'){
-        alert(result.content)
+        layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
         return;
       }
       layer.msg("注册成功！正在跳转到登录页面。。。", {icon: 6, time: 2000})
-      sleep(2000);
-      window.location.href = 'http://localhost:8080/logoreg'
+      setTimeout(function(){window.location.href = 'http://localhost:8080/logoreg'},2000)
     },
     error: function(request) {
       alert("Connection error");

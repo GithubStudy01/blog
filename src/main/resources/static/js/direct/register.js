@@ -93,7 +93,7 @@ function login() {
         data: {
             "username": $("#loginNums").val(),
             "password": $("#loginForm input[name=password]").val(),
-            "remember": $("#remberBtn").prop("checked")
+            "remberme": $("#remberBtn").prop("checked")
         },
         dataType: "json",
         async: false,

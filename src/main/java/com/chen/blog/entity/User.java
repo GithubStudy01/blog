@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -47,7 +48,7 @@ public class User implements Serializable {
     public interface UserUpdateView{}
 
 
-    @NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
+    //@NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
     @JsonView({BaseUserInfo.class,HotUserView.class,SearchUserView.class,HomeUserView.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增长策略
     @Id

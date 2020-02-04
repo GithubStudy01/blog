@@ -44,6 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     BlogSecurityProvider blogSecurityProvider;
 
+    @Autowired
+    private RedisTokenRepository redisTokenRepository;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic()
@@ -98,7 +101,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.rememberMe()
-                .rememberMeParameter("remember");
+                .rememberMeParameter("remberme")
+                .tokenRepository(redisTokenRepository);
+
 
         http.headers().frameOptions().sameOrigin();
     }
