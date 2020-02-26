@@ -36,4 +36,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("update User u set u.goodSum = (u.goodSum+1)where  u.id = :articleId")
     void increGoodSum(@Param(value = "articleId") Long articleId);
 
+    @Modifying
+    @Query("update User u set u.password = :password where  u.phone = :phone")
+    int updatePwd(@Param(value = "password") String password,@Param(value = "phone")String phone);
+
+    @Modifying
+    @Query("update User u set u.viewSum = (u.viewSum+1)where  u.id = :userId")
+    void increViewSum(@Param(value = "userId") Long userId);
+
+    @Modifying
+    @Query("update User u set u.commentSum = (u.commentSum+1)where  u.id = :userId")
+    void increCommentSum(@Param(value = "userId") Long userId);
+
 }

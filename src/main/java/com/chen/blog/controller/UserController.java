@@ -69,7 +69,11 @@ public class UserController {
         boolean unique = userService.checkPhoneUnique(phone);
         return RespVo.success(unique,null);
     }
-
+    @GetMapping("/checkHasPhone")
+    public RespVo checkHasPhone(@NotBlank(message = "电话号码不能为空") @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对") String phone){
+        boolean hasPhone = !userService.checkPhoneUnique(phone);
+        return RespVo.success(hasPhone,null);
+    }
 
     @JsonView(User.HotUserView.class)
     @GetMapping("/hot")
@@ -143,5 +147,16 @@ public class UserController {
         return RespVo.success(json,null);
     }
 
+    //需要登录
+    @PutMapping("/pwd")
+    public RespVo updatePwd(@Validated(value = {User.UpdatePwd.class}) User user,@NotBlank(message = "token不能为空！")String token){
+        //手动校验，后面会替换为 MD5盐值加密，如果使用jsr303，无法保存数据库
+        String password = user.getPassword();
+        if (password.length() < 8 || password.length() > 12) {
+            throw new BlogException(WordDefined.PASSWORD_LENGTH_ERROR);
+        }
+        userService.updatePwd(user.getPhone(),password,token);
+        return RespVo.success();
+    }
 
 }

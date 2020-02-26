@@ -303,6 +303,8 @@ function writeComment(tid, cid, reply, articleId) {
                 }
             }
             $("#myModal textarea").val("");
+            var commenSum = $("#userCommenSum").text();
+            $("#userCommenSum").text(parseInt(commenSum)+1)
         },
         error: function (request) {
             var code = request.responseJSON.code;

@@ -296,4 +296,16 @@ public class UserService {
         jsonObject.put("isGood", good == null ? false : true);
         return jsonObject;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updatePwd(String phone,String password, String token) {
+        //校验token
+        checkToken(phone,token);
+        //MD5 盐值加密
+        password = OthersUtils.MD5(Constant.connectPassword(password));
+        int i = userRepository.updatePwd(password,phone);
+        if (i != 1) {
+            throw new BlogException(WordDefined.PASSWORD_UPDATE_ERROR);
+        }
+    }
 }

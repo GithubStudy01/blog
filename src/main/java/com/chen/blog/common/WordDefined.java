@@ -36,6 +36,7 @@ public class WordDefined {
 
     public static final String PASSWORD_LENGTH_ERROR = "密码长度应在 8 - 12 位";
 
+    public static final String PASSWORD_UPDATE_ERROR = "密码修改失败！";
 
     public static final String USER_NOT_FOUNT = "不存在该用户！";
 

@@ -47,6 +47,8 @@ public class User implements Serializable {
 
     public interface UserUpdateView{}
 
+    public interface UpdatePwd{}
+
 
     //@NotNull //(groups = {Comment.AddCommentView.class},message = "用户id不能为空！")
     @JsonView({BaseUserInfo.class,HotUserView.class,SearchUserView.class,HomeUserView.class})
@@ -64,12 +66,12 @@ public class User implements Serializable {
     /**
      * MD5 盐值加密
      */
-    @NotBlank(message = "密码不能为空",groups = {registerUserView.class})
+    @NotBlank(message = "密码不能为空",groups = {registerUserView.class,UpdatePwd.class})
     @Column(nullable = false)
     private String password;
 
     @JsonView({UserDetailView.class})
-    @NotBlank(message = "电话号码不能为空",groups = {registerUserView.class})
+    @NotBlank(message = "电话号码不能为空",groups = {registerUserView.class,UpdatePwd.class})
     @Pattern(regexp = "1[3|4|5|7|8][0-9]\\d{8}",message = "电话号码格式不对")
     @Column(nullable = false,unique = true,length = 11)
     private String phone;

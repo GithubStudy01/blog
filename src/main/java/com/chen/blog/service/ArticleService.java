@@ -60,14 +60,18 @@ public class ArticleService {
     public Page<Article> getList(Pageable pageable) {
         return articleRepository.findAllByType(WordDefined.ARTICLE_OPEN, pageable);
     }
-
+    @Transactional
     public Article getById(Long id) {
         Optional<Article> optionalArticle = articleRepository.findById(id);
         //不存在
         optionalArticle.orElseThrow(() -> new BlogException(WordDefined.ARTICLE_NOT_FOUNT));
         Article article = optionalArticle.get();
         //公开 || 私有==登录的用户
-        if (article.getType() == WordDefined.ARTICLE_OPEN || article.getUser().getId().equals(SessionUtils.getUserId())) {
+        Long userId = article.getUser().getId();
+        if (article.getType() == WordDefined.ARTICLE_OPEN || userId.equals(SessionUtils.getUserId())) {
+            //文章和用户的阅览数+1
+            viewsIncreOne(id,userId);
+            article.setViewTimes(article.getViewTimes()+1);
             return article;
         }
         throw new BlogException(WordDefined.NO_ACCESS);
@@ -332,5 +336,11 @@ public class ArticleService {
         json.put("message", "上传失败！");
         json.put("url", "");
         return json;
+    }
+
+    @Transactional
+    public void viewsIncreOne(Long articleId,Long userId){
+        articleRepository.increViewTimes(articleId);
+        userRepository.increViewSum(userId);
     }
 }
