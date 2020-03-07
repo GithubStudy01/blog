@@ -567,7 +567,9 @@ function submitRegForm(){
     async:false,
     success:function(result){
       if(result.code != '0001'){
+        $("input[name=token]").val("");
         layer.msg(result.content, {icon: 5, time: 1000,shift : 6})
+
         return;
       }
       layer.msg("注册成功！正在跳转到登录页面。。。", {icon: 6, time: 2000})

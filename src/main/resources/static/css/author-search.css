@@ -36,3 +36,7 @@
 #author-search div a:hover{
     background-color: aliceblue;
 }
+#author-search img{
+    width: 150px;
+    height: 150px;
+}

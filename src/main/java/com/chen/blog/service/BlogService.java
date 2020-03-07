@@ -6,6 +6,7 @@ import com.chen.blog.entity.User;
 import com.chen.blog.exception.BlogException;
 import com.chen.blog.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,7 +19,9 @@ public class BlogService {
 
 
     public Blog getById(Long id) {
-        Optional<Blog> blogOptional = blogRepository.findById(id);
+        User user = new User();
+        user.setId(id);
+        Optional<Blog> blogOptional = blogRepository.findByUser(user);
         if (blogOptional.isPresent()) {
             return blogOptional.get();
         }

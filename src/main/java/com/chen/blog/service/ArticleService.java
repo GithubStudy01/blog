@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -205,6 +206,10 @@ public class ArticleService {
     @Transactional
     public void addArticle(Article article, String tagName, String sortId) {
         List<Tag> tagList = combinData(article, tagName, sortId);
+        //html转码
+        String content = article.getContent();
+        article.setContent(HtmlUtils.htmlEscape(content));
+
         Article saveArticle = articleRepository.save(article);
         Long articleId = saveArticle.getId();
         //插入中间表
@@ -302,13 +307,18 @@ public class ArticleService {
             //引用标签统计 -1
             tagRepository.updateTagCountDownOne(tagIdList);
         }
-        List<Tag> saveTag = combinData(article, tagName, sortId);
+        addArticle(article,tagName,sortId);
+/*        List<Tag> saveTag = combinData(article, tagName, sortId);
+        //html转码
+        String content = article.getContent();
+        article.setContent(HtmlUtils.htmlEscape(content));
+
         Article saveArticle = articleRepository.save(article);
         Long articleId = saveArticle.getId();
         //插入中间表
         for (Tag tag : saveTag) {
             articleRepository.insertArticleTag(tag.getId(), articleId);
-        }
+        }*/
     }
 
     public Page<Article> getArticleList(Pageable pageable, Integer type) {

@@ -36,13 +36,14 @@ public class SessionUtils {
         return null;
     }
 
-    public final static void updateUserInfo(String nickname,String briefIntr,String headurl){
+    public final static void updateUserInfo(String nickname,String briefIntr,String headurl,String phone){
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userJson = userDetails.getUsername();
         User user = JSON.parseObject(userJson, User.class);
         user.setHeadurl(headurl);
         user.setNickname(nickname);
         user.setBriefIntr(briefIntr);
+        user.setPhone(phone);
         String jsonUser = JSON.toJSONString(user);
         org.springframework.security.core.userdetails.User newUser = new org.springframework.security.core.userdetails.User(jsonUser, "", userDetails.isEnabled(), userDetails.isAccountNonExpired(), userDetails.isCredentialsNonExpired(), userDetails.isAccountNonLocked(), userDetails.getAuthorities());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(newUser, newUser.getPassword(), newUser.getAuthorities());

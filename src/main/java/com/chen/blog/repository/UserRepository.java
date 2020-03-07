@@ -29,7 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     int updateUserInfo(@Param(value = "updatetime") LocalDateTime updatetime, @Param(value = "userId") Long userId, @Param(value = "nickname") String nickname, @Param("briefIntr") String briefIntr, @Param("headurl") String headurl);
 
     @Modifying
-    @Query("update User u set u.goodSum = (u.goodSum-1) where  u.id = :articleId")
+    @Query("update User u set u.goodSum = (u.goodSum-1) where  u.id = :articleId and u.goodSum>0")
     void countDownGoodSum(@Param(value = "articleId") Long articleId);
 
     @Modifying
@@ -47,5 +47,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query("update User u set u.commentSum = (u.commentSum+1)where  u.id = :userId")
     void increCommentSum(@Param(value = "userId") Long userId);
+
+    @Modifying
+    @Query("update User u set u.phone = :phone where  u.id = :id")
+    int updatePhone(@Param(value = "phone") String phone,@Param(value = "id")Long id);
+
 
 }

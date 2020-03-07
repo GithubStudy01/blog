@@ -59,7 +59,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
 
     @Modifying
-    @Query("update Article a set a.goodTimes = (a.goodTimes-1) where  a.id = :articleId")
+    @Query("update Article a set a.goodTimes = (a.goodTimes-1) where  a.id = :articleId and a.goodTimes>0")
     void countDownGoodTimes(@Param(value = "articleId") Long articleId);
 
     @Modifying

@@ -68,6 +68,11 @@ http.headers().frameOptions().sameOrigin();
 10.jq判断节点是否存在
 $("..").length>0
 
+11.html解码和转码
+解码：HtmlUtils.htmlUnescape(content)
+转码：HtmlUtils.htmlEscape(content)
+
+
 1.直接子节点
     $("#sort-info>li:not(:last)").click(function(){})
     或

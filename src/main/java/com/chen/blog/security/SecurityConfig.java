@@ -27,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 自定义配置类
@@ -59,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/article/changeOverhead","/article/changeType","/article/delete/**","/edit/**","/manage","/comment/reply","/sort/add","/sort/user",
                         "/sort/delete/**","/sort/choice","/article/add",
                         "/article/check/**","/article/update","/center/**","/article/user","/user/update","/good/add/**","/good/delete/**",
-                        "/collection/**").authenticated()//任何经过身份验证的用户才能访问
+                        "/collection/**","/user/phone").authenticated()//任何经过身份验证的用户才能访问
                 .and()
                 .formLogin()
                 .loginPage("/logoreg")

@@ -282,7 +282,7 @@ public class UserService {
         if (i != 1) {
             throw new BlogException(WordDefined.BLOG_INFO_ERROR);
         }
-        SessionUtils.updateUserInfo(nickname, briefIntr, headurl);
+        SessionUtils.updateUserInfo(nickname, briefIntr, headurl,user.getPhone());
     }
 
     public JSONObject getCollectionAndGood(Long articleId) {
@@ -307,5 +307,14 @@ public class UserService {
         if (i != 1) {
             throw new BlogException(WordDefined.PASSWORD_UPDATE_ERROR);
         }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updatePhone(String phone, String token) {
+        //校验token
+        checkToken(phone,token);
+        User user = SessionUtils.getUser();
+        userRepository.updatePhone(phone,user.getId());
+        SessionUtils.updateUserInfo(user.getNickname(), user.getBriefIntr(), user.getHeadurl(),phone);
     }
 }

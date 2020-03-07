@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -77,6 +78,9 @@ public class ArticleController {
     @JsonView({Vo.ArticleDetailsNoCommentView.class})
     public RespVo getById(@PathVariable("id") @NotNull Long id) {
         Article article = articleService.getById(id);
+        //html转码
+        String content = article.getContent();
+        article.setContent(HtmlUtils.htmlUnescape(content));
         return RespVo.success(article, null);
     }
 
