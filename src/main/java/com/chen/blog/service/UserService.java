@@ -1,6 +1,7 @@
 package com.chen.blog.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.exceptions.ClientException;
 import com.chen.blog.common.Constant;
 import com.chen.blog.common.WordDefined;
 import com.chen.blog.entity.*;
@@ -10,6 +11,7 @@ import com.chen.blog.repository.BlogRepository;
 import com.chen.blog.repository.CollectionRepository;
 import com.chen.blog.repository.GoodRepository;
 import com.chen.blog.repository.UserRepository;
+import com.chen.blog.sms.SmsVerification;
 import com.chen.blog.utils.*;
 import io.lettuce.core.dynamic.annotation.Param;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +64,7 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void register(User user, String token) {
         //校验token
-        checkToken(user.getPhone(),token);
+        checkToken(user.getPhone(), token);
         LocalDateTime createTime = OthersUtils.getCreateTime();
         initUser(user, createTime);
         User saveUser = userRepository.save(user);
@@ -86,6 +88,7 @@ public class UserService {
         user.setDeleteSign(0);
         user.setCommentSum(0);
         user.setLockSign(0);
+        user.setBriefIntr("");
         user.setBlogName(user.getNickname());
     }
 
@@ -96,6 +99,7 @@ public class UserService {
         blog.setCreatetime(createTime);
         blog.setUser(user);
         blog.setDeleteSign(0);
+        blog.setDescription("");
         return blog;
     }
 
@@ -144,10 +148,19 @@ public class UserService {
         }
         //发送次数
         String count = redisUtils.getValue(Constant.connectBlogCodePhoneCount(phone));
+        boolean sendSms = false;
         if (count == null) {
             String code = OthersUtils.createCode(WordDefined.PHOME_CODE_DIGIT);
             //发送验证码
-            //....
+            try {
+                sendSms = SmsVerification.sendSms(phone, code);
+            } catch (ClientException e) {
+                log.info("发送验证码失败，原因：[{}-{}]", e.getErrCode(), e.getErrMsg());
+            }
+            if (!sendSms) {
+                throw new BlogException(WordDefined.SEND_SMS_FAIL);
+            }
+
             //存储redis
             //2分钟过期
             redisUtils.setKeyAndTimeOut(Constant.connectBlogCodePhone(phone), WordDefined.PHONE_CODE_TIME_OUT, code);
@@ -159,7 +172,14 @@ public class UserService {
         if (Integer.valueOf(count) < WordDefined.MAX_PHONE_SEND_COUNT) {
             String code = OthersUtils.createCode(WordDefined.PHOME_CODE_DIGIT);
             //发送验证码
-            //....
+            try {
+                sendSms = SmsVerification.sendSms(phone, code);
+            } catch (ClientException e) {
+                log.info("发送验证码失败，原因：[{}-{}]", e.getErrCode(), e.getErrMsg());
+            }
+            if (!sendSms) {
+                throw new BlogException(WordDefined.SEND_SMS_FAIL);
+            }
             //存储redis
             redisUtils.setKeyAndTimeOut(Constant.connectBlogCodePhone(phone), WordDefined.PHONE_CODE_TIME_OUT, code);
             //自增1
@@ -282,7 +302,7 @@ public class UserService {
         if (i != 1) {
             throw new BlogException(WordDefined.BLOG_INFO_ERROR);
         }
-        SessionUtils.updateUserInfo(nickname, briefIntr, headurl,user.getPhone());
+        SessionUtils.updateUserInfo(nickname, briefIntr, headurl, user.getPhone());
     }
 
     public JSONObject getCollectionAndGood(Long articleId) {
@@ -298,12 +318,12 @@ public class UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updatePwd(String phone,String password, String token) {
+    public void updatePwd(String phone, String password, String token) {
         //校验token
-        checkToken(phone,token);
+        checkToken(phone, token);
         //MD5 盐值加密
         password = OthersUtils.MD5(Constant.connectPassword(password));
-        int i = userRepository.updatePwd(password,phone);
+        int i = userRepository.updatePwd(password, phone);
         if (i != 1) {
             throw new BlogException(WordDefined.PASSWORD_UPDATE_ERROR);
         }
@@ -312,9 +332,9 @@ public class UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void updatePhone(String phone, String token) {
         //校验token
-        checkToken(phone,token);
+        checkToken(phone, token);
         User user = SessionUtils.getUser();
-        userRepository.updatePhone(phone,user.getId());
-        SessionUtils.updateUserInfo(user.getNickname(), user.getBriefIntr(), user.getHeadurl(),phone);
+        userRepository.updatePhone(phone, user.getId());
+        SessionUtils.updateUserInfo(user.getNickname(), user.getBriefIntr(), user.getHeadurl(), phone);
     }
 }

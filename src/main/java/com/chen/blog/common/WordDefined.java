@@ -64,6 +64,8 @@ public class WordDefined {
 
     public static final String COLLECTION_NOT_FOUNT = "收藏不存在！";
 
+    public static final String SEND_SMS_FAIL = "发送验证码失败，请检查手机号并稍后重试！";
+
     //文章公开
     public static final Integer ARTICLE_OPEN = 0;
 
