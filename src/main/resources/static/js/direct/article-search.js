@@ -18,6 +18,9 @@ layui.use('layer',function(){
         sortsave = sort;
         var title = $("#search").val()
         searchArticle(title,timelimitsave,sort,null,null)
+        $(this).siblings().css({"background-color":"white"})
+        $(this).css({"background-color":"#eee"})
+
     })
 
     $("#time-limit li").click(function(){
@@ -25,7 +28,7 @@ layui.use('layer',function(){
         timelimitsave = limitTimeType;
         var title = $("#search").val()
         searchArticle(title,limitTimeType,sortsave,null,null)
-
+        $("#show-limit").text($(this).children("a").text());
     })
 
 })
@@ -68,7 +71,7 @@ function searchArticle(title, limitTimeType, sort, page, size) {
             for (var i = 0; i < resultContent.length; i++) {
                 var html = '<div class="list-group-item">\n' +
                     '                    <h3 class="list-group-item-heading"><a href="/details/' + resultContent[i].id + "/" + resultContent[i].user.id + '" target="_blank">' + resultContent[i].title + '</a></h3>\n' +
-                    '                    <p class="list-group-item-text">\n' +
+                    '                    <p class="list-group-item-text">\n' +resultContent[i].content+
                     '                    </p>\n' +
                     '                    <div class="row">\n' +
                     '                        <div class="col-sm-8 col-md-8">\n' +

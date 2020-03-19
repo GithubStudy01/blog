@@ -2,6 +2,10 @@
 #search-header{
     margin-bottom: 10px;
 }
+#search-header #sort-info>li:not(:last-child){
+    border-radius:6px;
+    overflow:auto;
+}
 /*查询结果数量*/
 #search-header div:last-child{
     text-align: center;
