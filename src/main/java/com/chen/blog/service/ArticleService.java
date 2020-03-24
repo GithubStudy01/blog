@@ -8,6 +8,7 @@ import com.chen.blog.exception.BlogException;
 import com.chen.blog.repository.*;
 import com.chen.blog.utils.FastDFSUtil;
 import com.chen.blog.utils.OthersUtils;
+import com.chen.blog.utils.SensitivewordFilter;
 import com.chen.blog.utils.SessionUtils;
 import com.sun.xml.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,9 @@ public class ArticleService {
 
     @Autowired
     private SortService sortService;
+
+    @Autowired
+    private SensitivewordFilter sensitivewordFilter;
 
     public Page<Article> getList(Pageable pageable) {
         return articleRepository.findAllByType(WordDefined.ARTICLE_OPEN, pageable);
@@ -206,10 +210,10 @@ public class ArticleService {
     @Transactional
     public void addArticle(Article article, String tagName, String sortId) {
         List<Tag> tagList = combinData(article, tagName, sortId);
-        //html转码
+        //html转码+敏感词过滤
         String content = article.getContent();
-        article.setContent(HtmlUtils.htmlEscape(content));
-
+        String s = sensitivewordFilter.replaceSensitiveWord(HtmlUtils.htmlEscape(content), 2, "*");
+        article.setContent(s);
         Article saveArticle = articleRepository.save(article);
         Long articleId = saveArticle.getId();
         //插入中间表

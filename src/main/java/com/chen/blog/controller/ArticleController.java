@@ -19,12 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
-
-import static com.alibaba.druid.sql.ast.SQLPartitionValue.Operator.List;
 
 @RestController
 @RequestMapping("/article")

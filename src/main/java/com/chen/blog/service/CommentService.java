@@ -9,6 +9,7 @@ import com.chen.blog.repository.ArticleRepository;
 import com.chen.blog.repository.CommentRepository;
 import com.chen.blog.repository.UserRepository;
 import com.chen.blog.utils.OthersUtils;
+import com.chen.blog.utils.SensitivewordFilter;
 import com.chen.blog.utils.SessionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -37,6 +39,8 @@ public class CommentService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SensitivewordFilter sensitivewordFilter;
 
     public Page<Comment> getList(Pageable pageable, Long articleId, Integer tid) {
         Article article = getArticle(articleId);
@@ -111,6 +115,10 @@ public class CommentService {
         User user = SessionUtils.getUser();
         comment.setUser(user);
         comment.setCreatetime(OthersUtils.getCreateTime());
+        String reply = comment.getReply();
+        //html转码+敏感词过滤
+        String s = sensitivewordFilter.replaceSensitiveWord(HtmlUtils.htmlEscape(reply), 2, "*");
+        comment.setReply(s);
         commentRepository.save(comment);
         //用户、文章评论数+1
         commentIncreOne(comment.getArticle().getId(),user.getId());
